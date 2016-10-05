@@ -1,7 +1,7 @@
-import React from 'react';
-import ProgressBar from 'react-bootstrap/lib/ProgressBar';
+import * as React from "react";
+import {ProgressBar} from "react-bootstrap";
 
-class Wizzard extends React.Component {
+class Wizzard extends React.Component<any,any> {
 
     render() {
         const stopWizzard = this.props.stopWizzard;
@@ -33,7 +33,7 @@ class Wizzard extends React.Component {
         return (
             <div className="order-wizzard">
                 <div className="order-wizzard__progress">
-                    <ProgressBar now={(stepCount*100)/stepsSum} />
+                    <ProgressBar now={(stepCount*100)/stepsSum}/>
                 </div>
 
                 <div className="order-wizzard__step">
@@ -46,7 +46,8 @@ class Wizzard extends React.Component {
                     </div>
 
                     <div className="order-wizzard__next pull-right">
-                        {(stepsSum == stepCount) ? null : <a onClick={stepCountPlusOne} href="#" className="b-button b-button--blue">Next</a>}
+                        {(stepsSum == stepCount) ? null :
+                            <a onClick={stepCountPlusOne} href="#" className="b-button b-button--blue">Next</a>}
                     </div>
                 </div>
 
@@ -82,7 +83,8 @@ class Wizzard extends React.Component {
 
                 <div className="order-wizzard__step-survey">
                     <div className="order-wizzard__text-comment">
-                        <textarea placeholder="Type you comment here" id="formControlsTextarea" className="form-control"></textarea>
+                        <textarea placeholder="Type you comment here" id="formControlsTextarea"
+                                  className="form-control"></textarea>
                     </div>
                 </div>
             </div>

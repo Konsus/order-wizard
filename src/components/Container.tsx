@@ -1,36 +1,37 @@
-import React from 'react';
-import Modal from 'react-modal';
-import Wizzard from './Wizzard'
+import * as React from "react";
+import * as Modal from "react-modal";
+import Wizzard from "./Wizzard";
 
 const customStyles = {
-    overlay : {
-        position          : 'fixed',
-        top               : 0,
-        left              : 0,
-        right             : 0,
-        bottom            : 0,
-        backgroundColor   : 'rgba(0, 0, 0, 0.75)'
+    overlay: {
+        position       : 'fixed',
+        top            : 0,
+        left           : 0,
+        right          : 0,
+        bottom         : 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.75)'
     },
-    content : {
-        top                   : '50%',
-        left                  : '50%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)',
-        background            : 'white',
-        padding               : 0,
-        borderRadius          : '4px',
+
+    content: {
+        top         : '50%',
+        left        : '50%',
+        right       : 'auto',
+        bottom      : 'auto',
+        marginRight : '-50%',
+        transform   : 'translate(-50%, -50%)',
+        background  : 'white',
+        padding     : 0,
+        borderRadius: '4px',
     }
 };
 
 
-class Container extends React.Component {
+class Container extends React.Component<any,any> {
 
     state = {
-        modalIsOpen: false,
+        modalIsOpen : false,
         startWizzard: false,
-        stepCount: 0
+        stepCount   : 0
     }
 
     stepCountPlusOne = () => {
@@ -61,7 +62,9 @@ class Container extends React.Component {
 
     render() {
         const firstPage = this.renderFirstPage();
-        const content = this.state.startWizzard ? <Wizzard stepCountMinusOne={this.stepCountMinusOne} stepCountPlusOne={this.stepCountPlusOne} stepCount={this.state.stepCount} stopWizzard={this.stoptWizzard}/> : firstPage;
+        const content = this.state.startWizzard ?
+            <Wizzard stepCountMinusOne={this.stepCountMinusOne} stepCountPlusOne={this.stepCountPlusOne}
+                     stepCount={this.state.stepCount} stopWizzard={this.stoptWizzard}/> : firstPage;
         return (
             <div>
                 <button onClick={this.openModal}>Open Modal</button>
