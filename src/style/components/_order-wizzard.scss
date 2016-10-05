@@ -19,15 +19,7 @@
     margin-bottom: 100px;
   }
   &__radio {
-    padding: 15px 10px;
-    border-top: 1px solid #ececec;
-    &:last-child {
-      border-bottom: 1px solid #ececec;
-    }
-    input {
-      margin-right: 15px;
 
-    }
   }
   &__back {
     padding-top: 15px;
@@ -35,5 +27,18 @@
       color: #6f747c;
       text-decoration: none;
     }
+  }
+  &__list-item {
+    padding: 15px 10px;
+    border-top: 1px solid #ececec;
+    &:last-child {
+      border-bottom: 1px solid #ececec;
+    }
+    input {
+      margin-right: 15px;
+    }
+  }
+  &__cta {
+    padding-top: 30px;
   }
 }

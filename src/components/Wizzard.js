@@ -8,7 +8,7 @@ class Wizzard extends React.Component {
         const stepCountPlusOne = this.props.stepCountPlusOne;
         const stepCountMinusOne = this.props.stepCountMinusOne;
 
-        const stepsSum = 3;
+        const stepsSum = 4;
         const stepCount = this.props.stepCount;
 
         var step;
@@ -21,6 +21,9 @@ class Wizzard extends React.Component {
                 break;
             case 3:
                 step = this.renderThirdStep();
+                break;
+            case 4:
+                step = this.renderFourthStep();
                 break;
             default:
                 step = null;
@@ -46,6 +49,8 @@ class Wizzard extends React.Component {
                         {(stepsSum == stepCount) ? null : <a onClick={stepCountPlusOne} href="#" className="b-button b-button--blue">Next</a>}
                     </div>
                 </div>
+
+                {(stepsSum == stepCount) ? this.renderCallToAction() : null}
             </div>
         )
     }
@@ -56,12 +61,12 @@ class Wizzard extends React.Component {
                 <div className="order-wizzard__step-title">1. Do you have a template for Data Entry?</div>
 
                 <div className="order-wizzard__step-survey">
-                    <div className="order-wizzard__radio">
+                    <div className="order-wizzard__list-item order-wizzard__radio">
                         <input id="test-radio-1" name="test-radio" type="radio"/>
                         <label htmlFor="test-radio-1">Yes</label>
                     </div>
 
-                    <div className="order-wizzard__radio">
+                    <div className="order-wizzard__list-item order-wizzard__radio">
                         <input id="test-radio-2" name="test-radio" type="radio"/>
                         <label htmlFor="test-radio-2">No</label>
                     </div>
@@ -87,6 +92,31 @@ class Wizzard extends React.Component {
     renderThirdStep() {
         return (
             <div>
+                <div className="order-wizzard__step-title">3. Some question again?</div>
+
+                <div className="order-wizzard__step-survey">
+                    <div className="order-wizzard__list-item order-wizzard__checkbox">
+                        <input id="test-checkbox-1" name="test-checkbox-1" type="checkbox"/>
+                        <label htmlFor="test-checkbox-1">One</label>
+                    </div>
+
+                    <div className="order-wizzard__list-item order-wizzard__checkbox">
+                        <input id="test-checkbox-2" name="test-checkbox-2" type="checkbox"/>
+                        <label htmlFor="test-checkbox-2">Two</label>
+                    </div>
+
+                    <div className="order-wizzard__list-item order-wizzard__checkbox">
+                        <input id="test-checkbox-3" name="test-checkbox-3" type="checkbox"/>
+                        <label htmlFor="test-checkbox-3">Three</label>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    renderFourthStep() {
+        return (
+            <div>
                 <div className="order-wizzard__step-title">Summary of your task!</div>
 
                 <div className="order-wizzard__step-survey">
@@ -98,10 +128,14 @@ class Wizzard extends React.Component {
                         </ul>
                     </div>
                 </div>
+            </div>
+        )
+    }
 
-                {/*<div className="order-wizzard__cta text-center">*/}
-                    {/*<a href="#" className="b-button">Start project</a>*/}
-                {/*</div>*/}
+    renderCallToAction() {
+        return (
+            <div className="order-wizzard__cta text-center">
+                <a href="#" className="b-button b-button--blue">Start project</a>
             </div>
         )
     }
