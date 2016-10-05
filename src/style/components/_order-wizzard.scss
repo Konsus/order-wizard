@@ -1,0 +1,39 @@
+.order-wizzard {
+  width: 620px;
+  border: none;
+  background: white;
+  padding: 35px 20px 30px 20px;
+  &__progress {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    width: 440px;
+    margin: 0 auto;
+  }
+  &__step-title {
+    text-align: center;
+    color: #2178c4;
+    font-size: 18px;
+    margin-bottom: 40px;
+  }
+  &__step {
+    margin-bottom: 100px;
+  }
+  &__radio {
+    padding: 15px 10px;
+    border-top: 1px solid #ececec;
+    &:last-child {
+      border-bottom: 1px solid #ececec;
+    }
+    input {
+      margin-right: 15px;
+
+    }
+  }
+  &__back {
+    padding-top: 15px;
+    a {
+      color: #6f747c;
+      text-decoration: none;
+    }
+  }
+}

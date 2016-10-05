@@ -1,0 +1,38 @@
+.b-button {
+  display: inline-block;
+  background-color: white;
+  border: 1px solid $title-blue;
+  color: $title-blue;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  padding: 13px 30px 12px 30px;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+    color: $title-blue;
+  }
+  &--blue {
+    background-color: #2178c4;
+    color: white;
+    border: none;
+    &:hover {
+      color: white;
+    }
+  }
+  &--ghost {
+    background-color: transparent;
+  }
+  &--large {
+    width: 300px;
+  }
+  &--white {
+    color: white;
+    border-color: white;
+    padding: 12px 30px 11px 30px;
+    &:hover {
+      color: white;
+    }
+  }
+}
