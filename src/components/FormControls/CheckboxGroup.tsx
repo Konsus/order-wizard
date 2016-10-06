@@ -1,15 +1,12 @@
 import * as React from "react";
 
-
-class CheckboxItem extends React.Component<any,any> {
+export class CheckboxItem extends React.Component<any,any> {
     render() {
 
         console.log(this.props);
 
         const {checkboxId, checkboxName, checkboxLabel} = this.props;
         console.log(checkboxId, checkboxName, checkboxLabel);
-
-
 
         return (
             <div className="order-wizzard__list-item order-wizzard__checkbox">
@@ -20,8 +17,7 @@ class CheckboxItem extends React.Component<any,any> {
     }
 }
 
-
-class CheckboxGroup extends React.Component<any, any> {
+export class CheckboxGroup extends React.Component<any, any> {
 
     renderList = data => {
         return data.map((item, index) => {
@@ -42,4 +38,3 @@ class CheckboxGroup extends React.Component<any, any> {
 
 }
 
-export default CheckboxGroup;

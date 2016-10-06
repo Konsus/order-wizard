@@ -1,10 +1,10 @@
 import * as React from "react";
 import {SurveyProps} from "./Survey";
 import {ProjectSurvey, ProjectSurveyState} from "./ProjectSurvey";
-import RadioGroup from "./FormControls/RadioGroup";
-import CheckboxGroup from "./FormControls/CheckboxGroup";
-import CommentField from "./FormControls/CommentField";
-import FileUploading from "./FormControls/FileUploading";
+import {RadioGroup} from "./FormControls/RadioGroup";
+import {CheckboxGroup} from "./FormControls/CheckboxGroup";
+import {CommentField} from "./FormControls/CommentField";
+import {FileUploading} from "./FormControls/FileUploading";
 
 export class PowerPointProject extends ProjectSurvey<SurveyProps, ProjectSurveyState> {
 
@@ -72,7 +72,7 @@ export class PowerPointProject extends ProjectSurvey<SurveyProps, ProjectSurveyS
                 <div className="order-wizzard__step-title">2. Some question here</div>
 
                 <div className="order-wizzard__step-survey">
-                    <FileUploading fileLabel="Put your file here" />
+                    <FileUploading fileLabel="Put your file here"/>
                     <CommentField data={data}/>
                 </div>
             </div>

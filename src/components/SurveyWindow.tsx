@@ -21,7 +21,7 @@ const customStyles = {
         background: 'white',
         padding: 0,
         borderRadius: '4px',
-        border: 'none';
+        border: 'none',
     }
 };
 

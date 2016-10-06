@@ -1,15 +1,12 @@
 import * as React from "react";
 
-
-class RadioItem extends React.Component<any,any> {
+export class RadioItem extends React.Component<any,any> {
     render() {
 
         console.log(this.props);
 
         const {radioId, radioName, radioLabel} = this.props;
         console.log(radioId, radioName, radioLabel);
-
-
 
         return (
             <div className="order-wizzard__list-item order-wizzard__radio">
@@ -20,10 +17,9 @@ class RadioItem extends React.Component<any,any> {
     }
 }
 
+export class RadioGroup extends React.Component<any, any> {
 
-class RadioGroup extends React.Component<any, any> {
-
-    rebderList = data => {
+    renderList = data => {
         return data.map((item, index) => {
             return <RadioItem
                 key={ index }
@@ -35,11 +31,10 @@ class RadioGroup extends React.Component<any, any> {
         const data = this.props.data;
         return (
             <div className="order-wizzard__radio-group">
-                {this.rebderList(data)}
+                {this.renderList(data)}
             </div>
         )
     }
 
 }
 
-export default RadioGroup;

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-class CommentField extends React.Component<any, any> {
+export class CommentField extends React.Component<any, any> {
 
 
     render() {

@@ -1,7 +1,6 @@
 import * as React from "react";
 
-class FileUploading extends React.Component<any, any> {
-
+export class FileUploading extends React.Component<any, any> {
 
     render() {
         const fileLabel = this.props.fileLabel;
@@ -12,7 +11,5 @@ class FileUploading extends React.Component<any, any> {
             </div>
         )
     }
-
 }
 
-export default FileUploading;
