@@ -23,7 +23,7 @@ class CheckboxItem extends React.Component<any,any> {
 
 class CheckboxGroup extends React.Component<any, any> {
 
-    rebderList = data => {
+    renderList = data => {
         return data.map((item, index) => {
             return <CheckboxItem
                 key={ index }
@@ -35,7 +35,7 @@ class CheckboxGroup extends React.Component<any, any> {
         const data = this.props.data;
         return (
             <div className="order-wizzard__checkbox-group">
-                {this.rebderList(data)}
+                {this.renderList(data)}
             </div>
         )
     }

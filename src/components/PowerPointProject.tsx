@@ -3,6 +3,8 @@ import {SurveyProps} from "./Survey";
 import {ProjectSurvey, ProjectSurveyState} from "./ProjectSurvey";
 import RadioGroup from "./FormControls/RadioGroup";
 import CheckboxGroup from "./FormControls/CheckboxGroup";
+import CommentField from "./FormControls/CommentField";
+import FileUploading from "./FormControls/FileUploading";
 
 export class PowerPointProject extends ProjectSurvey<SurveyProps, ProjectSurveyState> {
 
@@ -29,7 +31,6 @@ export class PowerPointProject extends ProjectSurvey<SurveyProps, ProjectSurveyS
 
     renderFisrtStep() {
 
-        //статичный сет с данными
         const data = [
             {
                 radioId: 123,
@@ -52,46 +53,58 @@ export class PowerPointProject extends ProjectSurvey<SurveyProps, ProjectSurveyS
             <div>
                 <div className="order-wizzard__step-title">1. Do you have a template for Data Entry?</div>
 
-                <RadioGroup data={data}/>
+                <div className="order-wizzard__step-survey">
+                    <RadioGroup data={data}/>
+                </div>
             </div>
         )
     }
 
     renderSecondStep() {
+
+        const data = {
+            commentPlaceholder: 'Put you comment here',
+            commentId: 'some-comment-id'
+        };
+
         return (
             <div>
                 <div className="order-wizzard__step-title">2. Some question here</div>
 
                 <div className="order-wizzard__step-survey">
-                    <div className="order-wizzard__text-comment">
-                        <textarea placeholder="Type you comment here" id="formControlsTextarea"
-                                  className="form-control"></textarea>
-                    </div>
+                    <FileUploading fileLabel="Put your file here" />
+                    <CommentField data={data}/>
                 </div>
             </div>
         )
     }
 
     renderThirdStep() {
+
+        const data = [
+            {
+                checkboxId: 321,
+                checkboxName: "name1",
+                checkboxLabel: "Choose me"
+            },
+            {
+                checkboxId: 654,
+                checkboxName: "name2",
+                checkboxLabel: "And me"
+            },
+            {
+                checkboxId: 987,
+                checkboxName: "name3",
+                checkboxLabel: "Don't touch"
+            }
+        ];
+
         return (
             <div>
                 <div className="order-wizzard__step-title">3. Some question again?</div>
 
                 <div className="order-wizzard__step-survey">
-                    <div className="order-wizzard__list-item order-wizzard__checkbox">
-                        <input id="test-checkbox-1" name="test-checkbox-1" type="checkbox"/>
-                        <label htmlFor="test-checkbox-1">One</label>
-                    </div>
-
-                    <div className="order-wizzard__list-item order-wizzard__checkbox">
-                        <input id="test-checkbox-2" name="test-checkbox-2" type="checkbox"/>
-                        <label htmlFor="test-checkbox-2">Two</label>
-                    </div>
-
-                    <div className="order-wizzard__list-item order-wizzard__checkbox">
-                        <input id="test-checkbox-3" name="test-checkbox-3" type="checkbox"/>
-                        <label htmlFor="test-checkbox-3">Three</label>
-                    </div>
+                    <CheckboxGroup data={data}/>
                 </div>
             </div>
         )
