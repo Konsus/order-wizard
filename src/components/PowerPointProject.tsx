@@ -1,59 +1,28 @@
 import * as React from "react";
-import {ProgressBar} from "react-bootstrap";
+import {SurveyProps} from "./Survey";
+import {ProjectSurvey, ProjectSurveyState} from "./ProjectSurvey";
 
-class Wizzard extends React.Component<any,any> {
+export class PowerPointProject extends ProjectSurvey<SurveyProps, ProjectSurveyState> {
 
-    render() {
-        const stopWizzard = this.props.stopWizzard;
-        const stepCountPlusOne = this.props.stepCountPlusOne;
-        const stepCountMinusOne = this.props.stepCountMinusOne;
+    protected resolveNextStep(): number {
+        return this.state.step + 1;
+    }
 
-        const stepsSum = 4;
-        const stepCount = this.props.stepCount;
+    protected countActiveSteps(): number {
+        return 3;
+    }
 
-        var step;
-        switch (stepCount) {
+    protected renderSurvey(): JSX.Element | null {
+        switch (this.state.step) {
             case 1:
-                step = this.renderFisrtStep();
-                break;
+                return this.renderFisrtStep();
             case 2:
-                step = this.renderSecondStep();
-                break;
+                return this.renderSecondStep();
             case 3:
-                step = this.renderThirdStep();
-                break;
-            case 4:
-                step = this.renderFourthStep();
-                break;
+                return this.renderThirdStep();
             default:
-                step = null;
-                break;
+                return null;
         }
-
-        return (
-            <div className="order-wizzard">
-                <div className="order-wizzard__progress">
-                    <ProgressBar now={(stepCount*100)/stepsSum}/>
-                </div>
-
-                <div className="order-wizzard__step">
-                    {step}
-                </div>
-
-                <div className="order-wizzard__controls clearfix">
-                    <div className="order-wizzard__back pull-left">
-                        <a onClick={(stepCount == 1) ? stopWizzard : stepCountMinusOne} href="#">&lang; Back</a>
-                    </div>
-
-                    <div className="order-wizzard__next pull-right">
-                        {(stepsSum == stepCount) ? null :
-                            <a onClick={stepCountPlusOne} href="#" className="b-button b-button--blue">Next</a>}
-                    </div>
-                </div>
-
-                {(stepsSum == stepCount) ? this.renderCallToAction() : null}
-            </div>
-        )
     }
 
     renderFisrtStep() {
@@ -116,32 +85,14 @@ class Wizzard extends React.Component<any,any> {
         )
     }
 
-    renderFourthStep() {
+    protected renderSurveySummary(): JSX.Element|any {
         return (
-            <div>
-                <div className="order-wizzard__step-title">Summary of your task!</div>
-
-                <div className="order-wizzard__step-survey">
-                    <div className="order-wizzard__summary">
-                        <ul>
-                            <li>One</li>
-                            <li>Two</li>
-                            <li>Three</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <ul>
+                <li>One</li>
+                <li>Two</li>
+                <li>Three</li>
+            </ul>
         )
     }
-
-    renderCallToAction() {
-        return (
-            <div className="order-wizzard__cta text-center">
-                <a href="#" className="b-button b-button--blue">Start project</a>
-            </div>
-        )
-    }
-
 }
 
-export default Wizzard;
