@@ -13,11 +13,18 @@
     text-decoration: none;
     color: $title-blue;
   }
+  &:focus {
+    text-decoration: none;
+    outline: none;
+  }
   &--blue {
     background-color: #2178c4;
     color: white;
     border: none;
     &:hover {
+      color: white;
+    }
+    &:focus {
       color: white;
     }
   }
