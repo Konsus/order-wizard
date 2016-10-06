@@ -1,6 +1,8 @@
 import * as React from "react";
 import {SurveyProps} from "./Survey";
 import {ProjectSurvey, ProjectSurveyState} from "./ProjectSurvey";
+import RadioGroup from "./FormControls/RadioGroup";
+import CheckboxGroup from "./FormControls/CheckboxGroup";
 
 export class PowerPointProject extends ProjectSurvey<SurveyProps, ProjectSurveyState> {
 
@@ -26,21 +28,31 @@ export class PowerPointProject extends ProjectSurvey<SurveyProps, ProjectSurveyS
     }
 
     renderFisrtStep() {
+
+        //статичный сет с данными
+        const data = [
+            {
+                radioId: 123,
+                radioName: "some-name",
+                radioLabel: "yes"
+            },
+            {
+                radioId: 456,
+                radioName: "some-name",
+                radioLabel: "no"
+            },
+            {
+                radioId: 789,
+                radioName: "some-name",
+                radioLabel: "maybe"
+            }
+        ];
+
         return (
             <div>
                 <div className="order-wizzard__step-title">1. Do you have a template for Data Entry?</div>
 
-                <div className="order-wizzard__step-survey">
-                    <div className="order-wizzard__list-item order-wizzard__radio">
-                        <input id="test-radio-1" name="test-radio" type="radio"/>
-                        <label htmlFor="test-radio-1">Yes</label>
-                    </div>
-
-                    <div className="order-wizzard__list-item order-wizzard__radio">
-                        <input id="test-radio-2" name="test-radio" type="radio"/>
-                        <label htmlFor="test-radio-2">No</label>
-                    </div>
-                </div>
+                <RadioGroup data={data}/>
             </div>
         )
     }
