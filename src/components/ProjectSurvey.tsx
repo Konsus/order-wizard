@@ -101,7 +101,7 @@ export abstract class ProjectSurvey<P extends SurveyProps, S extends ProjectSurv
 
     renderSummaryPage() {
         return (
-            <div>
+            <div className="order-wizzard">
                 <div className="order-wizzard__step-title">Summary of your task!</div>
 
                 <div className="order-wizzard__step-survey">
