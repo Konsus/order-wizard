@@ -1,12 +1,11 @@
 import * as React from "react";
-import {SurveyProps} from "./Survey";
 import {ProjectSurvey, ProjectSurveyState} from "./ProjectSurvey";
 import {RadioGroup} from "./FormControls/RadioGroup";
 import {CheckboxGroup} from "./FormControls/CheckboxGroup";
 import {CommentField} from "./FormControls/CommentField";
 import {FileUploading} from "./FormControls/FileUploading";
 
-export class PowerPointProject extends ProjectSurvey<SurveyProps, ProjectSurveyState> {
+export class PowerPointProject extends ProjectSurvey<ProjectSurveyState, PowerPointProjectForm> {
 
     protected resolveNextStep(): number {
         return this.state.step + 1;
@@ -19,7 +18,7 @@ export class PowerPointProject extends ProjectSurvey<SurveyProps, ProjectSurveyS
     protected renderSurvey(): JSX.Element | null {
         switch (this.state.step) {
             case 1:
-                return this.renderFisrtStep();
+                return this.renderCompanyTemplate();
             case 2:
                 return this.renderSecondStep();
             case 3:
@@ -29,32 +28,20 @@ export class PowerPointProject extends ProjectSurvey<SurveyProps, ProjectSurveyS
         }
     }
 
-    renderFisrtStep() {
-
-        const data = [
-            {
-                radioId: 123,
-                radioName: "some-name",
-                radioLabel: "yes"
-            },
-            {
-                radioId: 456,
-                radioName: "some-name",
-                radioLabel: "no"
-            },
-            {
-                radioId: 789,
-                radioName: "some-name",
-                radioLabel: "maybe"
-            }
+    renderCompanyTemplate() {
+        const items: Survey.Element[] = [
+            {value: "yes", label: "Yes"},
+            {value: "no", label: "No, but please include that as part of delivery"},
+            {value: "embedded", label: "Use the template the presentation is currently in"},
         ];
-
         return (
             <div>
                 <div className="order-wizzard__step-title">1. Do you have a template for Data Entry?</div>
 
                 <div className="order-wizzard__step-survey">
-                    <RadioGroup data={data}/>
+                    <RadioGroup form={this}
+                                token={nameof(this.form.template)}
+                                items={items}/>
                 </div>
             </div>
         )
@@ -121,3 +108,6 @@ export class PowerPointProject extends ProjectSurvey<SurveyProps, ProjectSurveyS
     }
 }
 
+interface PowerPointProjectForm {
+    template: string;
+}

@@ -1,40 +1,44 @@
 import * as React from "react";
+import {autobind} from "core-decorators";
 
-export class RadioItem extends React.Component<any,any> {
+export class RadioElement extends React.Component<RadioElementProps, void> {
+
     render() {
-
-        console.log(this.props);
-
-        const {radioId, radioName, radioLabel} = this.props;
-        console.log(radioId, radioName, radioLabel);
-
         return (
             <div className="order-wizzard__list-item order-wizzard__radio">
-                <input id={radioId} name={radioName} type="radio"/>
-                <label htmlFor={radioId}>{radioLabel}</label>
+                <input type="radio"
+                       value={this.props.value}
+                       defaultChecked={this.props.defaultChecked}
+                       checked={this.props.group.value == this.props.value}/>
+                <label>{this.props.label}</label>
             </div>
         )
     }
 }
 
-export class RadioGroup extends React.Component<any, any> {
+export class RadioGroup extends React.Component<Survey.Group, Survey.Value> {
 
-    renderList = data => {
-        return data.map((item, index) => {
-            return <RadioItem
-                key={ index }
-                { ...item }/>;
-        });
-    };
+    state: Survey.Value = {} as Survey.Value;
+
+    @autobind
+    onSelectionChange(event: React.FormEvent<any>) {
+        event.persist();
+        const value = (event.target as any).value;
+        this.setState(state => state.value = value);
+        this.props.form.setFormValue(this.props.token, value);
+    }
 
     render() {
-        const data = this.props.data;
         return (
-            <div className="order-wizzard__radio-group">
-                {this.renderList(data)}
+            <div className="order-wizzard__radio-group" onChange={this.onSelectionChange}>
+                {this.props.items.map((item, index) => {
+                    return <RadioElement key={index} group={this.state} {...item}/>;
+                })}
             </div>
         )
     }
-
 }
 
+interface RadioElementProps extends Survey.Checkbox {
+    group: Survey.Value
+}

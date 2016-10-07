@@ -1,13 +1,16 @@
 import * as React from "react";
-import {SurveyState, SurveyProps, Survey} from "./Survey";
+import {SurveyState, SurveyProps, SurveyPage} from "./SurveyPage";
 
 /**
  * Base type for project creation survey, provides intro page.
  */
-export abstract class ProjectSurvey<P extends SurveyProps, S extends ProjectSurveyState> extends Survey<P, S> {
+export abstract class ProjectSurvey<S extends ProjectSurveyState, F> extends SurveyPage<SurveyProps, S> implements Survey.SurveyForm {
+
+    state: S = {} as S;
+    form: F = {} as F;
 
     /** Move from initial page to actual survey. */
-    startSurvey() {
+    public startSurvey() {
         this.setState(state => {
             state.page = ProjectSurveyPage.Survey;
             this.resetSurvey();
@@ -15,14 +18,23 @@ export abstract class ProjectSurvey<P extends SurveyProps, S extends ProjectSurv
         });
     }
 
-    public canMoveNext(): boolean {
+    public getFormValue(key: React.Key): any {
+        return (this.form as any)[key];
+    }
+
+    setFormValue(key: React.Key, value: any) {
+        console.log("SET FORM VALUE: " + key + " >> " + value);
+        (this.form as any)[key] = value;
+    }
+
+    canMoveNext(): boolean {
         if (super.canMoveNext())
             return true;
 
         return this.state.page < ProjectSurveyPage.Summary;
     }
 
-    public moveNext(): boolean {
+    moveNext(): boolean {
         if (super.moveNext())
             return true;
 
@@ -41,7 +53,7 @@ export abstract class ProjectSurvey<P extends SurveyProps, S extends ProjectSurv
         return true;
     }
 
-    public moveBack(): boolean {
+    moveBack(): boolean {
         if (super.moveBack())
             return true;
 
@@ -58,9 +70,6 @@ export abstract class ProjectSurvey<P extends SurveyProps, S extends ProjectSurv
         return true;
     }
 
-    /** Render summary of the survey answers. */
-    protected abstract renderSurveySummary(): JSX.Element|any;
-
     componentWillMount(): void {
         super.componentWillMount();
         this.setState(state => {
@@ -68,6 +77,9 @@ export abstract class ProjectSurvey<P extends SurveyProps, S extends ProjectSurv
             return state;
         })
     }
+
+    /** Render summary of the survey answers. */
+    abstract renderSurveySummary(): JSX.Element|any;
 
     render(): JSX.Element|any {
         switch (this.state.page) {
