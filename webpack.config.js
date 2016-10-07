@@ -29,7 +29,7 @@ module.exports = {
             loaders: ['style', 'css', 'sass']
         }, {
             test: /\.tsx?$/,
-            loader: "ts-loader"
+            loaders: ["babel-loader?plugins[]=nameof", "ts-loader"]
         }],
 
         preLoaders: [{
