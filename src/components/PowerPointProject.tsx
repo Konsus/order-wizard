@@ -4,6 +4,7 @@ import {RadioGroup} from "./FormControls/RadioGroup";
 import {CheckboxGroup} from "./FormControls/CheckboxGroup";
 import {CommentField} from "./FormControls/CommentField";
 import {FileUploading} from "./FormControls/FileUploading";
+import {SurveyQuestion} from "./SurveyQuestion";
 
 export class PowerPointProject extends ProjectSurvey<ProjectSurveyState, PowerPointProjectForm> {
 
@@ -29,21 +30,20 @@ export class PowerPointProject extends ProjectSurvey<ProjectSurveyState, PowerPo
     }
 
     renderCompanyTemplate() {
-        const items: Survey.Element[] = [
-            {value: "yes", label: "Yes"},
-            {value: "no", label: "No, but please include that as part of delivery"},
-            {value: "embedded", label: "Use the template the presentation is currently in"},
-        ];
+        const question: Survey.Question = {
+            form: this,
+            token: nameof(this.form.template),
+            title: "1. Do you have a template for Data Entry?",
+            items: [
+                {value: "yes", label: "Yes"},
+                {value: "no", label: "No, but please include that as part of delivery"},
+                {value: "embedded", label: "Use the template the presentation is currently in"},
+            ]
+        };
         return (
-            <div>
-                <div className="order-wizzard__step-title">1. Do you have a template for Data Entry?</div>
-
-                <div className="order-wizzard__step-survey">
-                    <RadioGroup form={this}
-                                token={nameof(this.form.template)}
-                                items={items}/>
-                </div>
-            </div>
+            <SurveyQuestion {...question}>
+                <RadioGroup {...question}/>
+            </SurveyQuestion>
         )
     }
 

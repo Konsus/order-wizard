@@ -25,8 +25,14 @@ module Survey {
     }
 
     export interface Group extends Field {
-        items: Element[];
+        items?: Element[];
         value?: any;
+    }
+
+    export interface Question extends Group {
+        token: React.Key;
+        form: SurveyForm;
+        title?: string;
     }
 
     export interface SurveyForm {
