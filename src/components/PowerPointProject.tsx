@@ -34,6 +34,7 @@ export class PowerPointProject extends ProjectSurvey<ProjectSurveyState, PowerPo
             form: this,
             token: nameof(this.form.template),
             title: "1. Do you have a template for Data Entry?",
+            required: true,
             items: [
                 {value: "yes", label: "Yes"},
                 {value: "no", label: "No, but please include that as part of delivery"},

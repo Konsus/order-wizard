@@ -23,6 +23,14 @@ export abstract class SurveyPage<P extends SurveyProps, S extends SurveyState> e
         return this.state.step < this.countActiveSteps();
     }
 
+    componentDidMount() {
+        console.log('----', this.state);
+    }
+
+    public isQuestionDone(): boolean {
+        return true;
+    }
+
     /**
      * Try move to previous survey step if possible.
      * @returns {boolean} true on success; otherwise false.
@@ -101,7 +109,11 @@ export abstract class SurveyPage<P extends SurveyProps, S extends SurveyState> e
                     <div className="order-wizzard__next pull-right">
                         {this.canMoveNext()
                             ?
-                            <a onClick={() => this.moveNext()} href="#" className="b-button b-button--blue">Next</a>
+                            this.isQuestionDone()
+                                ?
+                                <a href="#" className="b-button b-button--blue b-button--deactive">Next</a>
+                                :
+                                <a onClick={() => this.moveNext()} href="#" className="b-button b-button--blue">Next</a>
                             : null }
                     </div>
                 </div>

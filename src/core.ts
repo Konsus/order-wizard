@@ -33,6 +33,7 @@ module Survey {
         token: React.Key;
         form: SurveyForm;
         title?: string;
+        required: boolean;
     }
 
     export interface SurveyForm {
