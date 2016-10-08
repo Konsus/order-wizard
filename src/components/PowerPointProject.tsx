@@ -1,12 +1,13 @@
 import * as React from "react";
-import {ProjectSurvey, ProjectSurveyState} from "./ProjectSurvey";
+import {ProjectSurvey} from "./ProjectSurvey";
 import {RadioGroup} from "./FormControls/RadioGroup";
 import {CheckboxGroup} from "./FormControls/CheckboxGroup";
 import {CommentField} from "./FormControls/CommentField";
 import {FileUploading} from "./FormControls/FileUploading";
 import {SurveyQuestion} from "./SurveyQuestion";
+import {TemplateQuestion} from "./../data/power-point-project";
 
-export class PowerPointProject extends ProjectSurvey<ProjectSurveyState, PowerPointProjectForm> {
+export class PowerPointProject extends ProjectSurvey<any, any> {
 
     protected resolveNextStep(): number {
         return this.state.step + 1;
@@ -30,20 +31,9 @@ export class PowerPointProject extends ProjectSurvey<ProjectSurveyState, PowerPo
     }
 
     renderCompanyTemplate() {
-        const question: Survey.Question = {
-            form: this,
-            token: nameof(this.form.template),
-            title: "1. Do you have a template for Data Entry?",
-            required: true,
-            items: [
-                {value: "yes", label: "Yes"},
-                {value: "no", label: "No, but please include that as part of delivery"},
-                {value: "embedded", label: "Use the template the presentation is currently in"},
-            ]
-        };
         return (
-            <SurveyQuestion {...question}>
-                <RadioGroup {...question}/>
+            <SurveyQuestion {...TemplateQuestion} >
+                <RadioGroup {...TemplateQuestion} {...this.props}/>
             </SurveyQuestion>
         )
     }
@@ -98,7 +88,7 @@ export class PowerPointProject extends ProjectSurvey<ProjectSurveyState, PowerPo
         )
     }
 
-    protected renderSurveySummary(): JSX.Element|any {
+    renderSurveySummary(): JSX.Element|any {
         return (
             <ul>
                 <li>One</li>
@@ -107,8 +97,4 @@ export class PowerPointProject extends ProjectSurvey<ProjectSurveyState, PowerPo
             </ul>
         )
     }
-}
-
-interface PowerPointProjectForm {
-    template: string;
 }

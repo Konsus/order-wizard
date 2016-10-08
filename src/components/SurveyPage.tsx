@@ -4,9 +4,12 @@ import {ProgressBar} from "react-bootstrap";
 /**
  * Base type for any type of survey.
  */
-export abstract class SurveyPage<P extends SurveyProps, S extends SurveyState> extends React.Component<P, S> {
+export abstract class SurveyPage<P, S> extends React.Component<P, S & SurveyState> {
 
-    state: S = {} as S;
+    constructor(...args: any[]) {
+        super(...args);
+        this.state = {} as S & SurveyState
+    }
 
     /** Get normalized value of the survey progress [0-1]. */
     public progress(): number {
@@ -23,11 +26,8 @@ export abstract class SurveyPage<P extends SurveyProps, S extends SurveyState> e
         return this.state.step < this.countActiveSteps();
     }
 
-    componentDidMount() {
-        console.log('----', this.state);
-    }
-
-    public isQuestionDone(): boolean {
+    /** Whether all question on page pass validations. */
+    public isPageDone(): boolean {
         return true;
     }
 
@@ -86,6 +86,10 @@ export abstract class SurveyPage<P extends SurveyProps, S extends SurveyState> e
         this.resetSurvey();
     }
 
+    componentDidMount() {
+        console.log('----', this.state);
+    }
+
     render(): JSX.Element | null {
 
         if (this.state.step === 0)
@@ -107,23 +111,22 @@ export abstract class SurveyPage<P extends SurveyProps, S extends SurveyState> e
                     </div>
 
                     <div className="order-wizzard__next pull-right">
-                        {this.canMoveNext()
-                            ?
-                            this.isQuestionDone()
-                                ?
-                                <a href="#" className="b-button b-button--blue b-button--deactive">Next</a>
-                                :
-                                <a onClick={() => this.moveNext()} href="#" className="b-button b-button--blue">Next</a>
-                            : null }
+                        {this.renderMoveNext()}
                     </div>
                 </div>
             </div>
         )
     }
-}
 
-export interface SurveyProps {
-    onExit?: Function;
+    renderMoveNext() {
+        if (!this.canMoveNext())
+            return null;
+
+        if (this.isPageDone())
+            return <a onClick={() => this.moveNext()} href="#" className="b-button b-button--blue">Next</a>;
+
+        return <a href="#" className="b-button b-button--blue b-button--deactive">Next</a>;
+    }
 }
 
 export interface SurveyState {

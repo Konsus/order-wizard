@@ -1,44 +1,59 @@
 import * as React from "react";
 import {autobind} from "core-decorators";
+import SurveyForm = Survey.SurveyForm;
 
-export class RadioElement extends React.Component<RadioElementProps, void> {
-
+export class RadioBox extends React.Component<Survey.View.CheckBox, void> {
     render() {
         return (
             <div className="order-wizzard__list-item order-wizzard__radio">
-                <input type="radio"
-                       value={this.props.value}
-                       defaultChecked={this.props.defaultChecked}
-                       checked={this.props.group.value == this.props.value}/>
+                <input
+                    type="radio"
+                    value={this.props.value}
+                    label={this.props.label}
+                    checked={this.props.group.checked(this.props.value)}/>
                 <label>{this.props.label}</label>
             </div>
         )
     }
 }
 
-export class RadioGroup extends React.Component<Survey.Group, Survey.Value> {
+export class RadioGroup extends React.Component<RadioGroupProps, Survey.View.Value> implements Survey.View.Group {
 
-    state: Survey.Value = {} as Survey.Value;
+    constructor() {
+        super(...arguments);
+        this.state = {}
+    }
+
+    checked(value: any): boolean {
+        return this.state.value == value;
+    }
 
     @autobind
     onSelectionChange(event: React.FormEvent<any>) {
         event.persist();
         const value = (event.target as any).value;
         this.setState(state => state.value = value);
-        this.props.form.setFormValue(this.props.token, value);
+        if (this.props.ref) this.props.ref(value);
+        if (this.props.form && this.props.token)
+            this.props.form.setFormValue(this.props.token, value);
     }
 
     render() {
         return (
             <div className="order-wizzard__radio-group" onChange={this.onSelectionChange}>
-                {this.props.items.map((item, index) => {
-                    return <RadioElement key={index} group={this.state} {...item}/>;
+                {this.props.options.map((option, index) => {
+                    return <RadioBox {...option} key={index} group={this}
+                    />;
                 })}
             </div>
         )
     }
 }
 
-interface RadioElementProps extends Survey.Checkbox {
-    group: Survey.Value
+export interface RadioGroupProps {
+    token?: React.Key;
+    form?: SurveyForm;
+    ref?: Survey.Ref<any>;
+    options?: Survey.Option[];
+    defaultValue?: any;
 }

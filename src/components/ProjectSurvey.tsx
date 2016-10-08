@@ -1,51 +1,44 @@
 import * as React from "react";
-import {SurveyState, SurveyProps, SurveyPage} from "./SurveyPage";
+import {SurveyPage} from "./SurveyPage";
+import {SurveyForm} from "../core/survey-form";
 
 /**
  * Base type for project creation survey, provides intro page.
  */
-export abstract class ProjectSurvey<S extends ProjectSurveyState, F> extends SurveyPage<SurveyProps, S> implements Survey.SurveyForm {
+export abstract class ProjectSurvey<P, S> extends SurveyPage<P & ProjectSurveyProps, S & ProjectSurveyState> {
 
-    state: S = {} as S;
-    form: F = {} as F;
+    static defaultProps = {
+        form: new SurveyForm()
+    };
 
     /** Move from initial page to actual survey. */
     public startSurvey() {
         this.setState(state => {
-            state.page = ProjectSurveyPage.Survey;
+            state.pageType = ProjectSurveyPageType.Survey;
             this.resetSurvey();
             return state;
         });
-    }
-
-    public getFormValue(key: React.Key): any {
-        return (this.form as any)[key];
-    }
-
-    setFormValue(key: React.Key, value: any) {
-        console.log("SET FORM VALUE: " + key + " >> " + value);
-        (this.form as any)[key] = value;
     }
 
     canMoveNext(): boolean {
         if (super.canMoveNext())
             return true;
 
-        return this.state.page < ProjectSurveyPage.Summary;
+        return this.state.pageType < ProjectSurveyPageType.Summary;
     }
 
     moveNext(): boolean {
         if (super.moveNext())
             return true;
 
-        switch (this.state.page) {
-            case ProjectSurveyPage.Summary:
+        switch (this.state.pageType) {
+            case ProjectSurveyPageType.Summary:
                 return false;
         }
 
         this.setState(state => {
-            state.page += 1;
-            if (state.page == ProjectSurveyPage.Survey)
+            state.pageType += 1;
+            if (state.pageType == ProjectSurveyPageType.Survey)
                 this.resetSurvey();
             return state;
         });
@@ -57,13 +50,13 @@ export abstract class ProjectSurvey<S extends ProjectSurveyState, F> extends Sur
         if (super.moveBack())
             return true;
 
-        switch (this.state.page) {
-            case ProjectSurveyPage.Intro:
+        switch (this.state.pageType) {
+            case ProjectSurveyPageType.Intro:
                 return false;
         }
 
         this.setState(state => {
-            state.page -= 1;
+            state.pageType -= 1;
             return state;
         });
 
@@ -73,7 +66,7 @@ export abstract class ProjectSurvey<S extends ProjectSurveyState, F> extends Sur
     componentWillMount(): void {
         super.componentWillMount();
         this.setState(state => {
-            state.page = ProjectSurveyPage.Intro;
+            state.pageType = ProjectSurveyPageType.Intro;
             return state;
         })
     }
@@ -82,12 +75,12 @@ export abstract class ProjectSurvey<S extends ProjectSurveyState, F> extends Sur
     abstract renderSurveySummary(): JSX.Element|any;
 
     render(): JSX.Element|any {
-        switch (this.state.page) {
-            case ProjectSurveyPage.Intro:
+        switch (this.state.pageType) {
+            case ProjectSurveyPageType.Intro:
                 return this.renderIntroPage();
-            case ProjectSurveyPage.Survey:
+            case ProjectSurveyPageType.Survey:
                 return super.render();
-            case ProjectSurveyPage.Summary:
+            case ProjectSurveyPageType.Summary:
                 return this.renderSummaryPage();
         }
     }
@@ -130,11 +123,16 @@ export abstract class ProjectSurvey<S extends ProjectSurveyState, F> extends Sur
     }
 }
 
-export interface ProjectSurveyState extends SurveyState {
-    page: ProjectSurveyPage;
+export interface ProjectSurveyProps {
+    form: Survey.SurveyForm;
+    questionnaire: Survey.Questionnaire;
 }
 
-export enum ProjectSurveyPage {
+export interface ProjectSurveyState {
+    pageType: ProjectSurveyPageType;
+}
+
+export enum ProjectSurveyPageType {
     /** Intro page with start survey button. */
     Intro = 1,
         /** Actual survey pages */
