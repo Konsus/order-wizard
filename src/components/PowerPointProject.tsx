@@ -1,7 +1,7 @@
 import * as React from "react";
 import {autobind} from "core-decorators";
 import {RadioGroup} from "./FormControls/RadioGroup";
-import {CheckboxGroup} from "./FormControls/CheckboxGroup";
+import {CheckGroup} from "./FormControls/CheckGroup";
 import {CommentField} from "./FormControls/CommentField";
 import {FileUploading} from "./FormControls/FileUploading";
 import {SurveyPage} from "./SurveyQuestion";
@@ -61,7 +61,7 @@ export class PowerPointProject extends React.Component<any,any> {
     renderStylePage(page: Survey.QuestionPage) {
         return (
             <SurveyPage {...page} >
-                <RadioGroup {...page.questions[0]} form={this.form}/>
+                <CheckGroup {...page.questions[0]} form={this.form}/>
             </SurveyPage>
         )
     }
@@ -87,37 +87,6 @@ export class PowerPointProject extends React.Component<any,any> {
                 <div className="order-wizzard__step-survey">
                     <FileUploading fileLabel="Put your file here"/>
                     <CommentField data={data}/>
-                </div>
-            </div>
-        )
-    }
-
-    renderThirdStep() {
-
-        const data = [
-            {
-                checkboxId: 321,
-                checkboxName: "name1",
-                checkboxLabel: "Choose me"
-            },
-            {
-                checkboxId: 654,
-                checkboxName: "name2",
-                checkboxLabel: "And me"
-            },
-            {
-                checkboxId: 987,
-                checkboxName: "name3",
-                checkboxLabel: "Don't touch"
-            }
-        ];
-
-        return (
-            <div>
-                <div className="order-wizzard__step-title">3. Some question again?</div>
-
-                <div className="order-wizzard__step-survey">
-                    <CheckboxGroup data={data}/>
                 </div>
             </div>
         )

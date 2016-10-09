@@ -2,12 +2,12 @@ import * as React from "react";
 import {autobind} from "core-decorators";
 import SurveyForm = Survey.SurveyForm;
 
-export class RadioBox extends React.Component<Survey.View.CheckBox, void> {
+export class CheckBox extends React.Component<Survey.View.CheckBox,void> {
     render() {
         return (
-            <div className="order-wizzard__list-item order-wizzard__radio">
+            <div className="order-wizzard__list-item order-wizzard__checkbox">
                 <input
-                    type="radio"
+                    type="checkbox"
                     value={this.props.value}
                     label={this.props.label}
                     checked={this.props.group.checked(this.props.value)}/>
@@ -17,15 +17,16 @@ export class RadioBox extends React.Component<Survey.View.CheckBox, void> {
     }
 }
 
-export class RadioGroup extends React.Component<RadioGroupProps, Survey.View.Value<any>> implements Survey.View.Group {
+export class CheckGroup extends React.Component<CheckBoxGroupProps, Survey.View.Value<any[]>> implements Survey.View.Group {
 
     constructor() {
         super(...arguments);
-        this.state = {}
+        this.state = {value: []};
+        console.log("STATE", this.state);
     }
 
     checked(value: any): boolean {
-        return this.state.value == value;
+        return this.state.value.indexOf(value) >= 0;
     }
 
     @autobind
@@ -33,21 +34,33 @@ export class RadioGroup extends React.Component<RadioGroupProps, Survey.View.Val
         event.persist();
         this.setState(state => {
             const input = event.target as React.HTMLProps<HTMLInputElement>;
-            state.value = input.value;
+            const index = state.value.indexOf(input.value);
 
-            if (this.props.ref) this.props.ref(state.value);
+            // add / remove item
+            if (input.checked) {
+                if (index < 0)
+                    state.value.push(input.value);
+            }
+            else {
+                if (index >= 0)
+                    state.value.splice(index, 1);
+            }
+
             if (this.props.form && this.props.token)
                 this.props.form[this.props.token] = state.value;
 
+            if (this.props.ref) this.props.ref(state.value);
+
             return state;
         });
+
     }
 
     render() {
         return (
-            <div className="order-wizzard__radio-group" onChange={this.onSelectionChange}>
+            <div className="order-wizzard__checkbox-group" onChange={this.onSelectionChange}>
                 {this.props.options.map((option, index) => {
-                    return <RadioBox {...option} key={index} group={this}
+                    return <CheckBox {...option} key={index} group={this}
                     />;
                 })}
             </div>
@@ -55,7 +68,7 @@ export class RadioGroup extends React.Component<RadioGroupProps, Survey.View.Val
     }
 }
 
-export interface RadioGroupProps {
+export interface CheckBoxGroupProps {
     options: Survey.Option[];
     token?: React.Key;
     form?: SurveyForm;
