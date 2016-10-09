@@ -77,15 +77,20 @@ module Survey.View {
 
     export type Ref<T> = (instance: T) => any;
 
-    export interface Value {
-        value?: any;
+    export interface Value<T> {
+        value?: T;
     }
 
-    export interface Element extends Value {
+    export interface Element<T> extends Value<T> {
         label: string;
     }
 
-    export interface CheckBox extends Element {
+    export interface RadioBox extends Element<any> {
+        group: Group;
+        defaultChecked?: boolean;
+    }
+
+    export interface CheckBox extends Element<any[]> {
         group: Group;
         defaultChecked?: boolean;
     }
