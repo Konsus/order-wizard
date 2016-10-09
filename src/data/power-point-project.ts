@@ -83,7 +83,7 @@ export const StylePage: Survey.QuestionPage = {
 };
 
 export const PurposePage: Survey.QuestionPage = {
-    questions: [StyleQuestion]
+    questions: [PurposeQuestion]
 };
 
 export const CommentsPage: Survey.QuestionPage = {
