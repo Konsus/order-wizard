@@ -10,7 +10,7 @@ module Survey {
     }
 
     export interface Question {
-        token?: string | number;
+        token?: string;
         options?: Option[];
         title?: string;
         required?: boolean;
@@ -97,5 +97,15 @@ module Survey.View {
 
     export interface Group {
         checked(value: any): boolean;
+    }
+
+    export interface SelectionProps<T> {
+        token?: string;
+        form?: Survey.SurveyForm;
+        ref?: Survey.Ref<T>;
+    }
+
+    export interface InputProps<T> extends SelectionProps<T> {
+        label?: string;
     }
 }

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {autobind} from "core-decorators";
-import SurveyForm = Survey.SurveyForm;
+import {SelectionControl} from "./SelectionControl";
 
 export class CheckBox extends React.Component<Survey.View.CheckBox,void> {
     render() {
@@ -17,12 +17,11 @@ export class CheckBox extends React.Component<Survey.View.CheckBox,void> {
     }
 }
 
-export class CheckGroup extends React.Component<CheckBoxGroupProps, Survey.View.Value<any[]>> implements Survey.View.Group {
+export class CheckGroup extends SelectionControl<CheckBoxGroupProps, Survey.View.Value<any[]>, any[]> implements Survey.View.Group {
 
     constructor() {
         super(...arguments);
         this.state = {value: []};
-        console.log("STATE", this.state);
     }
 
     checked(value: any): boolean {
@@ -30,7 +29,7 @@ export class CheckGroup extends React.Component<CheckBoxGroupProps, Survey.View.
     }
 
     @autobind
-    onSelectionChange(event: React.FormEvent<React.HTMLProps<HTMLInputElement>>) {
+    onChange(event: React.FormEvent<React.HTMLProps<HTMLInputElement>>) {
         event.persist();
         this.setState(state => {
             const input = event.target as React.HTMLProps<HTMLInputElement>;
@@ -46,11 +45,7 @@ export class CheckGroup extends React.Component<CheckBoxGroupProps, Survey.View.
                     state.value.splice(index, 1);
             }
 
-            if (this.props.form && this.props.token)
-                this.props.form[this.props.token] = state.value;
-
-            if (this.props.ref) this.props.ref(state.value);
-
+            this.onValueChange(state);
             return state;
         });
 
@@ -58,20 +53,16 @@ export class CheckGroup extends React.Component<CheckBoxGroupProps, Survey.View.
 
     render() {
         return (
-            <div className="order-wizzard__checkbox-group" onChange={this.onSelectionChange}>
+            <div className="order-wizzard__checkbox-group" onChange={this.onChange}>
                 {this.props.options.map((option, index) => {
-                    return <CheckBox {...option} key={index} group={this}
-                    />;
+                    return <CheckBox {...option} key={index} group={this}/>;
                 })}
             </div>
         )
     }
 }
 
-export interface CheckBoxGroupProps {
+export interface CheckBoxGroupProps extends Survey.View.SelectionProps<any> {
     options: Survey.Option[];
-    token?: React.Key;
-    form?: SurveyForm;
-    ref?: Survey.Ref<any>;
     defaultValue?: any;
 }

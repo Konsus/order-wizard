@@ -1,6 +1,6 @@
 import * as React from "react";
 import {autobind} from "core-decorators";
-import SurveyForm = Survey.SurveyForm;
+import {SelectionControl} from "./SelectionControl";
 
 export class RadioBox extends React.Component<Survey.View.CheckBox, void> {
     render() {
@@ -17,7 +17,7 @@ export class RadioBox extends React.Component<Survey.View.CheckBox, void> {
     }
 }
 
-export class RadioGroup extends React.Component<RadioGroupProps, Survey.View.Value<any>> implements Survey.View.Group {
+export class RadioGroup extends SelectionControl<RadioGroupProps, Survey.View.Value<any>, any> implements Survey.View.Group {
 
     constructor() {
         super(...arguments);
@@ -29,36 +29,28 @@ export class RadioGroup extends React.Component<RadioGroupProps, Survey.View.Val
     }
 
     @autobind
-    onSelectionChange(event: React.FormEvent<React.HTMLProps<HTMLInputElement>>) {
+    onChange(event: React.FormEvent<React.HTMLProps<HTMLInputElement>>) {
         event.persist();
         this.setState(state => {
             const input = event.target as React.HTMLProps<HTMLInputElement>;
             state.value = input.value;
-
-            if (this.props.ref) this.props.ref(state.value);
-            if (this.props.form && this.props.token)
-                this.props.form[this.props.token] = state.value;
-
+            this.onValueChange(state);
             return state;
         });
     }
 
     render() {
         return (
-            <div className="order-wizzard__radio-group" onChange={this.onSelectionChange}>
+            <div className="order-wizzard__radio-group" onChange={this.onChange}>
                 {this.props.options.map((option, index) => {
-                    return <RadioBox {...option} key={index} group={this}
-                    />;
+                    return <RadioBox {...option} key={index} group={this}/>;
                 })}
             </div>
         )
     }
 }
 
-export interface RadioGroupProps {
+export interface RadioGroupProps extends Survey.View.SelectionProps<any> {
     options: Survey.Option[];
-    token?: React.Key;
-    form?: SurveyForm;
-    ref?: Survey.Ref<any>;
     defaultValue?: any;
 }

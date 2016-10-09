@@ -1,4 +1,4 @@
 export * from './CheckGroup';
-export * from './CommentField';
-export * from './FileUploading';
+export * from './Comment';
+export * from './File';
 export * from './RadioGroup';
