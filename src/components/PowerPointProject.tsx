@@ -36,7 +36,10 @@ export class PowerPointProject extends React.Component<any,any> {
             active: this.isStylePageActive,
         });
         state.setPageState(FilesPage, {render: this.renderFilesPage});
-        state.setPageState(PurposePage, {render: this.renderPurposePage});
+        state.setPageState(PurposePage, {
+            render: this.renderPurposePage,
+            active: this.isPurposePageActive,
+        });
         state.setPageState(DeadlinePage, {render: this.renderDeadlinePage});
         state.setPageState(CommentsPage, {render: this.renderCommentsPage});
     }
@@ -47,9 +50,8 @@ export class PowerPointProject extends React.Component<any,any> {
             case "update-template":
             case "new-template":
                 return false;
-            default:
-                return true;
         }
+        return true;
     }
 
     @autobind
@@ -58,9 +60,26 @@ export class PowerPointProject extends React.Component<any,any> {
             case "yes":
             case "embedded":
                 return false;
-            default:
-                return true;
         }
+        return true;
+    }
+
+    @autobind
+    isPurposePageActive() {
+        switch (this.form.service_type) {
+            case "style-format":
+            case "style-enhance":
+            case "new-presentation":
+                return false;
+        }
+
+        switch (this.form.template) {
+            case "yes":
+            case "embedded":
+                return false;
+        }
+
+        return true;
     }
 
     @autobind
