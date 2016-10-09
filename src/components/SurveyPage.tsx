@@ -4,30 +4,30 @@ import {ProgressBar} from "react-bootstrap";
 /**
  * Base type for any type of survey.
  */
-export abstract class SurveyPage<P, S> extends React.Component<P, S & SurveyState> {
+export abstract class SurveyPage<P, S extends SurveyPageState> extends React.Component<P, S> {
 
     constructor(...args: any[]) {
         super(...args);
-        this.state = {} as S & SurveyState
+        this.state = {} as S;
     }
 
     /** Get normalized value of the survey progress [0-1]. */
-    public progress(): number {
+    progress(): number {
         return this.state.step / this.state.activeSteps;
     }
 
     /** Whether survey is complete and ready for submission. */
-    public isComplete(): boolean {
+    isComplete(): boolean {
         return !this.canMoveNext();
     }
 
     /** Whether has any next survey step. */
-    public canMoveNext(): boolean {
+    canMoveNext(): boolean {
         return this.state.step < this.countActiveSteps();
     }
 
     /** Whether all question on page pass validations. */
-    public isPageDone(): boolean {
+    isPageDone(): boolean {
         return true;
     }
 
@@ -35,13 +35,13 @@ export abstract class SurveyPage<P, S> extends React.Component<P, S & SurveyStat
      * Try move to previous survey step if possible.
      * @returns {boolean} true on success; otherwise false.
      */
-    public moveNext(): boolean {
+    moveNext(): boolean {
         if (this.state.step >= this.countActiveSteps())
             return false;
 
         this.setState(state => {
             state.activeSteps = this.countActiveSteps();
-            state.step = this.resolveNextStep();
+            state.step++;
             return state;
         });
 
@@ -52,7 +52,7 @@ export abstract class SurveyPage<P, S> extends React.Component<P, S & SurveyStat
      * Try move to previous survey step if possible.
      * @returns {boolean} true on success; otherwise false.
      */
-    public moveBack(): boolean {
+    moveBack(): boolean {
         if (this.state.step <= 1)
             return false;
 
@@ -65,29 +65,19 @@ export abstract class SurveyPage<P, S> extends React.Component<P, S & SurveyStat
     }
 
     /** Reset survey to first step. */
-    public resetSurvey(): void {
-        this.setState(state => {
-            state.step = 1;
-            state.activeSteps = this.countActiveSteps();
-            return state;
-        });
+    resetSurvey(state: S): void {
+        state.step = 1;
+        state.activeSteps = this.countActiveSteps();
     }
 
     /** Render survey with questions. */
-    protected abstract renderSurvey(): JSX.Element | null;
-
-    /** Resolve next step to render. */
-    protected abstract resolveNextStep(): number;
+    protected abstract renderQuestionPage(): JSX.Element | null;
 
     /** Calculate total number of active steps. */
     protected abstract countActiveSteps(): number;
 
     componentWillMount(): void {
-        this.resetSurvey();
-    }
-
-    componentDidMount() {
-        console.log('----', this.state);
+        this.resetSurvey(this.state);
     }
 
     render(): JSX.Element | null {
@@ -102,7 +92,7 @@ export abstract class SurveyPage<P, S> extends React.Component<P, S & SurveyStat
                 </div>
 
                 <div className="order-wizzard__step">
-                    {this.renderSurvey()}
+                    {this.renderQuestionPage()}
                 </div>
 
                 <div className="order-wizzard__controls clearfix">
@@ -129,7 +119,7 @@ export abstract class SurveyPage<P, S> extends React.Component<P, S & SurveyStat
     }
 }
 
-export interface SurveyState {
+export interface SurveyPageState {
     /** Current survey step. */
     step: number;
     /** Total count of visible steps. */

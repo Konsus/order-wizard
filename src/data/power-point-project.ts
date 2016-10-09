@@ -12,7 +12,7 @@ export const ServiceTypeQuestion: Survey.Question = {
     ]
 };
 
-export const TemplateQuestion: Survey.Question = {
+export const CompanyTemplateQuestion: Survey.Question = {
     token: nameof(form.template),
     title: "Do you have a template for Data Entry?",
     options: [
@@ -33,7 +33,7 @@ export const StyleQuestion: Survey.Question = {
     ]
 };
 
-export const FilesPage: Survey.QuestionsPage = {
+export const FilesPage: Survey.QuestionPage = {
     title: "Can you please upload additional files, as well as carefully explain the use of each?",
     questions: [
         {title: "Existing company material (such as presentations, website) we should make it consistent with or use as inspiration"},
@@ -55,14 +55,13 @@ export const PurposeQuestion: Survey.Question = {
     ]
 };
 
-export const DeadlinePage: Survey.QuestionsPage = {
+export const DeadlinePage: Survey.QuestionPage = {
     questions: [{
         title: "Do you have a definite deadline?",
         options: [
             {value: true, label: "Yes"},
-            {value: false, label: "No"}
+            {value: false, label: "No"},
         ],
-        trigger: true,
     }]
 };
 
@@ -71,15 +70,35 @@ export const CommentsQuestion: Survey.Question = {
     required: false
 };
 
+export const ServiceTypePage: Survey.QuestionPage = {
+    questions: [ServiceTypeQuestion]
+};
+
+export const CompanyTemplatePage: Survey.QuestionPage = {
+    questions: [CompanyTemplateQuestion]
+};
+
+export const StylePage: Survey.QuestionPage = {
+    questions: [StyleQuestion]
+};
+
+export const PurposePage: Survey.QuestionPage = {
+    questions: [StyleQuestion]
+};
+
+export const CommentsPage: Survey.QuestionPage = {
+    questions: [CommentsQuestion]
+};
+
 export const Questionnaire: Survey.Questionnaire = {
     pages: [
-        {questions: ServiceTypeQuestion},
-        {questions: TemplateQuestion},
-        {questions: StyleQuestion},
+        ServiceTypePage,
+        CompanyTemplatePage,
+        StylePage,
         FilesPage,
-        {questions: PurposeQuestion},
+        PurposePage,
         DeadlinePage,
-        {questions: CommentsQuestion},
+        CommentsPage,
     ],
 };
 

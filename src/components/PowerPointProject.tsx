@@ -1,40 +1,75 @@
 import * as React from "react";
-import {ProjectSurvey} from "./ProjectSurvey";
+import {autobind} from "core-decorators";
 import {RadioGroup} from "./FormControls/RadioGroup";
 import {CheckboxGroup} from "./FormControls/CheckboxGroup";
 import {CommentField} from "./FormControls/CommentField";
 import {FileUploading} from "./FormControls/FileUploading";
-import {SurveyQuestion} from "./SurveyQuestion";
-import {TemplateQuestion} from "./../data/power-point-project";
+import {SurveyPage} from "./SurveyQuestion";
+import {SurveyState} from "../core/question-states";
+import {ProjectSurvey} from "./ProjectSurvey";
+import {Questionnaire, ServiceTypePage, CompanyTemplatePage, StylePage} from "./../data/power-point-project";
 
-export class PowerPointProject extends ProjectSurvey<any, any> {
+export class PowerPointProject extends React.Component<any,any> {
 
-    protected resolveNextStep(): number {
-        return this.state.step + 1;
+    constructor(public surveyState: SurveyState,
+                public form: Survey.Forms.PowerPointProject) {
+        super();
+        this.form = {};
+        this.surveyState = new SurveyState();
+        this.initSurveyState(this.surveyState);
     }
 
-    protected countActiveSteps(): number {
-        return 3;
+    protected initSurveyState(state: SurveyState) {
+        state.setPageState(ServiceTypePage, {render: this.renderServiceTypePage});
+        state.setPageState(CompanyTemplatePage, {
+            render: this.renderCompanyTemplatePage,
+            active: this.isCompanyTemplatePageActive,
+        });
+        state.setPageState(StylePage, {render: this.renderStylePage});
     }
 
-    protected renderSurvey(): JSX.Element | null {
-        switch (this.state.step) {
-            case 1:
-                return this.renderCompanyTemplate();
-            case 2:
-                return this.renderSecondStep();
-            case 3:
-                return this.renderThirdStep();
+    @autobind
+    isCompanyTemplatePageActive() {
+        switch (this.form.service_type) {
+            case "update-template":
+            case "new-template":
+                return false;
             default:
-                return null;
+                return true;
         }
     }
 
-    renderCompanyTemplate() {
+    @autobind
+    renderServiceTypePage(page: Survey.QuestionPage) {
         return (
-            <SurveyQuestion {...TemplateQuestion} >
-                <RadioGroup {...TemplateQuestion} {...this.props}/>
-            </SurveyQuestion>
+            <SurveyPage {...page} >
+                <RadioGroup {...page.questions[0]} form={this.form}/>
+            </SurveyPage>
+        )
+    }
+
+    @autobind
+    renderCompanyTemplatePage(page: Survey.QuestionPage) {
+        return (
+            <SurveyPage {...page} >
+                <RadioGroup {...page.questions[0]} form={this.form}/>
+            </SurveyPage>
+        )
+    }
+
+    @autobind
+    renderStylePage(page: Survey.QuestionPage) {
+        return (
+            <SurveyPage {...page} >
+                <RadioGroup {...page.questions[0]} form={this.form}/>
+            </SurveyPage>
+        )
+    }
+
+    render(): JSX.Element|any {
+        return (
+            <ProjectSurvey questionnaire={Questionnaire}
+                           surveyState={this.surveyState}/>
         )
     }
 

@@ -1,23 +1,15 @@
 import * as React from "react";
-import {SurveyPage} from "./SurveyPage";
-import {SurveyForm} from "../core/survey-form";
+import {SurveyPage, SurveyPageState} from "./SurveyPage";
+import {SurveyState} from "../core/question-states";
 
 /**
  * Base type for project creation survey, provides intro page.
  */
-export abstract class ProjectSurvey<P, S> extends SurveyPage<P & ProjectSurveyProps, S & ProjectSurveyState> {
-
-    static defaultProps = {
-        form: new SurveyForm()
-    };
+export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurveyState> extends SurveyPage<P, S & SurveyPageState> {
 
     /** Move from initial page to actual survey. */
-    public startSurvey() {
-        this.setState(state => {
-            state.pageType = ProjectSurveyPageType.Survey;
-            this.resetSurvey();
-            return state;
-        });
+    startSurvey() {
+        this.moveNext();
     }
 
     canMoveNext(): boolean {
@@ -28,51 +20,143 @@ export abstract class ProjectSurvey<P, S> extends SurveyPage<P & ProjectSurveyPr
     }
 
     moveNext(): boolean {
-        if (super.moveNext())
-            return true;
-
         switch (this.state.pageType) {
+            case ProjectSurveyPageType.Intro:
+                this.setState(state => {
+                    this.resetSurvey(state);
+                    state.pageID = this.selectNextPageID(this.state.pageID);
+                    state.pageType += 1;
+                    return state;
+                });
+                return true;
+
+            case ProjectSurveyPageType.Survey:
+                const nextPageID = this.selectNextPageID(this.state.pageID);
+                this.setState(state => {
+                    if (nextPageID >= 0) {
+                        state.step++;
+                        state.pageID = nextPageID;
+                        state.activeSteps = this.countActiveSteps();
+                    }
+                    else {
+                        state.pageType += 1;
+                    }
+                    return state;
+                });
+                return true;
+
             case ProjectSurveyPageType.Summary:
                 return false;
+
+            default:
+                return false;
         }
-
-        this.setState(state => {
-            state.pageType += 1;
-            if (state.pageType == ProjectSurveyPageType.Survey)
-                this.resetSurvey();
-            return state;
-        });
-
-        return true;
     }
 
     moveBack(): boolean {
-        if (super.moveBack())
-            return true;
 
         switch (this.state.pageType) {
             case ProjectSurveyPageType.Intro:
                 return false;
+
+            case ProjectSurveyPageType.Survey:
+                const prevPageID = this.selectPrevPageID(this.state.pageID);
+                if (prevPageID >= 0) {
+                    this.setState(state => {
+                        state.step--;
+                        state.pageID = prevPageID;
+                        return state;
+                    });
+                }
+                else {
+                    this.setState(state => {
+                        state.pageType -= 1;
+                        return state;
+                    });
+                }
+                return true;
+
+            case ProjectSurveyPageType.Summary:
+                this.setState(state => {
+                    state.pageType -= 1;
+                    return state;
+                });
+                return true;
         }
 
-        this.setState(state => {
-            state.pageType -= 1;
-            return state;
-        });
-
-        return true;
+        return false;
     }
 
-    componentWillMount(): void {
-        super.componentWillMount();
-        this.setState(state => {
-            state.pageType = ProjectSurveyPageType.Intro;
-            return state;
-        })
+    public resetSurvey(state: S): void {
+        super.resetSurvey(state);
+        state.pageID = -1;
+        state.pageType = ProjectSurveyPageType.Intro;
+    }
+
+    protected countActiveSteps(): number {
+        const surveyState = this.props.surveyState;
+        const questionnaire = this.props.questionnaire;
+        if (!questionnaire) return 0;
+
+        let counter = 0;
+        for (var page of questionnaire.pages) {
+
+            if (surveyState.isPageActive(page))
+                counter++;
+        }
+
+        return counter;
+    }
+
+    protected selectNextPageID(pageID: number): number {
+        const surveyState = this.props.surveyState;
+        const questionnaire = this.props.questionnaire;
+        const pages = questionnaire && questionnaire.pages;
+        if (!pages) return -1;
+
+        for (let i = Math.max(0, pageID + 1), max = pages.length; i < max; i++) {
+            let page = pages[i];
+            if (surveyState.isPageActive(page))
+                return i;
+        }
+
+        return -1;
+    }
+
+    protected selectPrevPageID(pageID: number): number {
+        const surveyState = this.props.surveyState;
+        const questionnaire = this.props.questionnaire;
+        const pages = questionnaire && questionnaire.pages;
+        if (!pages || pageID < 0) return -1;
+
+        for (let i = Math.min(pageID - 1, pages.length); i >= 0; i--) {
+            let page = pages[i];
+            if (surveyState.isPageActive(page))
+                return i;
+        }
+
+        return -1;
+    }
+
+    protected renderQuestionPage(): JSX.Element|any {
+        const questionnaire = this.props.questionnaire;
+        if (!questionnaire) return null;
+
+        const page = questionnaire.pages[this.state.pageID];
+        const state = this.props.surveyState.getPageState(page);
+
+        if (state && state.render)
+            return state.render(page);
+
+        console.error("Page doesn't not provide render function!");
+        this.moveNext();
+        return null;
     }
 
     /** Render summary of the survey answers. */
-    abstract renderSurveySummary(): JSX.Element|any;
+    renderSurveySummary(): JSX.Element|any {
+        return null;
+    }
 
     render(): JSX.Element|any {
         switch (this.state.pageType) {
@@ -124,12 +208,14 @@ export abstract class ProjectSurvey<P, S> extends SurveyPage<P & ProjectSurveyPr
 }
 
 export interface ProjectSurveyProps {
-    form: Survey.SurveyForm;
+    surveyState: SurveyState;
     questionnaire: Survey.Questionnaire;
 }
 
-export interface ProjectSurveyState {
+export interface ProjectSurveyState extends SurveyPageState {
     pageType: ProjectSurveyPageType;
+    /** Zero-based index of questionnaire page.*/
+    pageID: number;
 }
 
 export enum ProjectSurveyPageType {

@@ -35,7 +35,7 @@ export class RadioGroup extends React.Component<RadioGroupProps, Survey.View.Val
         this.setState(state => state.value = value);
         if (this.props.ref) this.props.ref(value);
         if (this.props.form && this.props.token)
-            this.props.form.setFormValue(this.props.token, value);
+            this.props.form[this.props.token] = value;
     }
 
     render() {
@@ -51,9 +51,9 @@ export class RadioGroup extends React.Component<RadioGroupProps, Survey.View.Val
 }
 
 export interface RadioGroupProps {
+    options: Survey.Option[];
     token?: React.Key;
     form?: SurveyForm;
     ref?: Survey.Ref<any>;
-    options?: Survey.Option[];
     defaultValue?: any;
 }

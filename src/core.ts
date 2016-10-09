@@ -1,16 +1,12 @@
 module Survey {
 
-    type Function<T1, T2, R> = (x: T1, y: T2) => R;
-    type Function<T, R> = (x: T) => R;
-    type Function<R> = () => R;
-
     export interface Questionnaire {
-        pages: QuestionsPage[];
+        pages: QuestionPage[];
     }
 
-    export interface QuestionsPage {
+    export interface QuestionPage {
         title?: string;
-        questions: Question | Question[];
+        questions: Question[];
     }
 
     export interface Question {
@@ -58,29 +54,32 @@ module Survey {
     }
 
     export interface SurveyForm {
-        getFormValue(key: React.Key): any;
-        setFormValue(key: React.Key, value: any);
+        [key: string]: any;
+        [key: number]: any;
+        //getFormValue(key: React.Key): any;
+        //setFormValue(key: React.Key, value: any);
     }
 
-    type QuestionFn<R> = (q: Question) => R;
-    type QuestionFn<F, R> = (q: Question, form: F) => R;
+    type PageFn<R> = (page: QuestionPage) => R;
+    type QuestionFn<R> = (question: Question) => R;
 
-    //export interface QuestionState {
-    //    active?: QuestionFn<boolean>;
-    //}
+    export interface PageState {
+        active?: PageFn<boolean>;
+        render: PageFn<JSX.Element>;
+    }
 
-    export interface QuestionState<F> {
-        active?: QuestionFn<F, boolean> | QuestionFn<boolean>;
+    export interface QuestionState {
+        active?: QuestionFn<boolean>;
     }
 }
 
 module Survey.View {
 
+    export type Ref<T> = (instance: T) => any;
+
     export interface Value {
         value?: any;
     }
-
-    export type Ref<T> = (instance: T) => any;
 
     export interface Element extends Value {
         label: string;
@@ -94,5 +93,4 @@ module Survey.View {
     export interface Group {
         checked(value: any): boolean;
     }
-
 }
