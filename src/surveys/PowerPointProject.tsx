@@ -1,9 +1,11 @@
 import * as React from "react";
 import {autobind} from "core-decorators";
-import {SurveyPage} from "./SurveyQuestion";
 import {SurveyState} from "../core/question-states";
-import {ProjectSurvey} from "./ProjectSurvey";
-import {RadioGroup, CheckGroup, Comment, File} from "./FormControls";
+import {File} from "../components/controls/File";
+import {Comment} from "../components/controls/Comment";
+import {RadioGroup} from "../components/controls/RadioGroup";
+import {SurveyPage} from "../components/views/SurveyPage";
+import {ProjectSurvey} from "../components/views/ProjectSurvey";
 import {
     Questionnaire,
     ServiceTypePage,

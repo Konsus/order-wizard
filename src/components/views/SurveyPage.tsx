@@ -1,4 +1,6 @@
 import * as React from "react";
+
+/** Wraps questions of the survey. */
 export class SurveyPage extends React.Component<SurveyPageProps, any> {
 
     title() {

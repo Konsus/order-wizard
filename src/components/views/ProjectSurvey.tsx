@@ -1,11 +1,11 @@
 import * as React from "react";
-import {SurveyPage, SurveyPageState} from "./SurveyPage";
-import {SurveyState} from "../core/question-states";
+import {SurveyView, SurveyPageState} from "./SurveyView";
+import {SurveyState} from "../../core/question-states";
 
 /**
  * Base type for project creation survey, provides intro page.
  */
-export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurveyState> extends SurveyPage<P, S & SurveyPageState> {
+export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurveyState> extends SurveyView<P, S & SurveyPageState> {
 
     /** Move from initial page to actual survey. */
     startSurvey() {

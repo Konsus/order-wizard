@@ -4,7 +4,7 @@ import {ProgressBar} from "react-bootstrap";
 /**
  * Base type for any type of survey.
  */
-export abstract class SurveyPage<P, S extends SurveyPageState> extends React.Component<P, S> {
+export abstract class SurveyView<P, S extends SurveyPageState> extends React.Component<P, S> {
 
     constructor(...args: any[]) {
         super(...args);
