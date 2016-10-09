@@ -3,8 +3,17 @@ import {autobind} from "core-decorators";
 import {SurveyPage} from "./SurveyQuestion";
 import {SurveyState} from "../core/question-states";
 import {ProjectSurvey} from "./ProjectSurvey";
-import {RadioGroup, CheckGroup, CommentField, FileUploading} from "./FormControls";
-import {Questionnaire, ServiceTypePage, CompanyTemplatePage, StylePage} from "./../data/power-point-project";
+import {RadioGroup, CheckGroup, Comment, File} from "./FormControls";
+import {
+    Questionnaire,
+    ServiceTypePage,
+    CompanyTemplatePage,
+    StylePage,
+    FilesPage,
+    PurposePage,
+    DeadlinePage,
+    CommentsPage
+} from "./../data/power-point-project";
 
 export class PowerPointProject extends React.Component<any,any> {
 
@@ -22,7 +31,14 @@ export class PowerPointProject extends React.Component<any,any> {
             render: this.renderCompanyTemplatePage,
             active: this.isCompanyTemplatePageActive,
         });
-        state.setPageState(StylePage, {render: this.renderStylePage});
+        state.setPageState(StylePage, {
+            render: this.renderStylePage,
+            active: this.isStylePageActive,
+        });
+        state.setPageState(FilesPage, {render: this.renderFilesPage});
+        state.setPageState(PurposePage, {render: this.renderPurposePage});
+        state.setPageState(DeadlinePage, {render: this.renderDeadlinePage});
+        state.setPageState(CommentsPage, {render: this.renderCommentsPage});
     }
 
     @autobind
@@ -30,6 +46,17 @@ export class PowerPointProject extends React.Component<any,any> {
         switch (this.form.service_type) {
             case "update-template":
             case "new-template":
+                return false;
+            default:
+                return true;
+        }
+    }
+
+    @autobind
+    isStylePageActive() {
+        switch (this.form.template) {
+            case "yes":
+            case "embedded":
                 return false;
             default:
                 return true;
@@ -63,39 +90,47 @@ export class PowerPointProject extends React.Component<any,any> {
         )
     }
 
+    @autobind
+    renderFilesPage(page: Survey.QuestionPage) {
+        return (
+            <SurveyPage {...page} >
+                <File {...page.questions[0]} form={this.form}/>
+            </SurveyPage>
+        )
+    }
+
+    @autobind
+    renderPurposePage(page: Survey.QuestionPage) {
+        return (
+            <SurveyPage {...page} >
+                <RadioGroup {...page.questions[0]} form={this.form}/>
+            </SurveyPage>
+        )
+    }
+
+    @autobind
+    renderDeadlinePage(page: Survey.QuestionPage) {
+        return (
+            <SurveyPage {...page} >
+                <RadioGroup {...page.questions[0]} form={this.form}/>
+            </SurveyPage>
+        )
+    }
+
+    @autobind
+    renderCommentsPage(page: Survey.QuestionPage) {
+        return (
+            <SurveyPage {...page} >
+                <Comment {...page.questions[0]} form={this.form}/>
+            </SurveyPage>
+        )
+    }
+
     render(): JSX.Element|any {
         return (
             <ProjectSurvey questionnaire={Questionnaire}
-                           surveyState={this.surveyState}/>
-        )
-    }
-
-    renderSecondStep() {
-
-        const data = {
-            commentPlaceholder: 'Put you comment here',
-            commentId: 'some-comment-id'
-        };
-
-        return (
-            <div>
-                <div className="order-wizzard__step-title">2. Some question here</div>
-
-                <div className="order-wizzard__step-survey">
-                    <FileUploading fileLabel="Put your file here"/>
-                    <CommentField data={data}/>
-                </div>
-            </div>
-        )
-    }
-
-    renderSurveySummary(): JSX.Element|any {
-        return (
-            <ul>
-                <li>One</li>
-                <li>Two</li>
-                <li>Three</li>
-            </ul>
+                           surveyState={this.surveyState}
+                           form={this.form}/>
         )
     }
 }
