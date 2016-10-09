@@ -87,10 +87,14 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         return false;
     }
 
-    public resetSurvey(state: S): void {
+    resetSurvey(state: S): void {
         super.resetSurvey(state);
         state.pageID = -1;
         state.pageType = ProjectSurveyPageType.Intro;
+    }
+
+    startProject() {
+        console.log("START PROJECT: ", this.props.form);
     }
 
     protected countActiveSteps(): number {
@@ -200,7 +204,8 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
                 </div>
 
                 <div className="order-wizzard__cta text-center">
-                    <a href="#" className="b-button b-button--blue">Start project</a>
+                    <a href="#" className="b-button b-button--blue"
+                       onClick={() => this.startProject()}>Start project</a>
                 </div>
             </div>
         )
@@ -208,6 +213,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
 }
 
 export interface ProjectSurveyProps {
+    form: Survey.SurveyForm,
     surveyState: SurveyState;
     questionnaire: Survey.Questionnaire;
 }
