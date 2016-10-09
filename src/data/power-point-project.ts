@@ -56,8 +56,8 @@ export const PurposeQuestion: Survey.Question = {
 };
 
 export const DeadlinePage: Survey.QuestionPage = {
+    title: "Do you have a definite deadline?",
     questions: [{
-        title: "Do you have a definite deadline?",
         options: [
             {value: true, label: "Yes"},
             {value: false, label: "No"},
