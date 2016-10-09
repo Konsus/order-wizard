@@ -3,15 +3,25 @@ import {autobind} from "core-decorators";
 import {SelectionControl} from "./SelectionControl";
 
 export class RadioBox extends React.Component<Survey.View.CheckBox, void> {
+    private input: HTMLInputElement;
+
+    @autobind
+    private onClick(e: React.MouseEvent<any>) {
+        if (e.target != this.input)
+            this.input.click();
+    }
+
     render() {
         return (
-            <div className="order-wizzard__list-item order-wizzard__radio">
+            <div className="order-wizzard__list-item order-wizzard__radio"
+                 onClick={this.onClick}>
                 <input
                     type="radio"
+                    ref={x => this.input = x}
                     value={this.props.value}
                     label={this.props.label}
                     checked={this.props.group.checked(this.props.value)}/>
-                <label>{this.props.label}</label>
+                <label>{this.props.label || this.props.value}</label>
             </div>
         )
     }
