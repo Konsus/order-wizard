@@ -1,7 +1,7 @@
 const form: Survey.Forms.PowerPointProject = null;
 
 export const ServiceTypeQuestion: Survey.Question = {
-    token: nameof(form.service_type),
+    token: nameof(form.service),
     title: "What sort of PowerPoint service are you interested in?",
     options: [
         {value: "style-format", label: "Professional formatting of existing presentation"},
@@ -23,7 +23,7 @@ export const CompanyTemplateQuestion: Survey.Question = {
 };
 
 export const StyleQuestion: Survey.Question = {
-    token: nameof(form.style_type),
+    token: nameof(form.style),
     title: "Directionally, what kind of style do you like?",
     options: [
         {value: "serious", label: "Serious"},
@@ -66,6 +66,7 @@ export const DeadlinePage: Survey.QuestionPage = {
 };
 
 export const CommentsQuestion: Survey.Question = {
+    token: nameof(form.comments),
     title: "Anything else we should know before this information is submitted?",
     required: false
 };

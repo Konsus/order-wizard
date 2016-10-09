@@ -4,6 +4,7 @@ import {SurveyState} from "../core/question-states";
 import {File} from "../components/controls/File";
 import {Comment} from "../components/controls/Comment";
 import {RadioGroup} from "../components/controls/RadioGroup";
+import {CheckGroup} from "../components/controls/CheckGroup";
 import {SurveyPage} from "../components/views/SurveyPage";
 import {ProjectSurvey} from "../components/views/ProjectSurvey";
 import {
@@ -48,7 +49,7 @@ export class PowerPointProject extends React.Component<any,any> {
 
     @autobind
     isCompanyTemplatePageActive() {
-        switch (this.form.service_type) {
+        switch (this.form.service) {
             case "update-template":
             case "new-template":
                 return false;
@@ -68,7 +69,7 @@ export class PowerPointProject extends React.Component<any,any> {
 
     @autobind
     isPurposePageActive() {
-        switch (this.form.service_type) {
+        switch (this.form.service) {
             case "style-format":
             case "style-enhance":
             case "new-presentation":
@@ -124,7 +125,7 @@ export class PowerPointProject extends React.Component<any,any> {
     renderPurposePage(page: Survey.QuestionPage) {
         return (
             <SurveyPage {...page} >
-                <RadioGroup {...page.questions[0]} form={this.form}/>
+                <CheckGroup {...page.questions[0]} form={this.form}/>
             </SurveyPage>
         )
     }
