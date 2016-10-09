@@ -1,12 +1,9 @@
 import * as React from "react";
 import {autobind} from "core-decorators";
-import {RadioGroup} from "./FormControls/RadioGroup";
-import {CheckGroup} from "./FormControls/CheckGroup";
-import {CommentField} from "./FormControls/CommentField";
-import {FileUploading} from "./FormControls/FileUploading";
 import {SurveyPage} from "./SurveyQuestion";
 import {SurveyState} from "../core/question-states";
 import {ProjectSurvey} from "./ProjectSurvey";
+import {RadioGroup, CheckGroup, CommentField, FileUploading} from "./FormControls";
 import {Questionnaire, ServiceTypePage, CompanyTemplatePage, StylePage} from "./../data/power-point-project";
 
 export class PowerPointProject extends React.Component<any,any> {
