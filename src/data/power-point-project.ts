@@ -1,8 +1,9 @@
 import PowerPointProject = Survey.Forms.PowerPointProject;
-const f: PowerPointProject = null;
+import {CommentsPage, DeadlinePage} from "./common";
+import Questionnaire = Survey.Questionnaire;
 
 export const ServiceTypeQuestion: Survey.Question = {
-    token: nameof(f.service),
+    token: nameof((null as PowerPointProject).service),
     title: "What sort of PowerPoint service are you interested in?",
     options: [
         {value: "style-format", label: "Professional formatting of existing presentation"},
@@ -14,7 +15,7 @@ export const ServiceTypeQuestion: Survey.Question = {
 };
 
 export const CompanyTemplateQuestion: Survey.Question = {
-    token: nameof(f.template),
+    token: nameof((null as PowerPointProject).template),
     title: "Do you have a template for Data Entry?",
     options: [
         {value: "yes", label: "Yes."},
@@ -36,7 +37,7 @@ export const CompanyTemplatePage: Survey.QuestionPage = {
 };
 
 export const StyleQuestion: Survey.Question = {
-    token: nameof(f.style),
+    token: nameof((null as PowerPointProject).style),
     title: "Directionally, what kind of style do you like?",
     options: [
         {value: "serious", label: "Serious"},
@@ -68,7 +69,7 @@ export const FilesPage: Survey.QuestionPage = {
 };
 
 export const PurposeQuestion: Survey.Question = {
-    token: nameof(f.purpose),
+    token: nameof((null as PowerPointProject).purpose),
     title: "What will be the main type of presentations you will make from your new template?",
     options: [
         {
@@ -98,39 +99,27 @@ export const PurposePage: Survey.QuestionPage = {
     },
 };
 
-export const DeadlinePage: Survey.QuestionPage = {
-    title: "Do you have a definite deadline?",
-    questions: [{
-        options: [
-            {value: true, label: "Yes"},
-            {value: false, label: "No"},
-        ],
-    }]
-};
-
-export const CommentsQuestion: Survey.Question = {
-    token: nameof(f.comments),
-    title: "Anything else we should know before this information is submitted?",
-    required: false
-};
-
 export const ServiceTypePage: Survey.QuestionPage = {
     questions: [ServiceTypeQuestion]
 };
 
-export const CommentsPage: Survey.QuestionPage = {
-    questions: [CommentsQuestion]
-};
+export default new class PowerPointProjectSurvey implements Survey.Questionnaire {
+    serviceType = ServiceTypePage;
+    companyTemplate = CompanyTemplatePage;
+    style = StylePage;
+    files = FilesPage;
+    purpose = PurposePage;
+    deadline = DeadlinePage;
+    comments = CommentsPage;
 
-export const Questionnaire: Survey.Questionnaire = {
-    pages: [
-        ServiceTypePage,
-        CompanyTemplatePage,
-        StylePage,
-        FilesPage,
-        PurposePage,
-        DeadlinePage,
-        CommentsPage,
-    ],
-};
+    pages = [
+        this.serviceType,
+        this.companyTemplate,
+        this.style,
+        this.files,
+        this.purpose,
+        this.deadline,
+        this.comments,
+    ];
+}
 

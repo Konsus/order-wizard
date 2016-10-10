@@ -1,9 +1,8 @@
 module Survey.Forms {
-    export interface PowerPointProject extends Survey.SurveyForm {
+    export interface PowerPointProject extends Forms.CommentsForm {
         service?: string;
         template?: string;
         style?: string;
         purpose?: string[];
-        comments?: string;
     }
 }

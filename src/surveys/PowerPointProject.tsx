@@ -8,16 +8,7 @@ import {RadioGroup} from "../components/controls/RadioGroup";
 import {CheckGroup} from "../components/controls/CheckGroup";
 import {SurveyPage} from "../components/views/SurveyPage";
 import {ProjectSurvey} from "../components/views/ProjectSurvey";
-import {
-    Questionnaire,
-    ServiceTypePage,
-    CompanyTemplatePage,
-    StylePage,
-    FilesPage,
-    PurposePage,
-    DeadlinePage,
-    CommentsPage
-} from "./../data/power-point-project";
+import Q from "./../data/power-point-project";
 
 export class PowerPointProject extends React.Component<any,any> {
 
@@ -31,13 +22,13 @@ export class PowerPointProject extends React.Component<any,any> {
     }
 
     protected initSurveyState(state: SurveyState) {
-        state.setPageState(ServiceTypePage, {render: this.renderServiceTypePage});
-        state.setPageState(CompanyTemplatePage, {render: this.renderCompanyTemplatePage});
-        state.setPageState(StylePage, {render: this.renderStylePage});
-        state.setPageState(FilesPage, {render: this.renderFilesPage});
-        state.setPageState(PurposePage, {render: this.renderPurposePage});
-        state.setPageState(DeadlinePage, {render: this.renderDeadlinePage});
-        state.setPageState(CommentsPage, {render: this.renderCommentsPage});
+        state.setPageState(Q.serviceType, {render: this.renderServiceTypePage});
+        state.setPageState(Q.companyTemplate, {render: this.renderCompanyTemplatePage});
+        state.setPageState(Q.style, {render: this.renderStylePage});
+        state.setPageState(Q.files, {render: this.renderFilesPage});
+        state.setPageState(Q.purpose, {render: this.renderPurposePage});
+        state.setPageState(Q.deadline, {render: this.renderDeadlinePage});
+        state.setPageState(Q.comments, {render: this.renderCommentsPage});
     }
 
     @autobind
@@ -105,7 +96,7 @@ export class PowerPointProject extends React.Component<any,any> {
 
     render(): JSX.Element|any {
         return (
-            <ProjectSurvey questionnaire={Questionnaire}
+            <ProjectSurvey questionnaire={Q}
                            surveyState={this.surveyState}
                            form={this.form}/>
         )
