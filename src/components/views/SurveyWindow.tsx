@@ -1,5 +1,55 @@
 import * as React from "react";
 import * as Modal from "react-modal";
+import {autobind} from "core-decorators";
+
+export abstract class SurveyWindow extends React.Component<SurveyWindowProps, SurveyWindowState> {
+
+    state = {} as SurveyWindowState;
+
+    componentWillMount(): void {
+        this.state.visible = this.props.visible;
+    }
+
+    @autobind
+    open() {
+        this.setState(state => {
+            state.visible = true;
+            return state;
+        })
+    };
+
+    @autobind
+    close() {
+        this.setState(state => {
+            state.visible = false;
+            return state;
+        })
+    };
+
+    render() {
+        return (
+            <div>
+                <button onClick={this.open}>{this.props.name || "Open Window"}</button>
+                <Modal
+                    isOpen={this.state.visible}
+                    onRequestClose={this.close}
+                    style={customStyles}
+                >
+                    {this.props.children}
+                </Modal>
+            </div>
+        )
+    }
+}
+
+export interface SurveyWindowProps {
+    visible?: boolean;
+    name?: string;
+}
+
+export interface SurveyWindowState {
+    visible: boolean;
+}
 
 const customStyles = {
     overlay: {
@@ -24,30 +74,4 @@ const customStyles = {
         border: 'none',
     }
 };
-
-export abstract class SurveyWindow extends React.Component<any,any> {
-
-    state = {
-        open: false,
-    };
-
-    open() { this.setState({open: true}); };
-
-    close() { this.setState({open: false}); };
-
-    render() {
-        return (
-            <div>
-                <button onClick={() => this.open()}>Open Modal</button>
-                <Modal
-                    isOpen={this.state.open}
-                    onRequestClose={() => this.close()}
-                    style={customStyles}
-                >
-                    {this.props.children}
-                </Modal>
-            </div>
-        )
-    }
-}
 
