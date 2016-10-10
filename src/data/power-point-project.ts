@@ -24,7 +24,7 @@ export const CompanyTemplateQuestion: Survey.Question = {
     ]
 };
 
-export const CompanyTemplatePage: Survey.QuestionPage = {
+export const CompanyTemplatePage: Survey.Page = {
     questions: [CompanyTemplateQuestion],
     active: (form: PowerPointProject) => {
         switch (form.service) {
@@ -47,7 +47,7 @@ export const StyleQuestion: Survey.Question = {
     ]
 };
 
-export const StylePage: Survey.QuestionPage = {
+export const StylePage: Survey.Page = {
     questions: [StyleQuestion],
     active: (form: PowerPointProject) => {
         switch (form.template) {
@@ -59,7 +59,7 @@ export const StylePage: Survey.QuestionPage = {
     },
 };
 
-export const FilesPage: Survey.QuestionPage = {
+export const FilesPage: Survey.Page = {
     title: "Can you please upload additional files, as well as carefully explain the use of each?",
     questions: [
         {title: "Existing company material (such as presentations, website) we should make it consistent with or use as inspiration"},
@@ -81,7 +81,7 @@ export const PurposeQuestion: Survey.Question = {
     ]
 };
 
-export const PurposePage: Survey.QuestionPage = {
+export const PurposePage: Survey.Page = {
     questions: [PurposeQuestion],
     active: (form: PowerPointProject) => {
         switch (form.service) {
@@ -99,7 +99,7 @@ export const PurposePage: Survey.QuestionPage = {
     },
 };
 
-export const ServiceTypePage: Survey.QuestionPage = {
+export const ServiceTypePage: Survey.Page = {
     questions: [ServiceTypeQuestion]
 };
 

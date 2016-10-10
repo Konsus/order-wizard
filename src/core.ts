@@ -2,16 +2,16 @@ module Survey {
 
     type Function<T, R> = (question: Question) => R;
 
-    export interface SurveyContext {
+    export interface Context {
         form: SurveyForm;
         questionnaire: Survey.Questionnaire;
     }
 
     export interface Questionnaire {
-        pages: QuestionPage[];
+        pages: Page[];
     }
 
-    export interface QuestionPage {
+    export interface Page {
         title?: string;
         questions: Question[];
         active?: Function<SurveyForm,boolean>;
@@ -66,13 +66,13 @@ module Survey {
         setValue(key: string, value: any)
     }
 
-    export interface PageState {
-        active?: Function<QuestionPage, boolean>;
+    export interface PageView {
+        active?: Function<Page, boolean>;
         render: Function<Question, JSX.Element>;
     }
 
-    export interface QuestionState {
-        active?: Function<QuestionPage, boolean>;
+    export interface QuestionView {
+        active?: Function<Page, boolean>;
     }
 }
 

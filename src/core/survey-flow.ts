@@ -13,7 +13,7 @@ export class Keys {
         return keyUID;
     }
 
-    static pageKey(question: Survey.QuestionPage, define: boolean) {
+    static pageKey(question: Survey.Page, define: boolean) {
         let key = question[keyName];
         if (typeof key !== "undefined") return key;
         if (!define) return null;
@@ -36,23 +36,25 @@ export class Keys {
     }
 }
 
-export class SurveyState {
+export class SurveyFlow {
+
+    constructor(public survey: Survey.Questionnaire) { }
 
     private _pages: Object = {};
     private _questions: Object = {};
 
-    public setQuestionState(question: Survey.Question, state: Survey.QuestionState): void {
+    public setQuestionView(question: Survey.Question, state: Survey.QuestionView): void {
         const key = Keys.key(question, true);
         this._questions[key] = state;
     }
 
-    public getQuestionState(question: Survey.Question): Survey.QuestionState {
+    public getQuestionView(question: Survey.Question): Survey.QuestionView {
         const key = Keys.key(question, false);
         if (key == null) return null;
         return this._questions[key];
     }
 
-    public removeQuestionState(question: Survey.Question): void {
+    public removeQuestionView(question: Survey.Question): void {
         const key = Keys.key(question, false);
         if (key == null) return null;
         const state = this._questions[key];
@@ -60,17 +62,17 @@ export class SurveyState {
         return state;
     }
 
-    public setPageState(page: Survey.QuestionPage, state: Survey.PageState): void {
+    public setPageView(page: Survey.Page, state: Survey.PageView): void {
         const key = Keys.key(page, true);
         this._pages[key] = state;
     }
 
-    public getPageState(page: Survey.Question): Survey.PageState {
+    public getPageView(page: Survey.Question): Survey.PageView {
         const key = Keys.key(page, false);
         return key && this._pages[key];
     }
 
-    public isPageActive(page: Survey.QuestionPage, context: Survey.SurveyContext) {
+    public isPageActive(page: Survey.Page, context: Survey.Context) {
         // null pages should not be active
         if (!page) return false;
 
@@ -80,7 +82,7 @@ export class SurveyState {
                 return false;
 
         // check state
-        const state = this.getPageState(page);
+        const state = this.getPageView(page);
         if (state && state.active)
             if (!state.active(page))
                 return false;
@@ -88,7 +90,6 @@ export class SurveyState {
         // active by default
         return true;
     }
-
 }
 
 

@@ -1,5 +1,5 @@
 import {SurveyForm} from "./survey-form";
-export class SurveyContext implements Survey.SurveyContext {
+export class SurveyContext implements Survey.Context {
 
     public form: Survey.SurveyForm;
     public questionnaire: Survey.Questionnaire;

@@ -1,20 +1,17 @@
 import * as React from "react";
 import {SurveyView, SurveyPageState} from "./SurveyView";
-import {SurveyState} from "../../core/question-states";
+import {SurveyFlow} from "../../core/survey-flow";
 import {SurveyContext} from "../../core/survey-context";
 import {SelectionControl} from "../controls/SelectionControl";
 
-/**
- * Base type for project creation survey, provides intro page.
- */
-export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurveyState> extends SurveyView<P, S & SurveyPageState> implements React.ChildContextProvider<Survey.SurveyContext> {
+/** Base type for project creation survey, provides intro page. */
+export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurveyState> extends SurveyView<P, S & SurveyPageState> implements React.ChildContextProvider<Survey.Context> {
 
     public static childContextTypes = SelectionControl.contextTypes;
 
-    private survey: SurveyContext;
+    private survey: SurveyContext = new SurveyContext(this.props.flow.survey, this.props.form);
 
-    getChildContext(): Survey.SurveyContext {
-        this.survey = new SurveyContext(this.props.questionnaire, this.props.form);
+    getChildContext(): Survey.Context {
         return this.survey;
     }
 
@@ -109,8 +106,8 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     }
 
     protected countActiveSteps(): number {
-        const surveyState = this.props.surveyState;
-        const questionnaire = this.props.questionnaire;
+        const surveyState = this.props.flow;
+        const questionnaire = this.survey.questionnaire;
         if (!questionnaire) return 0;
 
         let counter = 0;
@@ -124,8 +121,8 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     }
 
     protected selectNextPageID(pageID: number): number {
-        const surveyState = this.props.surveyState;
-        const questionnaire = this.props.questionnaire;
+        const surveyState = this.props.flow;
+        const questionnaire = this.survey.questionnaire;
         const pages = questionnaire && questionnaire.pages;
         if (!pages) return -1;
 
@@ -139,8 +136,8 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     }
 
     protected selectPrevPageID(pageID: number): number {
-        const surveyState = this.props.surveyState;
-        const questionnaire = this.props.questionnaire;
+        const surveyState = this.props.flow;
+        const questionnaire = this.survey.questionnaire;
         const pages = questionnaire && questionnaire.pages;
         if (!pages || pageID < 0) return -1;
 
@@ -154,11 +151,11 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     }
 
     protected renderQuestionPage(): JSX.Element|any {
-        const questionnaire = this.props.questionnaire;
+        const questionnaire = this.survey.questionnaire;
         if (!questionnaire) return null;
 
         const page = questionnaire.pages[this.state.pageID];
-        const state = this.props.surveyState.getPageState(page);
+        const state = this.props.flow.getPageView(page);
 
         if (state && state.render)
             return state.render(page);
@@ -225,8 +222,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
 
 export interface ProjectSurveyProps {
     form?: Survey.SurveyForm,
-    surveyState: SurveyState;
-    questionnaire: Survey.Questionnaire;
+    flow: SurveyFlow;
 }
 
 export interface ProjectSurveyState extends SurveyPageState {

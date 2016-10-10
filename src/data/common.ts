@@ -4,11 +4,11 @@ export const CommentsQuestion: Survey.Question = {
     required: false
 };
 
-export const CommentsPage: Survey.QuestionPage = {
+export const CommentsPage: Survey.Page = {
     questions: [CommentsQuestion]
 };
 
-export const DeadlinePage: Survey.QuestionPage = {
+export const DeadlinePage: Survey.Page = {
     title: "Do you have a definite deadline?",
     questions: [{
         options: [

@@ -1,5 +1,5 @@
 import * as React from "react";
-const c: Survey.SurveyContext = null;
+const c: Survey.Context = null;
 
 export class SelectionControl<P extends Survey.View.SelectionProps<T>, S extends Survey.View.Value<T>, T> extends React.Component<P,S> {
 
@@ -11,7 +11,7 @@ export class SelectionControl<P extends Survey.View.SelectionProps<T>, S extends
         [nameof(c.questionnaire)]: React.PropTypes.object,
     };
 
-    context: Survey.SurveyContext;
+    context: Survey.Context;
 
     protected onValueChange(state: S) {
         if (this.props.valueRef) this.props.valueRef(state.value);
