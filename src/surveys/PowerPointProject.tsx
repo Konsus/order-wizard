@@ -7,6 +7,7 @@ import {RadioGroup} from "../components/controls/RadioGroup";
 import {CheckGroup} from "../components/controls/CheckGroup";
 import {SurveyPage} from "../components/views/SurveyPage";
 import {ProjectSurveyFlow} from "../components/views/ProjectSurveyFlow";
+import {DueDatePageView} from "./DueDatePageView";
 import Q from "./../data/power-point-project";
 
 export class PowerPointProject extends ProjectSurveyFlow<Survey.Forms.PowerPointProject> {
@@ -70,11 +71,7 @@ export class PowerPointProject extends ProjectSurveyFlow<Survey.Forms.PowerPoint
 
     @autobind
     renderDeadlinePage(page: Survey.Page) {
-        return (
-            <SurveyPage {...page} >
-                <RadioGroup {...page.questions[0]} />
-            </SurveyPage>
-        )
+        return <DueDatePageView {...page} />
     }
 
     @autobind
