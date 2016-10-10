@@ -11,8 +11,11 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
 
     public static childContextTypes = SelectionControl.contextTypes;
 
+    private survey: SurveyContext;
+
     getChildContext(): Survey.SurveyContext {
-        return new SurveyContext(this.props.questionnaire, this.props.form);
+        this.survey = new SurveyContext(this.props.questionnaire, this.props.form);
+        return this.survey;
     }
 
     /** Move from initial page to actual survey. */
@@ -113,7 +116,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         let counter = 0;
         for (var page of questionnaire.pages) {
 
-            if (surveyState.isPageActive(page))
+            if (surveyState.isPageActive(page, this.survey))
                 counter++;
         }
 
@@ -128,7 +131,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
 
         for (let i = Math.max(0, pageID + 1), max = pages.length; i < max; i++) {
             let page = pages[i];
-            if (surveyState.isPageActive(page))
+            if (surveyState.isPageActive(page, this.survey))
                 return i;
         }
 
@@ -143,7 +146,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
 
         for (let i = Math.min(pageID - 1, pages.length); i >= 0; i--) {
             let page = pages[i];
-            if (surveyState.isPageActive(page))
+            if (surveyState.isPageActive(page, this.survey))
                 return i;
         }
 

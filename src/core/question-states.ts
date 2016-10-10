@@ -70,15 +70,23 @@ export class SurveyState {
         return key && this._pages[key];
     }
 
-    public isPageActive(page: Survey.QuestionPage) {
+    public isPageActive(page: Survey.QuestionPage, context: Survey.SurveyContext) {
         // null pages should not be active
         if (!page) return false;
+
+        // check embedded
+        if (page.active && context && context.form)
+            if (!page.active(context.form))
+                return false;
+
+        // check state
         const state = this.getPageState(page);
+        if (state && state.active)
+            if (!state.active(page))
+                return false;
+
         // active by default
-        if (state == null) return true;
-        if (!state.active) return true;
-        // call fn
-        return state.active(page);
+        return true;
     }
 
 }
