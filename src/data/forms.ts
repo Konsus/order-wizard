@@ -5,4 +5,9 @@ module Survey.Forms {
         style?: string;
         purpose?: string[];
     }
+
+    export interface DataEntryProject extends Forms.CommentsForm {
+        service?: string;
+        description?: string;
+    }
 }
