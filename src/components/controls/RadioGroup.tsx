@@ -31,7 +31,7 @@ export class RadioGroup extends SelectionControl<RadioGroupProps, Survey.View.Va
 
     constructor() {
         super(...arguments);
-        this.state = {value: this.props.defaultValue}
+        this.state = {value: this.props.value}
     }
 
     checked(value: any): boolean {
@@ -62,5 +62,5 @@ export class RadioGroup extends SelectionControl<RadioGroupProps, Survey.View.Va
 
 export interface RadioGroupProps extends Survey.View.SelectionProps<any> {
     options: Survey.Option[];
-    defaultValue?: any;
+    value?: any;
 }

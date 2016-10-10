@@ -1,5 +1,5 @@
 import PowerPointProject = Survey.Forms.PowerPointProject;
-import {CommentsPage, DeadlinePage} from "./common";
+import {CommentsPage, DueDatePage} from "./common";
 import Questionnaire = Survey.Questionnaire;
 
 export const ServiceTypeQuestion: Survey.Question = {
@@ -109,7 +109,7 @@ export default new class PowerPointProjectSurvey implements Survey.Questionnaire
     style = StylePage;
     files = FilesPage;
     purpose = PurposePage;
-    deadline = DeadlinePage;
+    deadline = DueDatePage;
     comments = CommentsPage;
 
     pages = [

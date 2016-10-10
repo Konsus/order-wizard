@@ -1,5 +1,5 @@
 import DataEntryProject = Survey.Forms.DataEntryProject;
-import {CommentsPage, DeadlinePage} from "./common";
+import {CommentsPage, DueDatePage} from "./common";
 import Questionnaire = Survey.Questionnaire;
 
 export const ServiceTypeQuestion: Survey.Question = {
@@ -26,7 +26,7 @@ export const ServiceTypePage: Survey.Page = {
 export default new class DataEntryProjectSurvey implements Survey.Questionnaire {
     serviceType = ServiceTypePage;
     description = DescriptionPage;
-    deadline = DeadlinePage;
+    deadline = DueDatePage;
     comments = CommentsPage;
 
     pages = [

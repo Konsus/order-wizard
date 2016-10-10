@@ -12,10 +12,15 @@ export class SelectionControl<P extends Survey.View.SelectionProps<T>, S extends
     };
 
     context: Survey.Context;
+    protected token?: string;
+
+    constructor(...args) {
+        super(...args);
+        this.token = this.props.token;
+    }
 
     protected onValueChange(state: S) {
         if (this.props.valueRef) this.props.valueRef(state.value);
-        if (this.props.token)
-            this.context.form.setValue(this.props.token, state.value)
+        if (this.token) this.context.form.setValue(this.token, state.value)
     }
 }
