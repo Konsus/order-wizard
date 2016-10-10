@@ -1,7 +1,8 @@
-const form: Survey.Forms.PowerPointProject = null;
+import PowerPointProject = Survey.Forms.PowerPointProject;
+const f: PowerPointProject = null;
 
 export const ServiceTypeQuestion: Survey.Question = {
-    token: nameof(form.service),
+    token: nameof(f.service),
     title: "What sort of PowerPoint service are you interested in?",
     options: [
         {value: "style-format", label: "Professional formatting of existing presentation"},
@@ -13,7 +14,7 @@ export const ServiceTypeQuestion: Survey.Question = {
 };
 
 export const CompanyTemplateQuestion: Survey.Question = {
-    token: nameof(form.template),
+    token: nameof(f.template),
     title: "Do you have a template for Data Entry?",
     options: [
         {value: "yes", label: "Yes."},
@@ -22,8 +23,20 @@ export const CompanyTemplateQuestion: Survey.Question = {
     ]
 };
 
+export const CompanyTemplatePage: Survey.QuestionPage = {
+    questions: [CompanyTemplateQuestion],
+    active: (form: PowerPointProject) => {
+        switch (form.service) {
+            case "update-template":
+            case "new-template":
+                return false;
+        }
+        return true;
+    },
+};
+
 export const StyleQuestion: Survey.Question = {
-    token: nameof(form.style),
+    token: nameof(f.style),
     title: "Directionally, what kind of style do you like?",
     options: [
         {value: "serious", label: "Serious"},
@@ -31,6 +44,18 @@ export const StyleQuestion: Survey.Question = {
         {value: "inspirational", label: "Inspirational"},
         {value: "dramatic", label: "Dramatic"},
     ]
+};
+
+export const StylePage: Survey.QuestionPage = {
+    questions: [StyleQuestion],
+    active: (form: PowerPointProject) => {
+        switch (form.template) {
+            case "yes":
+            case "embedded":
+                return false;
+        }
+        return true;
+    },
 };
 
 export const FilesPage: Survey.QuestionPage = {
@@ -43,7 +68,7 @@ export const FilesPage: Survey.QuestionPage = {
 };
 
 export const PurposeQuestion: Survey.Question = {
-    token: nameof(form.purpose),
+    token: nameof(f.purpose),
     title: "What will be the main type of presentations you will make from your new template?",
     options: [
         {
@@ -53,6 +78,24 @@ export const PurposeQuestion: Survey.Question = {
         {value: "tables"},
         {value: "charts"},
     ]
+};
+
+export const PurposePage: Survey.QuestionPage = {
+    questions: [PurposeQuestion],
+    active: (form: PowerPointProject) => {
+        switch (form.service) {
+            case "style-format":
+            case "style-enhance":
+            case "new-presentation":
+                return false;
+        }
+        switch (form.template) {
+            case "yes":
+            case "embedded":
+                return false;
+        }
+        return true;
+    },
 };
 
 export const DeadlinePage: Survey.QuestionPage = {
@@ -66,25 +109,13 @@ export const DeadlinePage: Survey.QuestionPage = {
 };
 
 export const CommentsQuestion: Survey.Question = {
-    token: nameof(form.comments),
+    token: nameof(f.comments),
     title: "Anything else we should know before this information is submitted?",
     required: false
 };
 
 export const ServiceTypePage: Survey.QuestionPage = {
     questions: [ServiceTypeQuestion]
-};
-
-export const CompanyTemplatePage: Survey.QuestionPage = {
-    questions: [CompanyTemplateQuestion]
-};
-
-export const StylePage: Survey.QuestionPage = {
-    questions: [StyleQuestion]
-};
-
-export const PurposePage: Survey.QuestionPage = {
-    questions: [PurposeQuestion]
 };
 
 export const CommentsPage: Survey.QuestionPage = {

@@ -32,59 +32,12 @@ export class PowerPointProject extends React.Component<any,any> {
 
     protected initSurveyState(state: SurveyState) {
         state.setPageState(ServiceTypePage, {render: this.renderServiceTypePage});
-        state.setPageState(CompanyTemplatePage, {
-            render: this.renderCompanyTemplatePage,
-            active: this.isCompanyTemplatePageActive,
-        });
-        state.setPageState(StylePage, {
-            render: this.renderStylePage,
-            active: this.isStylePageActive,
-        });
+        state.setPageState(CompanyTemplatePage, {render: this.renderCompanyTemplatePage});
+        state.setPageState(StylePage, {render: this.renderStylePage});
         state.setPageState(FilesPage, {render: this.renderFilesPage});
-        state.setPageState(PurposePage, {
-            render: this.renderPurposePage,
-            active: this.isPurposePageActive,
-        });
+        state.setPageState(PurposePage, {render: this.renderPurposePage});
         state.setPageState(DeadlinePage, {render: this.renderDeadlinePage});
         state.setPageState(CommentsPage, {render: this.renderCommentsPage});
-    }
-
-    @autobind
-    isCompanyTemplatePageActive() {
-        switch (this.form.service) {
-            case "update-template":
-            case "new-template":
-                return false;
-        }
-        return true;
-    }
-
-    @autobind
-    isStylePageActive() {
-        switch (this.form.template) {
-            case "yes":
-            case "embedded":
-                return false;
-        }
-        return true;
-    }
-
-    @autobind
-    isPurposePageActive() {
-        switch (this.form.service) {
-            case "style-format":
-            case "style-enhance":
-            case "new-presentation":
-                return false;
-        }
-
-        switch (this.form.template) {
-            case "yes":
-            case "embedded":
-                return false;
-        }
-
-        return true;
     }
 
     @autobind
