@@ -1,5 +1,10 @@
 module Survey {
 
+    export interface SurveyContext {
+        form: SurveyForm;
+        questionnaire: Survey.Questionnaire;
+    }
+
     export interface Questionnaire {
         pages: QuestionPage[];
     }
@@ -54,10 +59,8 @@ module Survey {
     }
 
     export interface SurveyForm {
-        [key: string]: any;
-        [key: number]: any;
-        //getFormValue(key: React.Key): any;
-        //setFormValue(key: React.Key, value: any);
+        getValue(key: string): any;
+        setValue(key: string, value: any)
     }
 
     type PageFn<R> = (page: QuestionPage) => R;
@@ -101,8 +104,7 @@ module Survey.View {
 
     export interface SelectionProps<T> {
         token?: string;
-        form?: Survey.SurveyForm;
-        ref?: Survey.Ref<T>;
+        valueRef?: Survey.Ref<T>;
     }
 
     export interface InputProps<T> extends SelectionProps<T> {

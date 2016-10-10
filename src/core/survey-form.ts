@@ -1,9 +1,9 @@
 export class SurveyForm implements Survey.SurveyForm {
-    getFormValue(key: React.Key): any {
+    getValue(key: string): any {
         return this[key];
     }
 
-    setFormValue(key: React.Key, value: any) {
+    setValue(key: string, value: any) {
         console.log("set form value >> " + key + ": " + value);
         this[key] = value;
     }

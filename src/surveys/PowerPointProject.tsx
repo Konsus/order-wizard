@@ -1,5 +1,6 @@
 import * as React from "react";
 import {autobind} from "core-decorators";
+import {SurveyForm} from "../core/survey-form";
 import {SurveyState} from "../core/question-states";
 import {File} from "../components/controls/File";
 import {Comment} from "../components/controls/Comment";
@@ -20,10 +21,11 @@ import {
 
 export class PowerPointProject extends React.Component<any,any> {
 
-    constructor(public surveyState: SurveyState,
-                public form: Survey.Forms.PowerPointProject) {
+    public readonly form: Survey.Forms.PowerPointProject;
+
+    constructor(public surveyState: SurveyState,) {
         super();
-        this.form = {};
+        this.form = new SurveyForm();
         this.surveyState = new SurveyState();
         this.initSurveyState(this.surveyState);
     }
@@ -89,7 +91,7 @@ export class PowerPointProject extends React.Component<any,any> {
     renderServiceTypePage(page: Survey.QuestionPage) {
         return (
             <SurveyPage {...page} >
-                <RadioGroup {...page.questions[0]} form={this.form}/>
+                <RadioGroup {...page.questions[0]} />
             </SurveyPage>
         )
     }
@@ -98,7 +100,7 @@ export class PowerPointProject extends React.Component<any,any> {
     renderCompanyTemplatePage(page: Survey.QuestionPage) {
         return (
             <SurveyPage {...page} >
-                <RadioGroup {...page.questions[0]} form={this.form}/>
+                <RadioGroup {...page.questions[0]} />
             </SurveyPage>
         )
     }
@@ -107,7 +109,7 @@ export class PowerPointProject extends React.Component<any,any> {
     renderStylePage(page: Survey.QuestionPage) {
         return (
             <SurveyPage {...page} >
-                <CheckGroup {...page.questions[0]} form={this.form}/>
+                <CheckGroup {...page.questions[0]} />
             </SurveyPage>
         )
     }
@@ -116,7 +118,7 @@ export class PowerPointProject extends React.Component<any,any> {
     renderFilesPage(page: Survey.QuestionPage) {
         return (
             <SurveyPage {...page} >
-                <File {...page.questions[0]} form={this.form}/>
+                <File {...page.questions[0]} />
             </SurveyPage>
         )
     }
@@ -125,7 +127,7 @@ export class PowerPointProject extends React.Component<any,any> {
     renderPurposePage(page: Survey.QuestionPage) {
         return (
             <SurveyPage {...page} >
-                <CheckGroup {...page.questions[0]} form={this.form}/>
+                <CheckGroup {...page.questions[0]} />
             </SurveyPage>
         )
     }
@@ -134,7 +136,7 @@ export class PowerPointProject extends React.Component<any,any> {
     renderDeadlinePage(page: Survey.QuestionPage) {
         return (
             <SurveyPage {...page} >
-                <RadioGroup {...page.questions[0]} form={this.form}/>
+                <RadioGroup {...page.questions[0]} />
             </SurveyPage>
         )
     }
@@ -143,7 +145,7 @@ export class PowerPointProject extends React.Component<any,any> {
     renderCommentsPage(page: Survey.QuestionPage) {
         return (
             <SurveyPage {...page} >
-                <Comment {...page.questions[0]} form={this.form}/>
+                <Comment {...page.questions[0]} />
             </SurveyPage>
         )
     }

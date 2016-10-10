@@ -1,11 +1,19 @@
 import * as React from "react";
 import {SurveyView, SurveyPageState} from "./SurveyView";
 import {SurveyState} from "../../core/question-states";
+import {SurveyContext} from "../../core/survey-context";
+import {SelectionControl} from "../controls/SelectionControl";
 
 /**
  * Base type for project creation survey, provides intro page.
  */
-export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurveyState> extends SurveyView<P, S & SurveyPageState> {
+export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurveyState> extends SurveyView<P, S & SurveyPageState> implements React.ChildContextProvider<Survey.SurveyContext> {
+
+    public static childContextTypes = SelectionControl.contextTypes;
+
+    getChildContext(): Survey.SurveyContext {
+        return new SurveyContext(this.props.questionnaire, this.props.form);
+    }
 
     /** Move from initial page to actual survey. */
     startSurvey() {
@@ -213,7 +221,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
 }
 
 export interface ProjectSurveyProps {
-    form: Survey.SurveyForm,
+    form?: Survey.SurveyForm,
     surveyState: SurveyState;
     questionnaire: Survey.Questionnaire;
 }
