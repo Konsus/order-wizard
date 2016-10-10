@@ -27,5 +27,4 @@ export class File extends SelectionControl<FileProps, Survey.View.Value<string>,
     }
 }
 
-export interface FileProps extends Survey.View.InputProps<string> {
-}
+export interface FileProps extends Survey.View.InputProps<string> { }
