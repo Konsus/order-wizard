@@ -10,15 +10,14 @@ export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState
 
     constructor(...args) {
         super(...args);
-
         this.state = {
             value: "no",
             date: "",
         };
+    }
 
-        if (!this.token && this.props.questions)
-            this.token = this.props.questions[0].token;
-
+    get token(): string|any {
+        return super.token || this.props.questions && this.props.questions[0].token;
     }
 
     @autobind
