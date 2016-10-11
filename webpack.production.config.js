@@ -3,11 +3,11 @@
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var StatsPlugin = require('stats-webpack-plugin');
 
 module.exports = {
-    devtool: 'source-map',
     entry: [
-        'webpack-hot-middleware/client?reload=true',
         path.join(__dirname, '/app/app.tsx')
     ],
     resolve: {
@@ -15,20 +15,23 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, '/dist/'),
-        filename: '[name].js',
+        filename: '[name]-[hash].min.js',
         publicPath: '/'
     },
     plugins: [
+        new webpack.optimize.OccurenceOrderPlugin(),
         new HtmlWebpackPlugin({
             template: 'app/index.tpl.html',
             inject: 'body',
             filename: 'index.html'
         }),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new ExtractTextPlugin('[name]-[hash].min.css'),
+        new StatsPlugin('webpack.stats.json', {
+            source: false,
+            modules: false
+        }),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('development')
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
         })
     ],
     module: {
@@ -37,7 +40,7 @@ module.exports = {
             exclude: /node_modules/,
             loader: 'babel',
             query: {
-                'presets': ['react', 'es2015', 'stage-0', 'react-hmre']
+                'presets': ['react', 'es2015', 'stage-0']
             }
         }, {
             test: /\.json?$/,
@@ -54,6 +57,10 @@ module.exports = {
         }, {
             test: /\.(png|woff|woff2|eot|ttf|svg)$/,
             loader: require.resolve('url-loader') + '?limit=100000'
+        }],
+        preLoaders: [{
+            test: /\.jsx$/,
+            loader: "source-map-loader"
         }]
     }
 };

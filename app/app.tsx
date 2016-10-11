@@ -1,8 +1,8 @@
 import * as React from "react";
 import {render} from "react-dom";
-import {SurveyWindow} from "./components/views/SurveyWindow";
-import {PowerPointProject} from "./surveys/PowerPointProject";
-import {DataEntryProject} from "./surveys/DataEntryProject";
+import {SurveyWindow} from "../src/components/views/SurveyWindow";
+import {PowerPointProject} from "../src/surveys/PowerPointProject";
+import {DataEntryProject} from "../src/surveys/DataEntryProject";
 
 class Container extends React.Component<any,any> {
     render(): JSX.Element|any {
@@ -15,6 +15,6 @@ class Container extends React.Component<any,any> {
     }
 }
 
-require('./style/style.scss');
-render(<Container/>, document.getElementById('container'));
+require('../src/style/style.scss');
+render(<Container/>, document.getElementById('root'));
 
