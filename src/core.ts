@@ -2,6 +2,21 @@ module Survey {
 
     type Function<T, R> = (question: Question) => R;
 
+    interface IEvent<T> {
+        /**
+         * Attach an event handler
+         * @param handler The function to call. The this argument of the function will be this object.
+         */
+        attach(handler: (data: T) => void): void;
+
+        /**
+         * Attach an event handler
+         * @param boundTo The this argument of the handler
+         * @param handler The function to call.
+         */
+        attach(boundTo: Object, handler: (data: T) => void): void;
+    }
+
     export interface Context {
         form: SurveyForm;
         questionnaire: Survey.Questionnaire;
@@ -9,12 +24,14 @@ module Survey {
 
     export interface Questionnaire {
         pages: Page[];
+        /** Whether all questions are required by default. */
+        defaultRequired?: boolean;
     }
 
     export interface Page {
         title?: string;
         questions: Question[];
-        active?: Function<SurveyForm,boolean>;
+        active?: Function<SurveyForm, boolean>;
     }
 
     export interface Question {
@@ -62,6 +79,7 @@ module Survey {
     }
 
     export interface SurveyForm {
+        readonly onPropertyChanged: IEvent<string>;
         getValue(key: string): any;
         setValue(key: string, value: any)
     }

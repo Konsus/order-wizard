@@ -9,6 +9,7 @@ export abstract class SurveyView<P, S extends SurveyPageState> extends React.Com
     constructor(...args: any[]) {
         super(...args);
         this.state = {} as S;
+        this.state.isPageDone = true;
     }
 
     /** Get normalized value of the survey progress [0-1]. */
@@ -24,11 +25,6 @@ export abstract class SurveyView<P, S extends SurveyPageState> extends React.Com
     /** Whether has any next survey step. */
     canMoveNext(): boolean {
         return this.state.step < this.countActiveSteps();
-    }
-
-    /** Whether all question on page pass validations. */
-    isPageDone(): boolean {
-        return true;
     }
 
     /**
@@ -112,7 +108,7 @@ export abstract class SurveyView<P, S extends SurveyPageState> extends React.Com
         if (!this.canMoveNext())
             return null;
 
-        if (this.isPageDone())
+        if (this.state.isPageDone)
             return <a onClick={() => this.moveNext()} href="#" className="b-button b-button--blue">Next</a>;
 
         return <a href="#" className="b-button b-button--blue b-button--deactive">Next</a>;
@@ -124,4 +120,6 @@ export interface SurveyPageState {
     step: number;
     /** Total count of visible steps. */
     activeSteps: number;
+    /** Whether question on page are complete. */
+    isPageDone: boolean;
 }

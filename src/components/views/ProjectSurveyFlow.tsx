@@ -2,20 +2,22 @@ import * as React from "react";
 import {SurveyFlow} from "../../core/survey-flow";
 import {SurveyForm} from "../../core/survey-form";
 import {ProjectSurvey} from "./ProjectSurvey";
+import {SurveyContext} from "../../core/survey-context";
 
 /** Basic template for quick setup of project survey. */
 export abstract class ProjectSurveyFlow<F extends Survey.SurveyForm> extends React.Component<any, any> {
 
     /** Form that contains answers. */
-    public readonly form: F;
+    public readonly form: F & Survey.SurveyForm;
 
     /** Flow of the survey. */
     public readonly flow: SurveyFlow;
 
-    constructor(survey: Survey.Questionnaire) {
+    constructor(questionnaire: Survey.Questionnaire) {
         super();
-        this.form = new SurveyForm() as F;
-        this.flow = new SurveyFlow(survey);
+        this.form = new SurveyForm() as any as F;
+        const context = new SurveyContext(questionnaire, this.form);
+        this.flow = new SurveyFlow(context);
         this.initFlow(this.flow);
     }
 
@@ -26,9 +28,6 @@ export abstract class ProjectSurveyFlow<F extends Survey.SurveyForm> extends Rea
     protected abstract initFlow(flow: SurveyFlow);
 
     render(): JSX.Element|any {
-        return (
-            <ProjectSurvey flow={this.flow}
-                           form={this.form}/>
-        )
+        return <ProjectSurvey flow={this.flow}/>
     }
 }

@@ -38,10 +38,18 @@ export class Keys {
 
 export class SurveyFlow {
 
-    constructor(public survey: Survey.Questionnaire) { }
-
     private _pages: Object = {};
     private _questions: Object = {};
+
+    constructor(public context: Survey.Context) { }
+
+    get form(): Survey.SurveyForm {
+        return this.context.form;
+    }
+
+    get questionnaire(): Survey.Questionnaire {
+        return this.context.questionnaire;
+    }
 
     public setQuestionView(question: Survey.Question, state: Survey.QuestionView): void {
         const key = Keys.key(question, true);
@@ -72,13 +80,13 @@ export class SurveyFlow {
         return key && this._pages[key];
     }
 
-    public isPageActive(page: Survey.Page, context: Survey.Context) {
+    public isPageActive(page: Survey.Page) {
         // null pages should not be active
         if (!page) return false;
 
         // check embedded
-        if (page.active && context && context.form)
-            if (!page.active(context.form))
+        if (page.active)
+            if (!page.active(this.context.questionnaire))
                 return false;
 
         // check state
@@ -88,6 +96,37 @@ export class SurveyFlow {
                 return false;
 
         // active by default
+        return true;
+    }
+
+    public isRequiredQuestion(question: Survey.Question) {
+
+        // check question
+        if (!question) return false;
+        if (question.required) return true;
+
+        // check default survey options
+        if (this.context.questionnaire.defaultRequired) return true;
+
+        return false
+    }
+
+    /**
+     * Whether question is answered or not required.
+     * @param question
+     */
+    public isQuestionDone(question: Survey.Question): boolean {
+        // null question are always done
+        if (!question) return true;
+        // questions without token can't be checked
+        if (!question.token) return true;
+        // check if value is not null
+        const answer = this.context.form.getValue(question.token);
+        if (answer != null) return true;
+        // required question can't have null value
+        if (this.isRequiredQuestion(question))
+            return false;
+
         return true;
     }
 }
