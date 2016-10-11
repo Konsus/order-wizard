@@ -9,31 +9,35 @@ export const ServiceTypeQuestion: Survey.Question = {
         {value: "pdf", label: "Data entry from PDFs, pictures or a website"},
         {value: "linked-in", label: "Gathering contact information from LinkedIn"},
         {value: "cleaning", label: "Data Cleaning"},
-    ]
+    ],
 };
 
 export const DescriptionPage: Survey.Page = {
     title: "Please provide a thorough description of the task and any files or links, including desired structure of output",
-    questions: [
-        {title: "Existing company material (such as presentations, website) we should make it consistent with or use as inspiration"},
-    ]
+    questions: [{
+        token: nameof((null as DataEntryProject).description),
+        title: "Existing company material (such as presentations, website) we should make it consistent with or use as inspiration",
+        required: false,
+    }],
 };
 
 export const ServiceTypePage: Survey.Page = {
     questions: [ServiceTypeQuestion]
 };
 
-export default new class DataEntryProjectSurvey implements Survey.Questionnaire {
+export default new class DataEntryProjectSurvey {
     serviceType = ServiceTypePage;
     description = DescriptionPage;
     deadline = DueDatePage;
     comments = CommentsPage;
 
-    pages = [
-        this.serviceType,
-        this.description,
-        this.deadline,
-        this.comments,
-    ];
-}
-
+    survey: Survey.Questionnaire = {
+        defaultRequired: true,
+        pages: [
+            this.serviceType,
+            this.description,
+            this.deadline,
+            this.comments,
+        ]
+    };
+};

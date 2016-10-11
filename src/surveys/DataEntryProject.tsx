@@ -5,12 +5,12 @@ import {Comment} from "../components/controls/Comment";
 import {RadioGroup} from "../components/controls/RadioGroup";
 import {SurveyPage} from "../components/views/SurveyPage";
 import {ProjectSurveyFlow} from "../components/views/ProjectSurveyFlow";
-import Q from "./../data/data-entry-project";
 import {DueDatePageView} from "./DueDatePageView";
+import Q from "./../data/data-entry-project";
 
 export class DataEntryProject extends ProjectSurveyFlow<Survey.Forms.DataEntryProject> {
 
-    constructor() { super(Q); }
+    constructor() { super(Q.survey); }
 
     protected initFlow(flow: SurveyFlow) {
         flow.setPageView(Q.serviceType, {render: this.renderServiceTypePage});

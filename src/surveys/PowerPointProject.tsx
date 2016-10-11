@@ -12,7 +12,7 @@ import Q from "./../data/power-point-project";
 
 export class PowerPointProject extends ProjectSurveyFlow<Survey.Forms.PowerPointProject> {
 
-    constructor() { super(Q) }
+    constructor() { super(Q.survey) }
 
     protected initFlow(flow: SurveyFlow) {
         flow.setPageView(Q.serviceType, {render: this.renderServiceTypePage});

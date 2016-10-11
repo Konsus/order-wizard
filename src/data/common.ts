@@ -14,6 +14,7 @@ export const DueDateQuestion: Survey.Question = {
         {value: "yes", label: "Yes"},
         {value: "no", label: "No"},
     ],
+    required: false,
 };
 
 export const DueDatePage: Survey.Page = {

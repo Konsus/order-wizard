@@ -11,7 +11,7 @@ export const ServiceTypeQuestion: Survey.Question = {
         {value: "new-presentation", label: "New slide deck from scratch"},
         {value: "update-template", label: "Update Company Template"},
         {value: "new-template", label: "New Company Template"},
-    ]
+    ],
 };
 
 export const CompanyTemplateQuestion: Survey.Question = {
@@ -103,7 +103,7 @@ export const ServiceTypePage: Survey.Page = {
     questions: [ServiceTypeQuestion]
 };
 
-export default new class PowerPointProjectSurvey implements Survey.Questionnaire {
+export default new class PowerPointProjectSurvey {
     serviceType = ServiceTypePage;
     companyTemplate = CompanyTemplatePage;
     style = StylePage;
@@ -112,14 +112,17 @@ export default new class PowerPointProjectSurvey implements Survey.Questionnaire
     deadline = DueDatePage;
     comments = CommentsPage;
 
-    pages = [
-        this.serviceType,
-        this.companyTemplate,
-        this.style,
-        this.files,
-        this.purpose,
-        this.deadline,
-        this.comments,
-    ];
+    survey: Survey.Questionnaire = {
+        defaultRequired: true,
+        pages: [
+            this.serviceType,
+            this.companyTemplate,
+            this.style,
+            this.files,
+            this.purpose,
+            this.deadline,
+            this.comments,
+        ]
+    };
 }
 
