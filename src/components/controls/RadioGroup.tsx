@@ -21,7 +21,7 @@ export class RadioBox extends React.Component<Survey.View.CheckBox, void> {
                     value={this.props.value}
                     label={this.props.label}
                     checked={this.props.group.checked(this.props.value)}/>
-                <label>{this.props.label || this.props.value}</label>
+                <label><span>{this.props.label || this.props.value}</span></label>
             </div>
         )
     }

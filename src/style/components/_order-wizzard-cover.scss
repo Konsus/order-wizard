@@ -1,22 +1,31 @@
 .order-wizzard-cover {
-  width: 620px;
-  padding: 70px;
+  width: 627px;
+  padding: 77px;
+  padding-bottom: 90px;
   background: #207bc8;
   color: white;
   font-family: 'Open sans';
   text-align: center;
   &__logo {
-    margin-bottom: 70px;
-    h2 {
-      font-size: 30px;
+    width: 141px;
+    margin: 0 auto;
+    margin-bottom: 60px;
+    svg {
+      max-width: 100%;
+      height: auto;
     }
   }
   &__info {
-    margin-bottom: 60px;
+    margin-bottom: 72px;
     p {
       font-size: 18px;
       line-height: 22px;
       margin-bottom: 45px;
+    }
+  }
+  &__next {
+    a {
+      padding: 13px 55px 12px 55px;
     }
   }
 }

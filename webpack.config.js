@@ -30,6 +30,9 @@ module.exports = {
         }, {
             test: /\.tsx?$/,
             loaders: ["babel-loader?plugins[]=nameof", "ts-loader"]
+        }, {
+            test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+            loader: 'url-loader?limit=100000'
         }],
 
         preLoaders: [{
