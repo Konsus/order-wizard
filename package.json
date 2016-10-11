@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "webpack-dev-server --hot --inline",
+    "start": "npm run dev-hot",
+    "dev": "webpack-dev-server --inline",
+    "dev-hot": "webpack-dev-server --hot --inline",
     "build": "webpack"
   },
   "repository": {
