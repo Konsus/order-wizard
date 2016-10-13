@@ -1,6 +1,6 @@
-import DataEntryProject = Survey.Forms.DataEntryProject;
-import {CommentsPage, DueDatePage} from "./common";
 import Questionnaire = Survey.Questionnaire;
+import DataEntryProject = Survey.Forms.DataEntryProject;
+import {CommentsPage, DueDatePage} from "../common";
 
 export const ServiceTypeQuestion: Survey.Question = {
     token: nameof((null as DataEntryProject).service),
@@ -12,21 +12,23 @@ export const ServiceTypeQuestion: Survey.Question = {
     ],
 };
 
-export const DescriptionPage: Survey.Page = {
-    title: "Please provide a thorough description of the task and any files or links, including desired structure of output",
-    questions: [{
-        token: nameof((null as DataEntryProject).description),
-        title: "Existing company material (such as presentations, website) we should make it consistent with or use as inspiration",
-        required: false,
-    }],
-};
-
 export const ServiceTypePage: Survey.Page = {
     questions: [ServiceTypeQuestion]
 };
 
+export const DescriptionQuestion: Survey.Question = {
+    token: nameof((null as DataEntryProject).description),
+    title: "Existing company material (such as presentations, website) we should make it consistent with or use as inspiration",
+    required: false,
+};
+
+export const DescriptionPage: Survey.Page = {
+    title: "Please provide a thorough description of the task and any files or links, including desired structure of output",
+    questions: [DescriptionQuestion],
+};
+
 export default new class DataEntryProjectSurvey {
-    serviceType = ServiceTypePage;
+    service = ServiceTypePage;
     description = DescriptionPage;
     deadline = DueDatePage;
     comments = CommentsPage;
@@ -34,7 +36,7 @@ export default new class DataEntryProjectSurvey {
     survey: Survey.Questionnaire = {
         defaultRequired: true,
         pages: [
-            this.serviceType,
+            this.service,
             this.description,
             this.deadline,
             this.comments,

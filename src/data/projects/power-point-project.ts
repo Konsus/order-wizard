@@ -1,8 +1,8 @@
-import PowerPointProject = Survey.Forms.PowerPointProject;
-import {CommentsPage, DueDatePage} from "./common";
 import Questionnaire = Survey.Questionnaire;
+import PowerPointProject = Survey.Forms.PowerPointProject;
+import {CommentsPage, DueDatePage} from "../common";
 
-export const ServiceTypeQuestion: Survey.Question = {
+export const ServiceQuestion: Survey.Question = {
     token: nameof((null as PowerPointProject).service),
     title: "What sort of PowerPoint service are you interested in?",
     options: [
@@ -12,6 +12,10 @@ export const ServiceTypeQuestion: Survey.Question = {
         {value: "update-template", label: "Update Company Template"},
         {value: "new-template", label: "New Company Template"},
     ],
+};
+
+export const ServicePage: Survey.Page = {
+    questions: [ServiceQuestion]
 };
 
 export const CompanyTemplateQuestion: Survey.Question = {
@@ -99,12 +103,8 @@ export const PurposePage: Survey.Page = {
     },
 };
 
-export const ServiceTypePage: Survey.Page = {
-    questions: [ServiceTypeQuestion]
-};
-
 export default new class PowerPointProjectSurvey {
-    serviceType = ServiceTypePage;
+    service = ServicePage;
     companyTemplate = CompanyTemplatePage;
     style = StylePage;
     files = FilesPage;
@@ -115,7 +115,7 @@ export default new class PowerPointProjectSurvey {
     survey: Survey.Questionnaire = {
         defaultRequired: true,
         pages: [
-            this.serviceType,
+            this.service,
             this.companyTemplate,
             this.style,
             this.files,

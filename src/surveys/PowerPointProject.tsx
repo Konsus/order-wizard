@@ -8,14 +8,14 @@ import {CheckGroup} from "../components/controls/CheckGroup";
 import {SurveyPage} from "../components/views/SurveyPage";
 import {ProjectSurveyFlow} from "../components/views/ProjectSurveyFlow";
 import {DueDatePageView} from "./DueDatePageView";
-import Q from "./../data/power-point-project";
+import Q from "../data/projects/power-point-project";
 
 export class PowerPointProject extends ProjectSurveyFlow<Survey.Forms.PowerPointProject> {
 
     constructor() { super(Q.survey) }
 
     protected initFlow(flow: SurveyFlow) {
-        flow.setPageView(Q.serviceType, {render: this.renderServiceTypePage});
+        flow.setPageView(Q.service, {render: this.renderServiceTypePage});
         flow.setPageView(Q.companyTemplate, {render: this.renderCompanyTemplatePage});
         flow.setPageView(Q.style, {render: this.renderStylePage});
         flow.setPageView(Q.files, {render: this.renderFilesPage});
