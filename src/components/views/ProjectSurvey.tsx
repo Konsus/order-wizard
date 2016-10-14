@@ -233,20 +233,81 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
 
     renderSummaryPage() {
         return (
-            <div className="order-wizzard">
-                <div className="order-wizzard__step-title">Summary of your task!</div>
+            // <div className="order-wizzard">
+            //     <div className="order-wizzard__step-title">Summary of your task!</div>
+            //
+            //     <div className="order-wizzard__step-survey">
+            //         <div className="order-wizzard__summary">
+            //             {this.renderSurveySummary()}
+            //         </div>
+            //     </div>
+            //
+            //     <div className="order-wizzard__cta text-center">
+            //         <a href="#" className="b-button b-button--blue"
+            //            onClick={() => this.startProject()}>Start project</a>
+            //     </div>
+            // </div>
 
-                <div className="order-wizzard__step-survey">
-                    <div className="order-wizzard__summary">
-                        {this.renderSurveySummary()}
-                    </div>
-                </div>
+            <div className="order-wizzard order-wizzard--login">
+               <div className="order-wizzard__header">
+                   <div className="order-wizzard__title">Thanks!</div>
+                   <div className="order-wizzard__sub-title">Please log in and your quote will be with you shortly</div>
+               </div>
 
-                <div className="order-wizzard__cta text-center">
-                    <a href="#" className="b-button b-button--blue"
-                       onClick={() => this.startProject()}>Start project</a>
-                </div>
+               <div className="order-wizzard__login">
+                   <div className="order-wizzard__login-form">
+                       <div className="form-group">
+                           <input type="email" className="form-control" id="exampleInputEmail1" placeholder="Email" />
+                       </div>
+                       <div className="form-group">
+                           <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
+                       </div>
+                       <div className="form-group">
+                           <a href="#">Forgot password?</a>
+                       </div>
+
+                       <button type="submit" className="btn btn-primary btn-block">Log in</button>
+                   </div>
+               </div>
             </div>
+
+            // <div className="order-wizzard order-wizzard--login">
+            //     <div className="order-wizzard__header">
+            //         <div className="order-wizzard__title">SUCCESS!</div>
+            //         <div className="order-wizzard__sub-title">Your quote will be with you shortly</div>
+            //     </div>
+            //
+            //     <div className="order-wizzard__login">
+            //         <header>
+            //             Meanwhile, can you please complete your profile so we are <br/>
+            //             ready to go if you approve the quote:
+            //         </header>
+            //
+            //         <div className="order-wizzard__login-form order-wizzard__login-form__next-step">
+            //             <div className="form-group">
+            //                 <div className="row">
+            //                     <div className="col-md-6 col-xs-6">
+            //                         <input type="text" className="form-control" placeholder="First name*" />
+            //                     </div>
+            //                     <div className="col-md-6 col-xs-6">
+            //                         <input type="text" className="form-control" placeholder="Last name*" />
+            //                     </div>
+            //                 </div>
+            //             </div>
+            //
+            //             <div className="form-group">
+            //                 <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Company name" />
+            //             </div>
+            //             <div className="form-group">
+            //                 <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Set a password*" />
+            //             </div>
+            //
+            //             <button type="submit" className="btn btn-primary btn-block">Submit</button>
+            //             <p>*Required</p>
+            //         </div>
+            //     </div>
+            // </div>
+
         )
     }
 }

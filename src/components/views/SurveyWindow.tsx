@@ -35,6 +35,7 @@ export abstract class SurveyWindow extends React.Component<SurveyWindowProps, Su
                     onRequestClose={this.close}
                     style={customStyles}
                 >
+                    <div className="modal-cross-close" onClick={this.close}></div>
                     {this.props.children}
                 </Modal>
             </div>
