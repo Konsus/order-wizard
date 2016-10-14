@@ -113,7 +113,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     }
 
     startProject() {
-        console.log("START PROJECT: ", this.props.flow.form);
+        console.log("START PROJECT: ", JSON.stringify(this.props.flow.form));
     }
 
     isPageDone(pageID: number): boolean {
