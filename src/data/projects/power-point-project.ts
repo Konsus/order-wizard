@@ -18,7 +18,7 @@ export const ServicePage: Survey.Page = {
     questions: [ServiceQuestion]
 };
 
-export const CompanyTemplateQuestion: Survey.Question = {
+export const TemplateQuestion: Survey.Question = {
     token: nameof((null as PowerPointProject).template),
     title: "Do you have a template for Data Entry?",
     options: [
@@ -28,8 +28,8 @@ export const CompanyTemplateQuestion: Survey.Question = {
     ]
 };
 
-export const CompanyTemplatePage: Survey.Page = {
-    questions: [CompanyTemplateQuestion],
+export const TemplatePage: Survey.Page = {
+    questions: [TemplateQuestion],
     active: (form: PowerPointProject) => {
         switch (form.service) {
             case "update-template":
@@ -105,7 +105,7 @@ export const PurposePage: Survey.Page = {
 
 export default new class PowerPointProjectSurvey {
     service = ServicePage;
-    companyTemplate = CompanyTemplatePage;
+    template = TemplatePage;
     style = StylePage;
     files = FilesPage;
     purpose = PurposePage;
@@ -116,7 +116,7 @@ export default new class PowerPointProjectSurvey {
         defaultRequired: true,
         pages: [
             this.service,
-            this.companyTemplate,
+            this.template,
             this.style,
             this.files,
             this.purpose,

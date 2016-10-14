@@ -16,7 +16,7 @@ export class PowerPointProject extends ProjectSurveyFlow<Survey.Forms.PowerPoint
 
     protected initFlow(flow: SurveyFlow) {
         flow.setPageView(Q.service, {render: this.renderServiceTypePage});
-        flow.setPageView(Q.companyTemplate, {render: this.renderCompanyTemplatePage});
+        flow.setPageView(Q.template, {render: this.renderCompanyTemplatePage});
         flow.setPageView(Q.style, {render: this.renderStylePage});
         flow.setPageView(Q.files, {render: this.renderFilesPage});
         flow.setPageView(Q.purpose, {render: this.renderPurposePage});
