@@ -6,7 +6,7 @@ import {SurveyPage} from "../../components/views/SurveyPage";
 import {DatePicker} from "../../components/controls/DatePicker";
 import {DueDateQuestion} from "../../data/common";
 
-export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState, string> {
+export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState> {
 
     constructor(...args) {
         super(...args);

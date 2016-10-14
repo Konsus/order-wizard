@@ -4,7 +4,7 @@ import {autobind} from "core-decorators";
 import * as ReactDatePicker from "react-datepicker";
 require('react-datepicker/dist/react-datepicker.css');
 
-export class DatePicker extends SelectionControl<DatePickerProps, Survey.View.Value<string>, string> {
+export class DatePicker extends SelectionControl<DatePickerProps, Survey.View.Value<string>> {
 
     constructor(...args) {
         super(...args);

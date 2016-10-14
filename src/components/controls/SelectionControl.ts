@@ -1,7 +1,7 @@
 import * as React from "react";
 const c: Survey.Context = null;
 
-export class SelectionControl<P extends Survey.View.SelectionProps<T>, S extends Survey.View.Value<T>, T> extends React.Component<P,S> {
+export class SelectionControl<P extends Survey.View.SelectionProps<any>, S extends Survey.View.Value<any>> extends React.Component<P,S> {
 
     public static contextTypes = {
         [nameof(c.form)]: React.PropTypes.shape({

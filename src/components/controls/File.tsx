@@ -2,8 +2,7 @@ import * as React from "react";
 import {autobind} from "core-decorators";
 import {SelectionControl} from "./SelectionControl";
 
-
-export class File extends SelectionControl<FileProps, Survey.View.Value<string>, string> {
+export class File extends SelectionControl<FileProps, Survey.View.Value<string>> {
 
     constructor(...args) {
         super(...args);

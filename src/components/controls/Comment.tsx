@@ -2,7 +2,7 @@ import * as React from "react";
 import {autobind} from "core-decorators";
 import {SelectionControl} from "./SelectionControl";
 
-export class Comment extends SelectionControl<CommentProps, Survey.View.Value<string>, string> {
+export class Comment extends SelectionControl<CommentProps, Survey.View.Value<string>> {
 
     @autobind
     onChange(event: React.FormEvent<React.HTMLProps<HTMLTextAreaElement>>) {

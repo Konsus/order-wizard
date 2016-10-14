@@ -27,7 +27,7 @@ export class RadioBox extends React.Component<Survey.View.CheckBox, void> {
     }
 }
 
-export class RadioGroup extends SelectionControl<RadioGroupProps, Survey.View.Value<any>, any> implements Survey.View.Group {
+export class RadioGroup extends SelectionControl<RadioGroupProps, Survey.View.Value<any>> implements Survey.View.Group {
 
     constructor() {
         super(...arguments);

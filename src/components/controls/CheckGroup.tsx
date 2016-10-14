@@ -27,7 +27,7 @@ export class CheckBox extends React.Component<Survey.View.CheckBox, void> {
     }
 }
 
-export class CheckGroup extends SelectionControl<CheckBoxGroupProps, Survey.View.Value<any[]>, any[]> implements Survey.View.Group {
+export class CheckGroup extends SelectionControl<CheckBoxGroupProps, Survey.View.Value<any[]>> implements Survey.View.Group {
 
     constructor() {
         super(...arguments);
