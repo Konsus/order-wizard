@@ -93,7 +93,7 @@ export abstract class SurveyView<P, S extends SurveyPageState> extends React.Com
 
                 <div className="order-wizzard__controls clearfix">
                     <div className="order-wizzard__back pull-left">
-                        <a onClick={() => this.moveBack()} href="#">&lang; Back</a>
+                        <a onClick={() => this.moveBack()} href="#" className="b-button b-button--transparent"><span className="b-button__icon-arrow"></span> Back</a>
                     </div>
 
                     <div className="order-wizzard__next pull-right">

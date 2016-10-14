@@ -4,7 +4,7 @@
   border: 1px solid $title-blue;
   color: $title-blue;
   border-radius: 4px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 22px;
   padding: 13px 30px 12px 30px;
@@ -44,5 +44,21 @@
   }
   &--deactive {
     opacity: 0.4;
+  }
+  &--transparent {
+    color: #6f747c;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    &:hover {
+      color: #6f747c;
+      text-decoration: none;
+    }
+  }
+  &__icon-arrow {
+    display: inline-block;
+    width: 8px;
+    height: 12px;
+    background: url('../img/btn-arrow-icon.png');
   }
 }
