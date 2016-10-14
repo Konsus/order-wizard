@@ -1,10 +1,10 @@
 import * as React from "react";
 import {autobind} from "core-decorators";
-import {SelectionControl} from "../components/controls/SelectionControl";
-import {RadioGroup} from "../components/controls/RadioGroup";
-import {SurveyPage} from "../components/views/SurveyPage";
-import {DatePicker} from "../components/controls/DatePicker";
-import {DueDateQuestion} from "../data/common";
+import {SelectionControl} from "../../components/controls/SelectionControl";
+import {RadioGroup} from "../../components/controls/RadioGroup";
+import {SurveyPage} from "../../components/views/SurveyPage";
+import {DatePicker} from "../../components/controls/DatePicker";
+import {DueDateQuestion} from "../../data/common";
 
 export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState, string> {
 

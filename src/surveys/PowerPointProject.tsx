@@ -7,7 +7,7 @@ import {RadioGroup} from "../components/controls/RadioGroup";
 import {CheckGroup} from "../components/controls/CheckGroup";
 import {SurveyPage} from "../components/views/SurveyPage";
 import {ProjectSurveyFlow} from "../components/views/ProjectSurveyFlow";
-import {DueDatePageView} from "./DueDatePageView";
+import {DueDatePageView} from "./views/DueDatePageView";
 import Q from "../data/projects/power-point-project";
 
 export class PowerPointProject extends ProjectSurveyFlow<Survey.Forms.PowerPointProject> {
