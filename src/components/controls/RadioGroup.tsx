@@ -50,9 +50,10 @@ export class RadioGroup extends SelectionControl<RadioGroupProps, Survey.View.Va
     }
 
     render() {
+        const options = this.props.options;
         return (
             <div className="order-wizzard__radio-group" onChange={this.onChange}>
-                {this.props.options.map((option, index) => {
+                {options && options.map((option, index) => {
                     return <RadioBox {...option} key={index} group={this}/>;
                 })}
             </div>
