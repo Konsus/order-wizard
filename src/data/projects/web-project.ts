@@ -3,6 +3,7 @@ import WebProject = Survey.Forms.WebProject;
 import {CommentsPage, DueDatePage} from "../common";
 
 export const WebSiteQuestion: Survey.Question = {
+    title: "What are you looking to do?",
     token: nameof((null as WebProject).website),
     options: [
         {value: "new", label: "Making a new website"},
