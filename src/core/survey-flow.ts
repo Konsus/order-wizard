@@ -86,7 +86,7 @@ export class SurveyFlow {
 
         // check embedded
         if (page.active)
-            if (!page.active(this.context.questionnaire))
+            if (!page.active(this.context.form))
                 return false;
 
         // check state
@@ -103,11 +103,16 @@ export class SurveyFlow {
 
         // check question
         if (!question) return false;
-        if (question.required) return true;
+
+        // check question setup
+        if (question.required != null)
+            return question.required;
 
         // check default survey options
-        if (this.context.questionnaire.defaultRequired) return true;
+        if (this.context.questionnaire.defaultRequired)
+            return true;
 
+        // not required by default
         return false
     }
 
