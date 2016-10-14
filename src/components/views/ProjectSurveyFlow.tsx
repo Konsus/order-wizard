@@ -18,7 +18,7 @@ export abstract class ProjectSurveyFlow<F extends Survey.SurveyForm> extends Rea
         this.form = new SurveyForm() as any as F;
         const context = new SurveyContext(questionnaire, this.form);
         this.flow = new SurveyFlow(context);
-        this.initFlow(this.flow);
+        if (this.initFlow) this.initFlow(this.flow);
     }
 
     /**

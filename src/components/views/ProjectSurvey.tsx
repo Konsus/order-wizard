@@ -117,8 +117,11 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     }
 
     isPageDone(pageID: number): boolean {
+        // done by default if no pages
         const flow = this.props.flow;
         const pages = flow.questionnaire.pages;
+        if (pages instanceof Array == false)
+            if (pages == null) return true;
 
         // page is out of range
         if (pageID < 0) return true;
@@ -139,9 +142,13 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     }
 
     protected countActiveSteps(): number {
-        let counter = 0;
         const flow = this.props.flow;
+
         const pages = flow.questionnaire.pages;
+        if (pages instanceof Array == false)
+            return 0;
+
+        let counter = 0;
         for (let i = 0; i < pages.length; i++)
             if (flow.isPageActive(pages[i]))
                 counter++;

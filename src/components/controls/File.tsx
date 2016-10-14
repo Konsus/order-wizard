@@ -24,12 +24,14 @@ export class File extends SelectionControl<FileProps, Survey.View.Value<string>>
         let basefilename = this.state.value;
         return (
             <div className="order-wizzard__file-uploading">
-                { this.state.value ? <div className="order-wizzard__file-name">{basefilename.replace(/^.*\\/, "")}</div> : null }
+                { this.state.value ?
+                  <div className="order-wizzard__file-name">{basefilename.replace(/^.*\\/, "")}</div> :
+                  null }
                 <label>{this.props.label}</label>
 
                 <div className="fileUpload b-button b-button--ghost">
                     <span>Upload</span>
-                    <input type="file" name={this.props.token} onChange={this.onChange} className="upload" />
+                    <input type="file" name={this.props.token} onChange={this.onChange} className="upload"/>
                 </div>
             </div>
         )
