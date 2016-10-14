@@ -6,6 +6,7 @@ import {DataEntryProject} from "../src/surveys/DataEntryProject";
 import {WritingProject} from "../src/surveys/WritingProject";
 import {DesignProject} from "../src/surveys/DesignProject";
 import {ResearchProject} from "../src/surveys/ResearchProject";
+import {WebProject} from "../src/surveys/WebProject";
 
 class Container extends React.Component<any,any> {
     render(): JSX.Element|any {
@@ -16,6 +17,7 @@ class Container extends React.Component<any,any> {
                 <SurveyWindow name={"Writing"}> <WritingProject/> </SurveyWindow>
                 <SurveyWindow name={"Design"}> <DesignProject/> </SurveyWindow>
                 <SurveyWindow name={"Research"}> <ResearchProject/> </SurveyWindow>
+                <SurveyWindow name={"Web Design"}> <WebProject/> </SurveyWindow>
             </div>
         );
     }
