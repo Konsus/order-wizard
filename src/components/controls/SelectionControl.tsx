@@ -15,6 +15,7 @@ export abstract class SelectionControl<P extends Survey.View.SelectionProps<any>
         super(...args);
         this.state = {} as S & SelectionControlState;
         this.state.options = [];
+        this.state.value = this.initialValue();
         this.updateOptionsState(this.state);
     }
 
@@ -41,6 +42,15 @@ export abstract class SelectionControl<P extends Survey.View.SelectionProps<any>
         if (option == null) return false;
         if (option.active == null) return true;
         return option.active(this.context.form);
+    }
+
+    /** Get initial value of the form. {@link Survey.View.Value#value} */
+    protected initialValue(): any {
+        let value = this.props.value;
+        if (value != null) return null;
+        const token = this.props.token;
+        if (token != null) value = this.context.form.getValue(token);
+        return value;
     }
 
     /** Update state of each option. {@link SelectionControlState#options} */
