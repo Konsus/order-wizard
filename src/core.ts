@@ -102,6 +102,7 @@ module Survey.View {
     export type Ref<T> = (instance: T) => any;
 
     export interface Value<T> {
+        id?: React.Key;
         value?: T;
     }
 
@@ -114,7 +115,7 @@ module Survey.View {
         defaultChecked?: boolean;
     }
 
-    export interface CheckBox extends Element<any[]> {
+    export interface CheckBox extends Element<any> {
         group: Group;
         defaultChecked?: boolean;
     }
@@ -123,7 +124,7 @@ module Survey.View {
         checked(value: any): boolean;
     }
 
-    export interface SelectionProps<T> extends Survey.Question {
+    export interface SelectionProps<T> extends Survey.Question, Value<T> {
         valueRef?: Survey.Ref<T>;
     }
 

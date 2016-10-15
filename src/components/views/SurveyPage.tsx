@@ -13,7 +13,7 @@ export class SurveyPage extends React.Component<SurveyPageProps, any> {
     }
 
     render(): JSX.Element | any {
-        return <div>
+        return <div key={this.props.id || this.title}>
             <div className="order-wizzard__step-title">{this.title()}</div>
             <div className="order-wizzard__step-survey">
                 {this.props.children}
@@ -23,6 +23,7 @@ export class SurveyPage extends React.Component<SurveyPageProps, any> {
 }
 
 interface SurveyPageProps {
+    id?: React.Key,
     title?: string
     questions?: Survey.Question[];
 }

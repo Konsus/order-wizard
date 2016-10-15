@@ -13,26 +13,23 @@ export class RadioBox extends React.Component<Survey.View.CheckBox, void> {
 
     render() {
         return (
-            <div className="order-wizzard__list-item order-wizzard__radio"
+            <div key={this.props.id || this.props.value}
+                 className="order-wizzard__list-item order-wizzard__radio"
                  onClick={this.onClick}>
-                <input
-                    type="radio"
-                    ref={x => this.input = x}
-                    value={this.props.value}
-                    label={this.props.label}
-                    checked={this.props.group.checked(this.props.value)}/>
+                <input type="radio"
+                       ref={x => this.input = x}
+                       value={this.props.value}
+                       label={this.props.label}
+                       checked={this.props.group.checked(this.props.value)}
+                       onChange={() => {}}
+                />
                 <label><span>{this.props.label || this.props.value}</span></label>
             </div>
         )
     }
 }
 
-export class RadioGroup extends SelectionControl<RadioGroupProps, Survey.View.Value<any>> implements Survey.View.Group {
-
-    constructor() {
-        super(...arguments);
-        this.state.value = this.props.value;
-    }
+export class RadioGroup extends SelectionControl<Survey.View.SelectionProps<any>, any> implements Survey.View.Group {
 
     checked(value: any): boolean {
         return this.state.value == value;
@@ -50,17 +47,15 @@ export class RadioGroup extends SelectionControl<RadioGroupProps, Survey.View.Va
     }
 
     renderActiveView(): JSX.Element|any {
-        return <div className="order-wizzard__radio-group" onChange={this.onChange}>
+        return <div key={this.props.id || this.token}
+                    className="order-wizzard__radio-group"
+                    onChange={this.onChange}>
             {this.renderOptions(this.props.options)}
         </div>
     }
 
     renderOption(option: Survey.Option, index: number, active: boolean): JSX.Element|any {
-        return <RadioBox {...option} key={index} group={this}/>;
+        return <RadioBox {...option} key={`${this.token}.${option.value}`}
+                                     group={this}/>;
     }
-}
-
-export interface RadioGroupProps extends Survey.View.SelectionProps<any> {
-    options: Survey.Option[];
-    value?: any;
 }
