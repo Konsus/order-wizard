@@ -12,27 +12,24 @@ export class CheckBox extends React.Component<Survey.View.CheckBox, void> {
     }
 
     render() {
-        return (
-            <div className="order-wizzard__list-item order-wizzard__checkbox"
-                 onClick={this.onClick}>
-                <input
-                    type="checkbox"
-                    ref={x => this.input = x}
-                    value={this.props.value}
-                    label={this.props.label}
-                    checked={this.props.group.checked(this.props.value)}/>
-                <label>{this.props.label || this.props.value}</label>
-            </div>
-        )
+        const checked = this.props.group.checked(this.props.value);
+        return <div key={this.props.id || this.props.value}
+                    className="order-wizzard__list-item order-wizzard__checkbox"
+                    onClick={this.onClick}>
+            <input type="checkbox"
+                   ref={x => this.input = x}
+                   value={this.props.value}
+                   label={this.props.label}
+                   checked={checked}
+                   onChange={() => {}}
+            />
+            <label><span>{this.props.label || this.props.value}</span></label>
+        </div>
+
     }
 }
 
-export class CheckGroup extends SelectionControl<CheckBoxGroupProps, Survey.View.Value<any[]>> implements Survey.View.Group {
-
-    constructor() {
-        super(...arguments);
-        this.state.value = [];
-    }
+export class CheckGroup extends SelectionControl<Survey.View.SelectionProps<any[]>, Survey.View.Value<any[]>> implements Survey.View.Group {
 
     checked(value: any): boolean {
         return this.state.value.indexOf(value) >= 0;
@@ -58,21 +55,24 @@ export class CheckGroup extends SelectionControl<CheckBoxGroupProps, Survey.View
             this.onValueChange(state);
             return state;
         });
+    }
+
+    protected initialValue(): any {
+        return super.initialValue() || [];
+    }
+
+    renderActiveView(): JSX.Element|any {
+        return <div key={this.props.id || this.token}
+                    className="order-wizzard__checkbox-group"
+                    onChange={this.onChange}>
+            {this.renderOptions(this.props.options)}
+        </div>
 
     }
 
-    render() {
-        return (
-            <div className="order-wizzard__checkbox-group" onChange={this.onChange}>
-                {this.props.options.map((option, index) => {
-                    return <CheckBox {...option} key={index} group={this}/>;
-                })}
-            </div>
-        )
+    renderOption(option: Survey.Option, index: number, active: boolean): JSX.Element|any {
+        return <CheckBox {...option} key={`${this.token}.${option.value}`}
+                                     group={this}/>;
     }
 }
 
-export interface CheckBoxGroupProps extends Survey.View.SelectionProps<any> {
-    options: Survey.Option[];
-    defaultValue?: any;
-}
