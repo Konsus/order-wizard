@@ -28,4 +28,8 @@
       padding: 13px 55px 12px 55px;
     }
   }
+  @media (max-width: 650px) {
+    max-width: 627px;
+    width: auto;
+  }
 }
