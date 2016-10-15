@@ -31,7 +31,7 @@ export class RadioGroup extends SelectionControl<RadioGroupProps, Survey.View.Va
 
     constructor() {
         super(...arguments);
-        this.state = {value: this.props.value}
+        this.state.value = this.props.value;
     }
 
     checked(value: any): boolean {
@@ -49,15 +49,14 @@ export class RadioGroup extends SelectionControl<RadioGroupProps, Survey.View.Va
         });
     }
 
-    render() {
-        const options = this.props.options;
-        return (
-            <div className="order-wizzard__radio-group" onChange={this.onChange}>
-                {options && options.map((option, index) => {
-                    return <RadioBox {...option} key={index} group={this}/>;
-                })}
-            </div>
-        )
+    renderActiveView(): JSX.Element|any {
+        return <div className="order-wizzard__radio-group" onChange={this.onChange}>
+            {this.renderOptions(this.props.options)}
+        </div>
+    }
+
+    renderOption(option: Survey.Option, index: number, active: boolean): JSX.Element|any {
+        return <RadioBox {...option} key={index} group={this}/>;
     }
 }
 

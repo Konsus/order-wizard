@@ -40,12 +40,15 @@ module Survey {
         title?: string;
         required?: boolean;
         defaultValue?: any;
+        /** Whether to show question or not (show by default). */
+        active?: Function<SurveyForm, boolean>;
     }
 
     export interface Option {
         value: any;
         label?: string;
-        //defaultValue?: boolean,
+        /** Whether to show option or not (show by default). */
+        active?: Function<SurveyForm, boolean>;
     }
 
     export type Ref<T> = (instance: T) => any;
@@ -120,12 +123,12 @@ module Survey.View {
         checked(value: any): boolean;
     }
 
-    export interface SelectionProps<T> {
-        token?: string;
+    export interface SelectionProps<T> extends Survey.Question {
         valueRef?: Survey.Ref<T>;
     }
 
     export interface InputProps<T> extends SelectionProps<T> {
         label?: string;
     }
+
 }

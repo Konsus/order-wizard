@@ -6,7 +6,6 @@ export class File extends SelectionControl<FileProps, Survey.View.Value<string>>
 
     constructor(...args) {
         super(...args);
-        this.state = {};
     }
 
     @autobind

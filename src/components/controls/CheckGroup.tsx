@@ -31,7 +31,7 @@ export class CheckGroup extends SelectionControl<CheckBoxGroupProps, Survey.View
 
     constructor() {
         super(...arguments);
-        this.state = {value: []};
+        this.state.value = [];
     }
 
     checked(value: any): boolean {

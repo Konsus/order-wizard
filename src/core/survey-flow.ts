@@ -123,11 +123,19 @@ export class SurveyFlow {
     public isQuestionDone(question: Survey.Question): boolean {
         // null question are always done
         if (!question) return true;
+
         // questions without token can't be checked
         if (!question.token) return true;
-        // check if value is not null
+
+        // check if question is active (disabled question are not required)
+        if (question.active != null)
+            if (!question.active(this.form))
+                return true;
+
+        // check if answer is not null
         const answer = this.context.form.getValue(question.token);
         if (answer != null) return true;
+
         // required question can't have null value
         if (this.isRequiredQuestion(question))
             return false;

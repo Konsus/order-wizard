@@ -8,7 +8,7 @@ export class DatePicker extends SelectionControl<DatePickerProps, Survey.View.Va
 
     constructor(...args) {
         super(...args);
-        this.state = {value: this.props.value};
+        this.state.value = this.props.value;
     }
 
     @autobind
