@@ -1,7 +1,8 @@
 export const CommentsQuestion: Survey.Question = {
     token: nameof((null as Survey.Forms.CommentsForm).comments),
     title: "Anything else we should know before this information is submitted?",
-    required: false
+    placeholder: "write your comments here...",
+    required: false,
 };
 
 export const CommentsPage: Survey.Page = {
