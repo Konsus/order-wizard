@@ -36,17 +36,23 @@ module Survey {
 
     export interface Question {
         token?: string;
-        options?: Option[];
         title?: string;
         required?: boolean;
         defaultValue?: any;
         placeholder?: any;
+
+        /** List of predefined answer options. */
+        options?: Option[];
+
+        /** Options to use if options does not provide required answer. */
+        other?: Option;
+
         /** Whether to show question or not (show by default). */
         active?: Function<SurveyForm, boolean>;
     }
 
     export interface Option {
-        value: any;
+        value?: any;
         label?: string;
         /** Whether to show option or not (show by default). */
         active?: Function<SurveyForm, boolean>;
@@ -60,7 +66,6 @@ module Survey {
 
     export interface Element extends Value {
         label: string;
-        key?: React.Key;
     }
 
     export interface Field {
@@ -103,17 +108,12 @@ module Survey.View {
     export type Ref<T> = (instance: T) => any;
 
     export interface Value<T> {
-        id?: React.Key;
         value?: T;
     }
 
     export interface Element<T> extends Value<T> {
+        id?: React.Key;
         label?: string;
-    }
-
-    export interface RadioBox extends Element<any> {
-        group: Group;
-        defaultChecked?: boolean;
     }
 
     export interface CheckBox extends Element<any> {
