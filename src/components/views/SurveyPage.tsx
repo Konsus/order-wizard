@@ -3,7 +3,7 @@ import * as React from "react";
 /** Wraps questions of the survey. */
 export class SurveyPage extends React.Component<SurveyPageProps, any> {
 
-    title() {
+    title(): string {
         let title = this.props.title;
         if (title) return title;
         const questions = this.props.questions;
@@ -13,8 +13,9 @@ export class SurveyPage extends React.Component<SurveyPageProps, any> {
     }
 
     render(): JSX.Element | any {
-        return <div key={this.props.id || this.title}>
-            <div className="order-wizzard__step-title">{this.title()}</div>
+        const title = this.title();
+        return <div key={this.props.id || title}>
+            <div className="order-wizzard__step-title">{title}</div>
             <div className="order-wizzard__step-survey">
                 {this.props.children}
             </div>
