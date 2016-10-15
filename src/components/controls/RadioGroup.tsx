@@ -82,7 +82,7 @@ export class RadioBoxOther extends React.Component<RadioBoxProps, RadioBoxOtherS
         const checked = this.checked();
         return (
             <div key={this.props.id || "other"}
-                 className="order-wizzard__list-item order-wizzard__radio"
+                 className="order-wizzard__list-item order-wizzard__radio order-wizzard__radio-other"
                  onClick={this.onClick}>
                 <input type="radio"
                        ref={x => this.radio = x}
@@ -93,6 +93,7 @@ export class RadioBoxOther extends React.Component<RadioBoxProps, RadioBoxOtherS
                 <label><span>{label || "Other"}</span></label>
                 { checked
                     ? <input type="text"
+                             className="form-control"
                              ref={x => this.text = x}
                              value={this.props.value}
                              label={label}

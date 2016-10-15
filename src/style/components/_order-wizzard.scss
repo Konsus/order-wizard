@@ -76,8 +76,13 @@
       border: 2px solid #2178c4;
     }
   }
-  &__back {
-
+  &__radio-other {
+    input[type="text"] {
+      display: block;
+      margin-left: 35px;
+      margin-top: 5px;
+      width: 60%;
+    }
   }
   &__list-item {
     padding: 15px 10px;
