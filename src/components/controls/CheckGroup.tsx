@@ -28,10 +28,10 @@ export class CheckBox extends React.Component<Survey.View.CheckBox, void> {
                    value={value}
                    label={label}
                    checked={checked}
-                   onChange={this.onChange}/>
+                   onChange={this.onChange}
+            />
             <label><span>{label || value}</span></label>
         </div>
-
     }
 }
 
