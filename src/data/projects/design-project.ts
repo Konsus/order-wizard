@@ -12,6 +12,7 @@ export const ServiceQuestion: Survey.Question = {
         {value: "branding", label: "Corporate branding"},
         {value: "other", label: "Other illustrations or infographics"},
     ],
+    other: {label: "Other"},
 };
 
 export const ServicePage: Survey.Page = {

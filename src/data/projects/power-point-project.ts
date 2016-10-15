@@ -12,6 +12,7 @@ export const ServiceQuestion: Survey.Question = {
         {value: "update-template", label: "Update Company Template"},
         {value: "new-template", label: "New Company Template"},
     ],
+    other: {label: "Other"},
 };
 
 export const ServicePage: Survey.Page = {

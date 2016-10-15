@@ -13,8 +13,8 @@ export const ServiceQuestion: Survey.Question = {
         {value: "press-release", label: "Press releases"},
         {value: "proofreading", label: "Proofreading"},
         {value: "audio-transcription", label: "Audio transcription"},
-        {value: "other", label: "Other"},
     ],
+    other: {label: "Other"},
 };
 
 export const ServicePage: Survey.Page = {

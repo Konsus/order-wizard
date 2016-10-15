@@ -10,8 +10,8 @@ export const ServiceQuestion: Survey.Question = {
         {value: "industry-research", label: "Market or industry research"},
         {value: "contacts", label: "Contact information from websites"},
         {value: "images", label: "Collecting images"},
-        {value: "other", label: "Other"},
     ],
+    other: {label: "Other"},
 };
 
 export const ServicePage: Survey.Page = {
