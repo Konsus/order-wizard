@@ -40,7 +40,7 @@ export const TopicPage: Survey.Page = {
 
 export const ContentQuestion: Survey.Question = {
     token: nameof((null as WritingProject).contents),
-    title: "Can you please upload or link to the relevant content, as well as provide necessary description of the task?",
+    title: "Please upload or provide any files or links and carefully explain the use of each one",
     required: false,
 };
 

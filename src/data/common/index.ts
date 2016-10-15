@@ -11,8 +11,8 @@ export const CommentsPage: Survey.Page = {
 export const DueDateQuestion: Survey.Question = {
     token: nameof((null as Survey.Forms.DueDateForm).deadline),
     options: [
-        {value: "yes", label: "Yes"},
         {value: "no", label: "No"},
+        {value: "yes", label: "Yes"},
     ],
     required: false,
 };

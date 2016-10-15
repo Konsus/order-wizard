@@ -31,6 +31,7 @@ export class WebProject extends ProjectSurveyFlow<Survey.Forms.WebProject> {
         return (
             <SurveyPage {...page} >
                 <RadioGroup {...page.questions[0]} />
+                <Comment {...page.questions[1]} />
             </SurveyPage>
         )
     }

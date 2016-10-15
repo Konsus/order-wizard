@@ -20,10 +20,13 @@ export const ServicePage: Survey.Page = {
 
 export const TemplateQuestion: Survey.Question = {
     token: nameof((null as PowerPointProject).template),
-    title: "Do you have a template for Data Entry?",
+    title: "Do you have an existing template we should use?",
     options: [
-        {value: "yes", label: "Yes."},
-        {value: "no", label: "No, but please include that as part of delivery."},
+        {value: "yes", label: "Yes."}, {
+            value: "no",
+            label: "No, but please include that as part of delivery.",
+            active: (form: PowerPointProject) => form.service != "new-presentation",
+        },
         {value: "embedded", label: "Use the template the presentation is currently in."}
     ]
 };
@@ -64,11 +67,12 @@ export const StylePage: Survey.Page = {
 };
 
 export const FilesPage: Survey.Page = {
-    title: "Can you please upload additional files, as well as carefully explain the use of each?",
+    title: "Please upload or provide any files or links and carefully explain the use of each one",
     questions: [
-        {title: "Existing company material (such as presentations, website) we should make it consistent with or use as inspiration"},
-        {title: "Pictures, logos and artwork that we should include in the presentation "},
-        {title: "Other graphics that you would like us to find or tailor make for you, and where these should be included"}
+        {title: "The draft presentation or the basis for the structure and main content of your deck"},
+        {title: "Other company material or website we should make it consistent with or use as inspiration"},
+        {title: "Pictures, logos and artwork that we should include in the presentation (high quality)"},
+        {title: "Other graphics that you would like us to find or tailor make for you"},
     ]
 };
 

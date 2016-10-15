@@ -55,7 +55,7 @@ export const StylePage: Survey.Page = {
 
 export const FilesQuestion: Survey.Question = {
     token: nameof((null as DesignProject).files),
-    title: "Do you have any existing material that you would like us to use as starting point or inspiration?",
+    title: "Please upload or provide any files or links and carefully explain the use of each one",
     required: false,
 };
 

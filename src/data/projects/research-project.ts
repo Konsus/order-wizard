@@ -20,7 +20,7 @@ export const ServicePage: Survey.Page = {
 
 export const FilesQuestion: Survey.Question = {
     token: nameof((null as ResearchProject).files),
-    title: "Please provide a thorough description of the task and any files or links, including desired structure of output",
+    title: "Please provide any files or links, and a thorough description of the task including desired structure of output",
     required: false,
 };
 

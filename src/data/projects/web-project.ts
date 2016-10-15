@@ -8,12 +8,20 @@ export const WebSiteQuestion: Survey.Question = {
     options: [
         {value: "new", label: "Making a new website"},
         {value: "existing", label: "Improve an existing website"},
-        {value: "other", label: "Other"},
     ],
 };
 
+export const WebSiteLinkQuestion: Survey.Question = {
+    title: "Link to website",
+    token: nameof((null as WebProject).website_link),
+    active: (form: WebProject) => form.website == "existing",
+};
+
 export const WebSitePage: Survey.Page = {
-    questions: [WebSiteQuestion],
+    questions: [
+        WebSiteQuestion,
+        WebSiteLinkQuestion
+    ],
 };
 
 export const TechInfoQuestion: Survey.Question = {
@@ -52,7 +60,7 @@ export const TechRequirementsQuestion: Survey.Question = {
     token: nameof((null as WebProject).tech_requirement),
     title: "Do you have a preference for which technology should be used?",
     options: [
-        {value: "no", label: "As you recommend"},
+        {value: "no", label: "No, please use the most suitable tech"},
         {value: "yes", label: "Yes"},
     ],
 };
@@ -113,7 +121,16 @@ export const PurposePage: Survey.Page = {
 
 export const FilesQuestion: Survey.Question = {
     token: nameof((null as WebProject).files),
-    title: "Can you please provide any input or existing material that we should use as inspiration?",
+    title: "Please upload or provide any files or links and carefully explain the use of each one",
+    options: [
+        {value: "", label: "Any existing page design files"},
+        {value: "", label: "Any existing text content or graphic content (high quality)"},
+        {value: "", label: "Specific font types, color combinations or graphic elements you want to use"},
+        {
+            value: "",
+            label: "Existing graphics or corporate material that we should make it consistent with, or websites we should use as inspiration"
+        },
+    ],
     required: false,
 };
 

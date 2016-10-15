@@ -6,9 +6,12 @@ export const ServiceTypeQuestion: Survey.Question = {
     token: nameof((null as DataEntryProject).service),
     title: "What sort of task do you have in mind?",
     options: [
-        {value: "pdf", label: "Data entry from PDFs, pictures or a website"},
+        {value: "from-pdf", label: "PDF to Excel, Word or similar"},
+        {value: "from-img", label: "Image to Excel, Word or similar"},
+        {value: "from-web", label: "Website to Excel, Word or similar"},
         {value: "linked-in", label: "Gathering contact information from LinkedIn"},
         {value: "cleaning", label: "Data Cleaning"},
+        {value: "other", label: "Other"},
     ],
 };
 
@@ -23,7 +26,7 @@ export const DescriptionQuestion: Survey.Question = {
 };
 
 export const DescriptionPage: Survey.Page = {
-    title: "Please provide a thorough description of the task and any files or links, including desired structure of output",
+    title: "Please provide any files or links, and a thorough description of the task including desired structure of output",
     questions: [DescriptionQuestion],
 };
 

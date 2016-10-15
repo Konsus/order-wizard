@@ -33,6 +33,7 @@ module Survey.Forms {
 
     export interface WebProject extends SurveyForm {
         website?: string;
+        website_link?: string;
         service?: string | any[];
         tech_info?: string;
         tech_requirement?: string;
