@@ -40,6 +40,7 @@ module Survey {
         title?: string;
         required?: boolean;
         defaultValue?: any;
+        placeholder?: any;
         /** Whether to show question or not (show by default). */
         active?: Function<SurveyForm, boolean>;
     }
@@ -107,7 +108,7 @@ module Survey.View {
     }
 
     export interface Element<T> extends Value<T> {
-        label: string;
+        label?: string;
     }
 
     export interface RadioBox extends Element<any> {
@@ -124,12 +125,7 @@ module Survey.View {
         checked(value: any): boolean;
     }
 
-    export interface SelectionProps<T> extends Survey.Question, Value<T> {
+    export interface SelectionProps<T> extends Survey.Question, Element<T> {
         valueRef?: Survey.Ref<T>;
     }
-
-    export interface InputProps<T> extends SelectionProps<T> {
-        label?: string;
-    }
-
 }

@@ -1,15 +1,10 @@
 import * as React from "react";
-import {SelectionControl} from "./SelectionControl";
-import {autobind} from "core-decorators";
 import * as ReactDatePicker from "react-datepicker";
+import {autobind} from "core-decorators";
+import {SelectionControl} from "./SelectionControl";
 require('react-datepicker/dist/react-datepicker.css');
 
 export class DatePicker extends SelectionControl<DatePickerProps, Survey.View.Value<string>> {
-
-    constructor(...args) {
-        super(...args);
-        this.state.value = this.props.value;
-    }
 
     @autobind
     onChange(date?: any) {
@@ -20,20 +15,23 @@ export class DatePicker extends SelectionControl<DatePickerProps, Survey.View.Va
         });
     }
 
-    render() {
-        return (
-            <div className="order-wizzard__text-date">
-                <label>{this.props.label}</label><br/>
-                <ReactDatePicker className="form-control"
-                                 todayButton={"Today!"}
-                                 onChange={this.onChange}
-                                 selected={this.state.value}
-                                 placeholderText="select a date"/>
-            </div>
-        )
+    renderActiveView(): JSX.Element|any {
+        const token = this.token;
+        const value = this.state.value;
+        const label = this.props.label;
+        return <div className="order-wizzard__text-date"
+                    key={this.props.id || token}>
+            <label>{label || value}</label><br/>
+            <ReactDatePicker className="form-control"
+                             name={token}
+                             selected={value}
+                             todayButton={"Today!"}
+                             onChange={this.onChange}
+                             placeholderText={this.props.placeholder}/>
+        </div>
     }
 }
 
-export interface DatePickerProps extends Survey.View.InputProps<string> {
-    value?: string;
+export interface DatePickerProps extends Survey.View.SelectionProps<string> {
+
 }

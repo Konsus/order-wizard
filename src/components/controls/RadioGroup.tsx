@@ -6,24 +6,32 @@ export class RadioBox extends React.Component<Survey.View.CheckBox, void> {
     private input: HTMLInputElement;
 
     @autobind
-    private onClick(e: React.MouseEvent<any>) {
+    onClick(e: React.MouseEvent<any>) {
         if (e.target != this.input)
             this.input.click();
     }
 
+    @autobind
+    onChange() {
+
+    }
+
     render() {
+        const value = this.props.value;
+        const label = this.props.label;
+        const checked = this.props.group.checked(value);
         return (
-            <div key={this.props.id || this.props.value}
+            <div key={this.props.id || value}
                  className="order-wizzard__list-item order-wizzard__radio"
                  onClick={this.onClick}>
                 <input type="radio"
                        ref={x => this.input = x}
-                       value={this.props.value}
-                       label={this.props.label}
-                       checked={this.props.group.checked(this.props.value)}
-                       onChange={() => {}}
+                       value={value}
+                       label={label}
+                       checked={checked}
+                       onChange={this.onChange}
                 />
-                <label><span>{this.props.label || this.props.value}</span></label>
+                <label><span>{label || value}</span></label>
             </div>
         )
     }
@@ -47,9 +55,11 @@ export class RadioGroup extends SelectionControl<Survey.View.SelectionProps<any>
     }
 
     renderActiveView(): JSX.Element|any {
-        return <div key={this.props.id || this.token}
-                    className="order-wizzard__radio-group"
-                    onChange={this.onChange}>
+        const token = this.token;
+        return <div key={this.props.id || token}
+                    name={token}
+                    onChange={this.onChange}
+                    className="order-wizzard__radio-group">
             {this.renderOptions(this.props.options)}
         </div>
     }

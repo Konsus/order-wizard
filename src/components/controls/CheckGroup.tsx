@@ -6,30 +6,36 @@ export class CheckBox extends React.Component<Survey.View.CheckBox, void> {
     private input: HTMLInputElement;
 
     @autobind
-    private onClick(e: React.MouseEvent<any>) {
+    onClick(e: React.MouseEvent<any>) {
         if (e.target != this.input)
             this.input.click();
     }
 
+    @autobind
+    onChange() {
+
+    }
+
     render() {
-        const checked = this.props.group.checked(this.props.value);
-        return <div key={this.props.id || this.props.value}
-                    className="order-wizzard__list-item order-wizzard__checkbox"
+        const label = this.props.label;
+        const value = this.props.value;
+        const checked = this.props.group.checked(value);
+        return <div className="order-wizzard__list-item order-wizzard__checkbox"
+                    key={this.props.id || value}
                     onClick={this.onClick}>
             <input type="checkbox"
                    ref={x => this.input = x}
-                   value={this.props.value}
-                   label={this.props.label}
+                   value={value}
+                   label={label}
                    checked={checked}
-                   onChange={() => {}}
-            />
-            <label><span>{this.props.label || this.props.value}</span></label>
+                   onChange={this.onChange}/>
+            <label><span>{label || value}</span></label>
         </div>
 
     }
 }
 
-export class CheckGroup extends SelectionControl<Survey.View.SelectionProps<any[]>, Survey.View.Value<any[]>> implements Survey.View.Group {
+export class CheckGroup extends SelectionControl<CheckGroupProps, Survey.View.Value<any[]>> implements Survey.View.Group {
 
     checked(value: any): boolean {
         return this.state.value.indexOf(value) >= 0;
@@ -63,11 +69,10 @@ export class CheckGroup extends SelectionControl<Survey.View.SelectionProps<any[
 
     renderActiveView(): JSX.Element|any {
         return <div key={this.props.id || this.token}
-                    className="order-wizzard__checkbox-group"
-                    onChange={this.onChange}>
+                    onChange={this.onChange}
+                    className="order-wizzard__checkbox-group">
             {this.renderOptions(this.props.options)}
         </div>
-
     }
 
     renderOption(option: Survey.Option, index: number, active: boolean): JSX.Element|any {
@@ -76,3 +81,6 @@ export class CheckGroup extends SelectionControl<Survey.View.SelectionProps<any[
     }
 }
 
+export interface CheckGroupProps extends Survey.View.SelectionProps<any[]> {
+
+}

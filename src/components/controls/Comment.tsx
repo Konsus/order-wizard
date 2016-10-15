@@ -16,16 +16,21 @@ export class Comment extends SelectionControl<CommentProps, Survey.View.Value<st
     }
 
     renderActiveView(): JSX.Element|any {
-        return <div className="order-wizzard__text-comment">
-                        <textarea className="form-control"
-                                  name={this.props.token}
-                                  placeholder={this.props.placeholder}
-                                  onChange={this.onChange}
-                        />
+        const token = this.token;
+        const value = this.state.value;
+        const label = this.props.label;
+        return <div className="order-wizzard__text-comment"
+                    key={this.props.id || token}>
+            <label>{label || value}</label>
+            <textarea className="form-control"
+                      name={token}
+                      value={value}
+                      placeholder={this.props.placeholder}
+                      onChange={this.onChange}/>
         </div>
     }
 }
 
-export interface CommentProps extends Survey.View.InputProps<string> {
-    placeholder?: string;
+export interface CommentProps extends Survey.View.SelectionProps<string> {
+
 }

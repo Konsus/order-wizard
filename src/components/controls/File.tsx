@@ -4,10 +4,6 @@ import {SelectionControl} from "./SelectionControl";
 
 export class File extends SelectionControl<FileProps, Survey.View.Value<string>> {
 
-    constructor(...args) {
-        super(...args);
-    }
-
     @autobind
     onChange(event: React.FormEvent<React.HTMLProps<HTMLTextAreaElement>>) {
         event.persist();
@@ -24,8 +20,8 @@ export class File extends SelectionControl<FileProps, Survey.View.Value<string>>
         return (
             <div className="order-wizzard__file-uploading">
                 { this.state.value ?
-                  <div className="order-wizzard__file-name">{basefilename.replace(/^.*\\/, "")}</div> :
-                  null }
+                    <div className="order-wizzard__file-name">{basefilename.replace(/^.*\\/, "")}</div> :
+                    null }
                 <label>{this.props.label}</label>
 
                 <div className="fileUpload b-button b-button--ghost">
@@ -37,4 +33,6 @@ export class File extends SelectionControl<FileProps, Survey.View.Value<string>>
     }
 }
 
-export interface FileProps extends Survey.View.InputProps<string> { }
+export interface FileProps extends Survey.View.SelectionProps<string> {
+
+}
