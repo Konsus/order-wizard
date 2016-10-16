@@ -1,7 +1,7 @@
 {
-  "name": "react_course_23_09_19_30",
+  "name": "order-wizard",
   "version": "1.0.0",
-  "description": "",
+  "description": "```\r npm i\r npm start\r ```",
   "main": "index.js",
   "scripts": {
     "heroku-postbuild": "npm run build",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/romabelka/js_ru_23_09_19_30"
+    "url": "git+https://github.com/Konsus/order-wizzard.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/romabelka/js_ru_23_09_19_30"
+    "url": "https://github.com/Konsus/order-wizzard/issues"
   },
-  "homepage": "https://github.com/romabelka/js_ru_23_09_19_30",
+  "homepage": "https://github.com/Konsus/order-wizzard",
   "devDependencies": {
     "@types/core-decorators": "^0.10.30",
     "@types/node": "^6.0.43",
