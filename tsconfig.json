@@ -2,14 +2,19 @@
   "compilerOptions": {
     "module": "commonjs",
     "baseUrl": "./src",
-    "outDir": "./dist",
+    "outDir": "./lib",
     "target": "es6",
     "sourceMap": true,
+    "declaration": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "moduleResolution": "node",
     "jsx": "react",
     "types": ["node"]
   },
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "lib"
+  ]
 }

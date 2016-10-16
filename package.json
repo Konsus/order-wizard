@@ -2,11 +2,14 @@
   "name": "order-wizard",
   "version": "1.0.0",
   "description": "```\r npm i\r npm start\r ```",
-  "main": "index.js",
+  "main": "lib/src",
+  "typings": "lib/src/index",
   "scripts": {
     "heroku-postbuild": "npm run build",
     "start": "node server",
-    "build": "rimraf dist && cross-env NODE_ENV=production webpack --config ./webpack.production.config.js --progress --profile --colors"
+    "build": "rimraf dist && cross-env NODE_ENV=production webpack --config ./webpack.production.config.js --progress --profile --colors",
+    "lib": "tsc && node node_modules/babel-cli/bin/babel.js lib -d lib",
+    "postinstall": "npm run lib"
   },
   "repository": {
     "type": "git",
@@ -29,6 +32,7 @@
     "@types/serve-static": "^1.7.31",
     "@types/webpack": "^1.12.35",
     "@types/webpack-dev-server": "^1.12.1",
+    "babel-cli": "^6.16.0",
     "babel-core": "^6.13.2",
     "babel-loader": "^6.2.5",
     "babel-plugin-nameof": "^1.0.2",
