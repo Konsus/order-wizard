@@ -30,7 +30,7 @@ export const DescriptionPage: Survey.Page = {
     questions: [DescriptionQuestion],
 };
 
-export default new class DataEntryProjectSurvey {
+export class DataEntryProjectSurvey {
     service = ServiceTypePage;
     description = DescriptionPage;
     deadline = DueDatePage;
@@ -45,4 +45,6 @@ export default new class DataEntryProjectSurvey {
             this.comments,
         ]
     };
-};
+}
+
+export default new DataEntryProjectSurvey();

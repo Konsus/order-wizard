@@ -71,7 +71,7 @@ export const FilesPage: Survey.Page = {
     },
 };
 
-export default new class DesignProjectSurvey {
+export class DesignProjectSurvey {
     service = ServicePage;
     design = DesignPage;
     style = StylePage;
@@ -92,3 +92,4 @@ export default new class DesignProjectSurvey {
     };
 }
 
+export default new DesignProjectSurvey();

@@ -83,7 +83,7 @@ export const FilesPage: Survey.Page = {
     },
 };
 
-export default new class WritingProjectSurvey {
+export class WritingProjectSurvey {
     service = ServicePage;
     topic = TopicPage;
     content = ContentPage;
@@ -104,3 +104,4 @@ export default new class WritingProjectSurvey {
     };
 }
 
+export default new WritingProjectSurvey();

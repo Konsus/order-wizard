@@ -23,7 +23,7 @@ export class SurveyPage extends React.Component<SurveyPageProps, any> {
     }
 }
 
-interface SurveyPageProps {
+export interface SurveyPageProps {
     id?: React.Key,
     title?: string
     questions?: Survey.Question[];

@@ -108,7 +108,7 @@ export const PurposePage: Survey.Page = {
     },
 };
 
-export default new class PowerPointProjectSurvey {
+export class PowerPointProjectSurvey {
     service = ServicePage;
     template = TemplatePage;
     style = StylePage;
@@ -131,3 +131,4 @@ export default new class PowerPointProjectSurvey {
     };
 }
 
+export default new PowerPointProjectSurvey();

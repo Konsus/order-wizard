@@ -138,7 +138,7 @@ export const FilesPage: Survey.Page = {
     questions: [FilesQuestion],
 };
 
-export default new class WebProjectSurvey {
+export class WebProjectSurvey {
     website = WebSitePage;
     service = ServicePage;
     techInfo = TechInfoPage;
@@ -165,3 +165,4 @@ export default new class WebProjectSurvey {
     };
 }
 
+export default new WebProjectSurvey();

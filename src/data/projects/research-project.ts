@@ -28,7 +28,7 @@ export const FilesPage: Survey.Page = {
     questions: [FilesQuestion],
 };
 
-export default new class ResearchProjectSurvey {
+export class ResearchProjectSurvey {
     service = ServicePage;
     files = FilesPage;
     deadline = DueDatePage;
@@ -45,3 +45,4 @@ export default new class ResearchProjectSurvey {
     };
 }
 
+export default new ResearchProjectSurvey();

@@ -1,8 +1,9 @@
-module Survey {
+declare module Survey {
 
-    type Function<T, R> = (question: Question) => R;
+    export type Key = string | number;
+    export type Function<T, R> = (question: Question) => R;
 
-    interface IEvent<T> {
+    export interface IEvent<T> {
         /**
          * Attach an event handler
          * @param handler The function to call. The this argument of the function will be this object.
@@ -70,7 +71,7 @@ module Survey {
 
     export interface Field {
         value?: any;
-        token: React.Key;
+        token: Key;
         //form: SurveyForm;
     }
 
@@ -103,7 +104,7 @@ module Survey {
     }
 }
 
-module Survey.View {
+declare module Survey.View {
 
     export type Ref<T> = (instance: T) => any;
 
@@ -112,7 +113,7 @@ module Survey.View {
     }
 
     export interface Element<T> extends Value<T> {
-        id?: React.Key;
+        id?: Key;
         label?: string;
     }
 
