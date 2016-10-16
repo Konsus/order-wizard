@@ -58,7 +58,12 @@ export class CheckGroup extends SelectionControl<CheckGroupProps, Survey.View.Va
                     state.value.splice(index, 1);
             }
 
+            // do not send empty array to form
+            const value = state.value;
+            if (value.length < 1) state.value = null;
             this.onValueChange(state);
+            state.value = value;
+            
             return state;
         });
     }
