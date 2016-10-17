@@ -21,7 +21,7 @@ export class Comment extends SelectionControl<CommentProps, Survey.View.Value<st
         const label = this.props.label;
         return <div className="order-wizzard__text-comment"
                     key={this.props.id || token}>
-            <label>{label || value}</label>
+            <label>{label}</label>
             <textarea className="form-control"
                       name={token}
                       value={value}
