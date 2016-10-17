@@ -66,7 +66,7 @@ export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState
 
     render(): JSX.Element|any {
         let value = this.state.value;
-        if (isFinite(value)) value = "yes";
+        if (isFinite(value as number)) value = "yes";
 
         return (
             <SurveyPage {...this.props}>
@@ -82,7 +82,7 @@ export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState
     renderDate(): JSX.Element|any {
         if (!this.state.visibleDate) return null;
         let value = this.state.value;
-        if (isNaN(value)) value = null;
+        if (isNaN(value as number)) value = null;
 
         return <DatePicker ref={x => this.datePicker = x}
                            label={"Date"}
