@@ -47,8 +47,8 @@ export abstract class SelectionControl<P extends Survey.View.SelectionProps<any>
     /** Get initial value of the form. {@link Survey.View.Value#value} */
     protected initialValue(): any {
         let value = this.props.value;
-        if (value != null) return null;
-        const token = this.props.token;
+        if (value != null) return value;
+        const token = this.token;
         if (token != null) value = this.context.form.getValue(token);
         return value;
     }
