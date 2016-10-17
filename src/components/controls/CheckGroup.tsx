@@ -80,7 +80,7 @@ export class CheckGroup extends SelectionControl<CheckGroupProps, Survey.View.Va
         </div>
     }
 
-    renderOption(option: Survey.Option, index: number, active: boolean): JSX.Element|any {
+    renderActiveOption(option: Survey.Option, index: number): JSX.Element|any {
         return <CheckBox {...option} key={`${this.token}.${option.value}`}
                                      group={this}/>;
     }
