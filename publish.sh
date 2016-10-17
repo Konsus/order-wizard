@@ -1,9 +1,10 @@
 #!/bin/bash
 # save branch
+git stash save "auto-release-stash"
 branch="$(git symbolic-ref --short -q HEAD)"
 # checkout to master branch
-git checkout master
-git merge origin/develop
+git checkout -B master origin/master
+git merge develop
 # compile
 compile="$(npm run lib >/dev/null)"
 if [ -n "$compile" ]; then
@@ -18,3 +19,4 @@ fi
 git checkout -- ./lib
 echo "switch back to $branch"
 git checkout ${branch}
+git stash pop
