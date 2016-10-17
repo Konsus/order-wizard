@@ -8,24 +8,36 @@ import {DueDateQuestion} from "../../data/common";
 
 export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState> {
 
+    private datePicker: DatePicker;
+
     constructor(...args) {
         super(...args);
-        this.state.value = "no";
-        this.state.date = "";
+        const value = this.state.value;
+        if (value != null && value != "no")
+            this.state.visibleDate = true;
     }
 
     get token(): string|any {
-        return super.token || this.props.questions && this.props.questions[0].token;
+        let token = super.token;
+        if (token != null) return token;
+
+        const questions = this.props.questions;
+        if (questions != null && questions.length > 0)
+            token = questions[0].token;
+
+        if (token == null)
+            token = DueDateQuestion.token;
+
+        return token;
     }
 
     @autobind
     onSelect(value: any) {
-
         switch (value) {
             case "yes":
                 this.setState(state => {
-                    state.visibleDate = value === "yes";
-                    state.value = state.date || value;
+                    state.visibleDate = true;
+                    state.value = value;
                     this.onValueChange(state);
                     return state;
                 });
@@ -39,25 +51,28 @@ export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState
                     return state;
                 });
                 break;
-
-            default:
-                this.setState(state => {
-                    state.value = value;
-                    state.date = value;
-                    this.onValueChange(state);
-                    return state;
-                });
-                break
         }
+    }
 
+    @autobind
+    onDate(value: any) {
+        this.setState(state => {
+            state.visibleDate = true;
+            state.value = value;
+            this.onValueChange(state);
+            return state;
+        });
     }
 
     render(): JSX.Element|any {
+        let value = this.state.value;
+        if (isFinite(value)) value = "yes";
+
         return (
             <SurveyPage {...this.props}>
                 <RadioGroup {...this.props} options={DueDateQuestion.options}
                                             token={null}
-                                            value={this.state.value}
+                                            value={value}
                                             valueRef={this.onSelect}/>
                 {this.renderDate()}
             </SurveyPage>
@@ -66,9 +81,13 @@ export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState
 
     renderDate(): JSX.Element|any {
         if (!this.state.visibleDate) return null;
-        return <DatePicker label={"Date"}
-                           value={this.state.date}
-                           valueRef={this.onSelect}/>
+        let value = this.state.value;
+        if (isNaN(value)) value = null;
+
+        return <DatePicker ref={x => this.datePicker = x}
+                           label={"Date"}
+                           value={value}
+                           valueRef={this.onDate}/>
     }
 }
 
@@ -79,5 +98,4 @@ export interface DueDateProps extends Survey.View.SelectionProps<string> {
 
 export interface DueDateState extends Survey.View.Value<string> {
     visibleDate?: boolean;
-    date?: string;
 }
