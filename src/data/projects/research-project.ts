@@ -38,7 +38,7 @@ export class ResearchProjectSurvey {
         defaultRequired: true,
         pages: [
             this.service,
-            this.files,
+            //this.files,
             this.deadline,
             this.comments,
         ]

@@ -10,6 +10,7 @@ export const ServiceQuestion: Survey.Question = {
         {value: "advertisements", label: "Advertisements"},
         {value: "marketing", label: "Brochures and marketing material"},
         {value: "branding", label: "Corporate branding"},
+        {value: "digitalization", label: "Digitalization of sketch"},
         {value: "other", label: "Other illustrations or infographics"},
     ],
     other: {label: "Other"},
@@ -84,8 +85,8 @@ export class DesignProjectSurvey {
         pages: [
             this.service,
             this.design,
-            this.style,
-            this.files,
+            //this.style,
+            //this.files,
             this.deadline,
             this.comments,
         ]
