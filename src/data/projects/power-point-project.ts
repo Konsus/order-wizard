@@ -79,33 +79,19 @@ export const FilesPage: Survey.Page = {
 
 export const PurposeQuestion: Survey.Question = {
     token: nameof((null as PowerPointProject).purpose),
-    title: "What will be the main type of presentations you will make from your new template?",
+    title: "What will be the use of your presentation, and who will be the audience?",
     options: [
         {
             value: "graphics",
-            label: "Graphics combined with large size bullet points (for presenting to large audiences)"
+            label: "Mostly graphics combined with large size bullet points (for presenting to large audiences)"
         },
-        {value: "tables"},
-        {value: "charts"},
+        {value: "tables", label: "Normal size text, tables, charts and some details (for reading and reports)"},
+        {value: "both", label: "Combination of both"},
     ]
 };
 
 export const PurposePage: Survey.Page = {
     questions: [PurposeQuestion],
-    active: (form: PowerPointProject) => {
-        switch (form.service) {
-            case "style-format":
-            case "style-enhance":
-            case "new-presentation":
-                return false;
-        }
-        switch (form.template) {
-            case "yes":
-            case "embedded":
-                return false;
-        }
-        return true;
-    },
 };
 
 export class PowerPointProjectSurvey {
@@ -122,8 +108,8 @@ export class PowerPointProjectSurvey {
         pages: [
             this.service,
             this.template,
-            this.style,
-            this.files,
+            //this.style,
+            //this.files,
             this.purpose,
             this.deadline,
             this.comments,
