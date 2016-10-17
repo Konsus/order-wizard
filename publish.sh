@@ -4,7 +4,7 @@ git stash save "auto-release-stash"
 branch="$(git symbolic-ref --short -q HEAD)"
 # checkout to master branch
 git checkout -B master origin/master
-git merge develop
+git merge develop --no-edit
 # compile
 compile="$(npm run lib >/dev/null)"
 if [ -n "$compile" ]; then
