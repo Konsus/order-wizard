@@ -3,7 +3,7 @@
 branch="$(git symbolic-ref --short -q HEAD)"
 # checkout to master branch
 git checkout master
-git merge origin/develop
+git merge develop
 # compile
 compile="$(npm run lib >/dev/null)"
 if [ -n "$compile" ]; then
