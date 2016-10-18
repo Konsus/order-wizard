@@ -12,12 +12,12 @@ class Container extends React.Component<any,any> {
     render(): JSX.Element|any {
         return (
             <div>
-                <SurveyWindow name={"PowerPoint"}> <PowerPointProject/> </SurveyWindow>
-                <SurveyWindow name={"DataEntry"}> <DataEntryProject/> </SurveyWindow>
-                <SurveyWindow name={"Writing"}> <WritingProject/> </SurveyWindow>
-                <SurveyWindow name={"Design"}> <DesignProject/> </SurveyWindow>
-                <SurveyWindow name={"Research"}> <ResearchProject/> </SurveyWindow>
-                <SurveyWindow name={"Web Design"}> <WebProject/> </SurveyWindow>
+                <SurveyWindow name={"PowerPoint"} debug={true}> <PowerPointProject/> </SurveyWindow>
+                <SurveyWindow name={"DataEntry"} debug={true}> <DataEntryProject/> </SurveyWindow>
+                <SurveyWindow name={"Writing"} debug={true}> <WritingProject/> </SurveyWindow>
+                <SurveyWindow name={"Design"} debug={true}> <DesignProject/> </SurveyWindow>
+                <SurveyWindow name={"Research"} debug={true}> <ResearchProject/> </SurveyWindow>
+                <SurveyWindow name={"Web Design"} debug={true}> <WebProject/> </SurveyWindow>
             </div>
         );
     }
