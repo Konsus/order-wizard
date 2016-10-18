@@ -152,7 +152,7 @@ export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState
         }
         console.log("RENDER DATE: " + value + " value: " + this.state.value);
 
-        return <div>
+        return <div className="order-wizzard__date-group">
             <span>{this.renderDateView(value)}</span>
             <span>{this.renderTimeView(value)}</span>
             <span>{this.renderZoneView(value)}</span>
