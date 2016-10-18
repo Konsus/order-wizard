@@ -4,10 +4,12 @@ import {autobind} from "core-decorators";
 
 export abstract class SurveyWindow extends React.Component<SurveyWindowProps, SurveyWindowState> {
 
-    state = {} as SurveyWindowState;
-
-    componentWillMount(): void {
-        this.state.visible = this.props.visible;
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            visible: this.props.visible,
+            debug: this.props.debug,
+        };
     }
 
     @autobind
@@ -26,30 +28,38 @@ export abstract class SurveyWindow extends React.Component<SurveyWindowProps, Su
         })
     };
 
-    render() {
+    render(): JSX.Element | null {
         return (
             <div>
-                <button onClick={this.open}>{this.props.name || "Open Window"}</button>
+                {this.state.debug ? this.renderDebug() : null}
                 <Modal
                     isOpen={this.state.visible}
                     onRequestClose={this.close}
-                    style={customStyles}
-                >
-                    <div className="modal-cross-close" onClick={this.close}></div>
+                    style={customStyles}>
+                    <div className="modal-cross-close"
+                         onClick={this.close}></div>
                     {this.props.children}
                 </Modal>
             </div>
         )
     }
+
+    renderDebug(): JSX.Element | null {
+        return <button onClick={this.open}>
+            {this.props.name || "Open Window"}
+        </button>
+    }
 }
 
 export interface SurveyWindowProps {
-    visible?: boolean;
     name?: string;
+    debug?: boolean;
+    visible?: boolean;
 }
 
 export interface SurveyWindowState {
-    visible: boolean;
+    visible?: boolean;
+    debug?: boolean;
 }
 
 const customStyles = {
