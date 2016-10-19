@@ -8,16 +8,13 @@ import * as moment from "moment-timezone";
 import {Moment} from "moment-timezone";
 import "react-date-picker/index.css";
 import "react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css";
-//import * as moment from "moment";
-//import "json!moment-timezone/data/packed/latest.json";
 
 const ReactDatePicker = require("react-date-picker");
 const Calendar = ReactDatePicker.Calendar;
 const DateField = ReactDatePicker.DateField;
-const TransitionView = ReactDatePicker.TransitionView;
 const DateFormatSpinnerInput = ReactDatePicker.DateFormatSpinnerInput;
 const TimezonePicker = require("react-bootstrap-timezone-picker").default;
-const DateFormat = "YYYY-MM-DD HH:mm:ssZ";
+const momentTz = moment.tz as any;
 
 export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState> {
 
@@ -26,7 +23,7 @@ export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState
         const value = this.state.value;
         if (value != null && value != "no")
             this.state.visibleDate = true;
-        this.state.timezone = moment.tz.guess();
+        this.state.timezone = momentTz.guess();
     }
 
     get token(): string|any {
@@ -43,10 +40,26 @@ export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState
         return token;
     }
 
-    get defaultTime(): Moment {
-        var retVal = moment().utc();
+    get defaultTimeUtc(): Moment {
+        let retVal: Moment = moment().utc();
         retVal.add(1, 'day');
+        retVal.minute(0);
+        retVal.second(0);
         return retVal;
+    }
+
+    get defaultTimeByZone(): Moment {
+        return momentTz(this.defaultTimeUtc, this.state.timezone);
+    }
+
+    get dateValueOrDefault(): Moment {
+        if (this.state.value == "yes")
+            return this.defaultTimeByZone;
+
+        const value: Moment = momentTz(this.state.value, this.state.timezone);
+        if (value.isValid()) return value;
+
+        return this.defaultTimeByZone;
     }
 
     @autobind
@@ -74,40 +87,32 @@ export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState
 
     @autobind
     onSetDate(dateString, {dateMoment}) {
-
-        let value = moment(this.state.value, DateFormat);
-        if (!value.isValid()) value = this.defaultTime.startOf("day");
-
-        const date = dateMoment as Moment;
-        value.year(date.year());
-        value.month(date.month());
-        value.day(date.day());
+        const select: Moment = moment(dateMoment);
+        let value: Moment = this.dateValueOrDefault;
+        value.year(select.year());
+        value.month(select.month());
+        value.day(select.day());
+        value = momentTz(value, this.state.timezone);
         this.setValue(value);
     }
 
     @autobind
     onSetTime(dateString, {dateMoment}) {
-
-        let value = moment(this.state.value, DateFormat);
-        if (!value.isValid()) value = this.defaultTime.endOf("day");
-
-        const date = (dateMoment as Moment).tz(this.state.timezone);
-        value.hour(date.hour());
-        value.minute(date.minute());
-        value.second(date.second());
+        const select: Moment = moment(dateMoment);
+        let value: Moment = this.dateValueOrDefault;
+        value.hour(select.hour());
+        value.minute(select.minute());
+        value.second(select.second());
+        value = momentTz(value, this.state.timezone);
         this.setValue(value);
     }
 
     @autobind
     onSetZone(zoneName: string) {
-
-        let value = moment(this.state.value, DateFormat);
-        if (!value.isValid()) value = this.defaultTime.startOf("day");
-        value = value.tz(this.state.timezone).tz(zoneName);
-
+        const value: Moment = momentTz(this.dateValueOrDefault, zoneName);
         this.setState(state => {
             state.timezone = zoneName;
-            state.value = value.utc().format(DateFormat);
+            state.value = value.format();
             this.onValueChange(state);
             return state;
         });
@@ -115,7 +120,7 @@ export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState
 
     setValue(value: Moment) {
         this.setState(state => {
-            state.value = value.utc().format(DateFormat);
+            state.value = value.format();
             this.onValueChange(state);
             return state;
         });
@@ -138,20 +143,7 @@ export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState
 
     renderDate(): JSX.Element|any {
         if (!this.state.visibleDate) return null;
-
-        let value;
-        switch (this.state.value) {
-            case "yes":
-            case "no":
-                value = null;
-                break;
-
-            default:
-                value = moment(this.state.value, DateFormat).local().toDate();
-                break;
-        }
-        console.log("RENDER DATE: " + value + " value: " + this.state.value);
-
+        const value = this.dateValueOrDefault;
         return <div className="order-wizzard__date-group">
             <span>{this.renderDateView(value)}</span>
             <span>{this.renderTimeView(value)}</span>
@@ -159,38 +151,26 @@ export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState
         </div>;
     }
 
-    renderDateView(date: Date) {
-        const defaultValue = this.defaultTime.startOf("day");
-        return <DateField
-            date={date}
-            forceValidDate={true}
-            updateOnDateClick={true}
-            defaultValue={defaultValue}
-            dateFormat="YYYY-MM-DD"
-            onChange={this.onSetDate}>
-            <TransitionView>
-                <Calendar style={{padding: 10}}/>
-            </TransitionView>
+    renderDateView(date: Moment) {
+        return <DateField value={date}
+                          forceValidDate={true}
+                          updateOnDateClick={true}
+                          dateFormat="YYYY-MM-DD"
+                          onChange={this.onSetDate}>
+            <Calendar style={{padding: 10}}/>
         </DateField>
     }
 
-    renderTimeView(date: Date) {
-        const defaultValue = this.defaultTime.endOf("day");
-        defaultValue.min(0);
-        defaultValue.second(0);
-        return <DateFormatSpinnerInput
-            value={date}
-            dateFormat="HH:mm:ss"
-            isDateInput={false}
-            onChange={this.onSetTime}>
-        </DateFormatSpinnerInput>
+    renderTimeView(date: Moment) {
+        return <DateFormatSpinnerInput value={date}
+                                       isDateInput={false}
+                                       dateFormat="HH:mm:ss"
+                                       onChange={this.onSetTime}/>
     }
 
-    renderZoneView(date: Date) {
-        return <TimezonePicker
-            defaultValue={this.state.timezone}
-            onChange={this.onSetZone}
-        />;
+    renderZoneView(date: Moment) {
+        return <TimezonePicker defaultValue={this.state.timezone}
+                               onChange={this.onSetZone}/>;
     }
 }
 
