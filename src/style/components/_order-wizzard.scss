@@ -29,6 +29,9 @@
   &__step {
     margin-bottom: 100px;
   }
+  &__step-survey {
+    position: relative;
+  }
   &__checkbox {
     input[type="checkbox"] {
       display: none;
@@ -147,6 +150,12 @@
       }
     }
   }
+  &__date-group {
+    position: absolute;
+    bottom: 12px;
+    left: 85px;
+    width: 100%;
+  }
   @media (max-width: 650px) {
     max-width: 627px;
     width: auto;
@@ -158,11 +167,73 @@
       width: 450px;
       margin: 0 auto;
     }
+    &__date-group {
+      position: static;
+      padding-top: 20px;
+      span {
+        display: block;
+        margin-bottom: 15px;
+      }
+    }
   }
   @media (max-width: 480px) {
     &__controls {
       width: 320px;
       margin: 0 auto;
+    }
+  }
+}
+
+.react-date-field {
+  width: 120px;
+  margin-right: 10px;
+}
+
+.react-date-picker__date-format-spinner {
+  position: relative;
+  top: 1px;
+  margin-right: 10px;
+  input {
+    width: 100px;
+  }
+}
+
+.timezone-picker-textfield {
+  width: 245px;
+  input {
+    padding: 8px 12px;
+    border-radius: 0;
+    border: 1px solid gray;
+  }
+  .form-control {
+    height: 32px;
+  }
+}
+
+@media (max-width: 650px) {
+  .react-date-field {
+    width: auto;
+    margin-right: 0;
+  }
+
+  .react-date-picker__date-format-spinner {
+    position: relative;
+    top: 1px;
+    margin-right: 0;
+    input {
+      width: 100px;
+    }
+  }
+
+  .timezone-picker-textfield {
+    width: auto;
+    input {
+      padding: 8px 12px;
+      border-radius: 0;
+      border: 1px solid gray;
+    }
+    .form-control {
+      height: 32px;
     }
   }
 }

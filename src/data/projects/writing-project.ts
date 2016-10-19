@@ -97,7 +97,7 @@ export class WritingProjectSurvey {
             this.service,
             this.topic,
             this.content,
-            this.files,
+            //this.files,
             this.deadline,
             this.comments,
         ]

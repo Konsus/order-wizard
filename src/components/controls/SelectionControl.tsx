@@ -47,8 +47,8 @@ export abstract class SelectionControl<P extends Survey.View.SelectionProps<any>
     /** Get initial value of the form. {@link Survey.View.Value#value} */
     protected initialValue(): any {
         let value = this.props.value;
-        if (value != null) return null;
-        const token = this.props.token;
+        if (value != null) return value;
+        const token = this.token;
         if (token != null) value = this.context.form.getValue(token);
         return value;
     }
@@ -109,9 +109,17 @@ export abstract class SelectionControl<P extends Survey.View.SelectionProps<any>
      * @param active - whether option is active or not.
      */
     renderOption(option: Survey.Option, index: number, active: boolean): JSX.Element|any {
-        if (!active) return null;
-        return (<label key={index}>{option.label || option.value}</label>)
+        if (active) return this.renderActiveOption(option, index);
     };
+
+    /**
+     * Render single option that is validated to be active on the page.
+     * @param option - option from question
+     * @param index - zero-based index of an option.
+     */
+    renderActiveOption(option: Survey.Option, index: number): JSX.Element|any {
+        return (<label key={index}>{option.label || option.value}</label>)
+    }
 
 }
 

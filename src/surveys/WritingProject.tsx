@@ -44,7 +44,7 @@ export class WritingProject extends ProjectSurveyFlow<Survey.Forms.WritingProjec
     renderContentPage(page: Survey.Page) {
         return (
             <SurveyPage {...page} >
-                <File {...page.questions[0]} />
+                {/*<File {...page.questions[0]} />*/}
                 <Comment {...page.questions[1]} />
             </SurveyPage>
         )

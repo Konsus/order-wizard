@@ -11,7 +11,7 @@ module.exports = {
         path.join(__dirname, '/app/app.tsx')
     ],
     resolve: {
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.json']
     },
     output: {
         path: path.join(__dirname, '/dist/'),

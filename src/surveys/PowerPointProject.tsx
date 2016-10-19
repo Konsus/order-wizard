@@ -64,7 +64,7 @@ export class PowerPointProject extends ProjectSurveyFlow<Survey.Forms.PowerPoint
     renderPurposePage(page: Survey.Page) {
         return (
             <SurveyPage {...page} >
-                <CheckGroup {...page.questions[0]} />
+                <RadioGroup {...page.questions[0]} />
             </SurveyPage>
         )
     }

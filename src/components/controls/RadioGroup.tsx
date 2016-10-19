@@ -137,7 +137,7 @@ export class RadioGroup extends SelectionControl<Survey.View.SelectionProps<any>
         </div>
     }
 
-    renderOption(option: Survey.Option, index: number, active: boolean): JSX.Element|any {
+    renderActiveOption(option: Survey.Option, index: number): JSX.Element|any {
         return <RadioBox {...option} key={`${this.token}.${option.value}`}
                                      valueRef={this.onChange}
                                      checked={this.checked}/>;
