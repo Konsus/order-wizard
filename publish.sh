@@ -1,20 +1,12 @@
 #!/bin/bash
 # save branch
-git stash save "auto-release-stash"
+git stash save "version-patch"
 branch="$(git symbolic-ref --short -q HEAD)"
 # checkout to master branch
 git checkout -B master origin/master
 git merge develop --no-edit
-# compile
-compile="$(npm run lib >/dev/null)"
-if [ -n "$compile" ]; then
-    echo "Compilation has errors!"
-else
-    # publish
-    echo "Publish!"
-    git add --force ./lib
-    git commit -m '[auto-release]'
-fi
+# create version
+npm version patch
 # switch back
 git checkout -- ./lib
 echo "switch back to $branch"

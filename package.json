@@ -9,7 +9,9 @@
     "start": "node server",
     "build": "rimraf dist && cross-env NODE_ENV=production webpack --config ./webpack.production.config.js --progress --profile --colors",
     "lib": "tsc && node node_modules/babel-cli/bin/babel.js lib -d lib",
-    "prepublish": "npm run lib"
+    "prepublish": "npm run lib",
+    "patch": "sh ./publish.sh",
+    "version": "npm run lib && git add -A lib"
   },
   "repository": {
     "type": "git",
