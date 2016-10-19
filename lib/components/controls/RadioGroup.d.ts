@@ -21,7 +21,7 @@ export declare class RadioGroup extends SelectionControl<Survey.View.SelectionPr
     checked(value: any): boolean;
     onChange(value: any): void;
     renderActiveView(): JSX.Element | any;
-    renderOption(option: Survey.Option, index: number, active: boolean): JSX.Element | any;
+    renderActiveOption(option: Survey.Option, index: number): JSX.Element | any;
 }
 export interface RadioBoxProps extends Survey.View.Element<any> {
     valueRef?: Survey.Ref<any>;

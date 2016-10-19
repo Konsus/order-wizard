@@ -12,7 +12,7 @@ export declare class CheckGroup extends SelectionControl<CheckGroupProps, Survey
     onChange(event: React.FormEvent<React.HTMLProps<HTMLInputElement>>): void;
     protected initialValue(): any;
     renderActiveView(): JSX.Element | any;
-    renderOption(option: Survey.Option, index: number, active: boolean): JSX.Element | any;
+    renderActiveOption(option: Survey.Option, index: number): JSX.Element | any;
 }
 export interface CheckGroupProps extends Survey.View.SelectionProps<any[]> {
 }

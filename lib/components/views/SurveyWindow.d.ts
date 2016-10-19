@@ -1,16 +1,18 @@
 /// <reference types="react" />
 import * as React from "react";
 export declare abstract class SurveyWindow extends React.Component<SurveyWindowProps, SurveyWindowState> {
-    state: SurveyWindowState;
-    componentWillMount(): void;
+    constructor(...args: any[]);
     open(): void;
     close(): void;
-    render(): JSX.Element;
+    render(): JSX.Element | null;
+    renderDebug(): JSX.Element | null;
 }
 export interface SurveyWindowProps {
-    visible?: boolean;
     name?: string;
+    debug?: boolean;
+    visible?: boolean;
 }
 export interface SurveyWindowState {
-    visible: boolean;
+    visible?: boolean;
+    debug?: boolean;
 }

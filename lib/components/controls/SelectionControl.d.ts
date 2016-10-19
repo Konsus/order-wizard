@@ -42,6 +42,12 @@ export declare abstract class SelectionControl<P extends Survey.View.SelectionPr
      * @param active - whether option is active or not.
      */
     renderOption(option: Survey.Option, index: number, active: boolean): JSX.Element | any;
+    /**
+     * Render single option that is validated to be active on the page.
+     * @param option - option from question
+     * @param index - zero-based index of an option.
+     */
+    renderActiveOption(option: Survey.Option, index: number): JSX.Element | any;
 }
 export interface SelectionControlState extends Survey.View.Value<any> {
     /** Options activity states. */
