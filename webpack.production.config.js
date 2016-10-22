@@ -53,13 +53,13 @@ module.exports = {
             loaders: ['style', 'css', 'sass']
         }, {
             test: /\.tsx?$/,
-            loaders: ['babel-loader?plugins[]=nameof', 'awesome-typescript-loader']
+            loaders: ['babel-loader?plugins[]=nameof', 'ts-loader']
         }, {
             test: /\.(png|woff|woff2|eot|ttf|svg)$/,
             loader: require.resolve('url-loader') + '?limit=100000'
         }],
         preLoaders: [{
-            test: /\.jsx$/,
+            test: /\.jsx?$/,
             loader: "source-map-loader"
         }]
     }

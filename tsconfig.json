@@ -9,6 +9,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "moduleResolution": "node",
+    "removeComments": true,
     "jsx": "react",
     "types": ["node"]
   },
@@ -19,5 +20,10 @@
     "node_modules",
     "dist",
     "lib"
-  ]
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "useBabel": true,
+    "useCache": true,
+    "babelOptions":"plugins[]=nameof"
+  }
 }
