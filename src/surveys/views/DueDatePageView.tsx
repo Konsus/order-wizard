@@ -7,6 +7,7 @@ import {DueDateQuestion} from "../../data/common";
 import * as moment from "moment-timezone";
 import {Moment} from "moment-timezone";
 import "react-date-picker/index.css";
+import "moment-timezone/data/packed/latest.json";
 import "react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css";
 
 const ReactDatePicker = require("react-date-picker");

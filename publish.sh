@@ -12,3 +12,4 @@ git checkout -- ./lib
 echo "switch back to $branch"
 git checkout ${branch}
 git stash pop
+exit
