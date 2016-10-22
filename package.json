@@ -5,7 +5,7 @@
   "main": "lib",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "heroku-postbuild": "npm run build",
+    "heroku-postbuild": "npm install && npm run build",
     "start": "node server",
     "build": "rimraf dist && cross-env NODE_ENV=production webpack --config ./webpack.production.config.js --progress --profile --colors",
     "lib": "tsc && node node_modules/babel-cli/bin/babel.js lib -d lib",
