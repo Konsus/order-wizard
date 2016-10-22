@@ -43,8 +43,8 @@ module.exports = {
                 'presets': ['react', 'es2015', 'stage-0']
             }
         }, {
-            test: /\.json?$/,
-            loader: 'json'
+            test: /\.json$/,
+            loader: 'json-loader'
         }, {
             test: /\.css$/,
             loader: 'style-loader!css-loader'
