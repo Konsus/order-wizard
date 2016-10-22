@@ -14,7 +14,7 @@ module.exports = {
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.json']
     },
     output: {
-        path: path.join(__dirname, '/dist/'),
+        path: path.join(__dirname, 'dist'),
         filename: '[name].js',
         publicPath: '/'
     },
@@ -50,7 +50,7 @@ module.exports = {
             loaders: ['style', 'css', 'sass']
         }, {
             test: /\.tsx?$/,
-            loaders: ['babel-loader?plugins[]=nameof', 'ts-loader']
+            loaders: ['babel-loader?plugins[]=nameof', 'awesome-typescript-loader']
         }, {
             test: /\.(png|woff|woff2|eot|ttf|svg)$/,
             loader: require.resolve('url-loader') + '?limit=100000'

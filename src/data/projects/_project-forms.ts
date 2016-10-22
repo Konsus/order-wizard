@@ -1,4 +1,4 @@
-module Survey.Forms {
+declare module Survey.Forms {
     export interface ProjectForm extends Forms.CommentsForm, Forms.DueDateForm {
         service?: string;
     }
