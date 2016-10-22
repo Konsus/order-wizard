@@ -15,7 +15,7 @@ const Calendar = ReactDatePicker.Calendar;
 const DateField = ReactDatePicker.DateField;
 const DateFormatSpinnerInput = ReactDatePicker.DateFormatSpinnerInput;
 const TimezonePicker = require("react-bootstrap-timezone-picker").default;
-const momentTz = moment.tz as any;
+const momentTz = (moment as any).tz as any;
 momentTz.load(require("moment-timezone/data/packed/latest.json"));
 
 export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState> {
