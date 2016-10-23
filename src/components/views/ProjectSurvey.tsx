@@ -2,6 +2,11 @@ import * as React from "react";
 import {SurveyView, SurveyPageState} from "./SurveyView";
 import {SurveyFlow} from "../../core/survey-flow";
 import {SelectionControl} from "../controls/SelectionControl";
+import {autobind} from "core-decorators";
+import "braintree-web";
+var braintree = require('braintree-web');
+var BraintreeDropIn = require('braintree-react').DropIn;
+var testClientToken = require('braintree-react/example/dummy-client-token');
 
 /** Base type for project creation survey, provides intro page. */
 export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurveyState> extends SurveyView<P, S & SurveyPageState> implements React.ChildContextProvider<Survey.Context> {
@@ -18,6 +23,30 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         return this.props.flow.context;
     }
 
+    isLoggedIn(): boolean {
+        return true;
+    }
+
+    isNewUser(): boolean {
+        return false;
+    }
+
+    braintreeToken(): string {
+        return testClientToken;
+    }
+
+    @autobind
+    login() {
+        console.error("#login is not implemented yet!")
+        this.moveNext();
+    }
+
+    @autobind
+    submitCreditCard() {
+        console.error("#submitCreditCard is not implemented yet!")
+        this.moveNext();
+    }
+
     /** Move from initial page to actual survey. */
     startSurvey() {
         this.moveNext();
@@ -27,11 +56,10 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         if (super.canMoveNext())
             return true;
 
-        return this.state.pageType < ProjectSurveyPageType.Summary;
+        return this.state.pageType < ProjectSurveyPageType.Success;
     }
 
     moveNext(): boolean {
-
         if (!this.state.isPageDone)
             return false;
 
@@ -64,7 +92,20 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
                 return true;
 
             case ProjectSurveyPageType.Summary:
-                return false;
+            case ProjectSurveyPageType.Login:
+            case ProjectSurveyPageType.CreditCard:
+                this.setState(state => {
+                    state.pageType += 1;
+                    switch (state.pageType) {
+                        case ProjectSurveyPageType.Login:
+                            // skip login page if user is logged in
+                            const isLoggedIn = this.isLoggedIn();
+                            if (isLoggedIn) state.pageType += 1;
+                            break;
+                    }
+                    return state;
+                });
+                return true;
 
             default:
                 return false;
@@ -95,6 +136,8 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
                 return true;
 
             case ProjectSurveyPageType.Summary:
+            case ProjectSurveyPageType.Login:
+            case ProjectSurveyPageType.CreditCard:
                 this.setState(state => {
                     state.pageType -= 1;
                     return state;
@@ -112,6 +155,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         state.pageType = ProjectSurveyPageType.Intro;
     }
 
+    @autobind
     startProject() {
         console.log("START PROJECT: ", JSON.stringify(this.props.flow.form));
     }
@@ -214,64 +258,134 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
                 return super.render();
             case ProjectSurveyPageType.Summary:
                 return this.renderSummaryPage();
+            case ProjectSurveyPageType.Login:
+                return this.renderLoginPage();
+            case ProjectSurveyPageType.CreditCard:
+                return this.renderCreditCardPage();
+            case ProjectSurveyPageType.Success:
+                return this.renderSuccessPage();
         }
     }
 
     renderIntroPage() {
-        return (
-            <div className="order-wizzard-cover">
-                <div className="order-wizzard-cover__logo"></div>
+        return <div className="order-wizzard-cover">
+            <div className="order-wizzard-cover__logo"></div>
 
-                <div className="order-wizzard-cover__info">
-                    <p>We’re asking you a few questions to understand what we can do for you.</p>
-                    <p>We will then come back to you with a quote – and you decide whether we should get started!</p>
-                </div>
+            <div className="order-wizzard-cover__info">
+                <p>We’re asking you a few questions to understand what we can do for you.</p>
+                <p>We will then come back to you with a quote – and you decide whether we should get started!</p>
+            </div>
 
-                <div className="order-wizzard-cover__next">
-                    <a href="#" className="b-button" onClick={() => this.startSurvey()}>Next</a>
+            <div className="order-wizzard-cover__next">
+                <a href="#" className="b-button" onClick={() => this.startSurvey()}>Next</a>
+            </div>
+        </div>
+    }
+
+    renderLoginPage() {
+        const isNewUser = this.isNewUser();
+        return isNewUser
+            ? this.renderNewUserPage()
+            : this.renderUserLoginPage();
+    }
+
+    renderNewUserPage() {
+
+        return <div className="order-wizzard order-wizzard--login">
+            <div className="order-wizzard__header">
+                <div className="order-wizzard__title">SUCCESS!</div>
+                <div className="order-wizzard__sub-title">Your quote will be with you shortly</div>
+            </div>
+
+            <div className="order-wizzard__login">
+                <header>
+                    Meanwhile, can you please complete your profile so we are <br/>
+                    ready to go if you approve the quote:
+                </header>
+
+                <div className="order-wizzard__login-form order-wizzard__login-form__next-step">
+                    <div className="form-group">
+                        <div className="row">
+                            <div className="col-md-6 col-xs-6">
+                                <input type="text" className="form-control" placeholder="First name*"/>
+                            </div>
+                            <div className="col-md-6 col-xs-6">
+                                <input type="text" className="form-control" placeholder="Last name*"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="form-group">
+                        <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Company name"/>
+                    </div>
+                    <div className="form-group">
+                        <input type="password" className="form-control" id="exampleInputPassword1"
+                               placeholder="Set a password*"/>
+                    </div>
+                    <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                    <p>*Required</p></div>
+            </div>
+        </div>
+    }
+
+    renderUserLoginPage() {
+        return <div className="order-wizzard order-wizzard--login">
+            <div className="order-wizzard__header">
+                <div className="order-wizzard__title">Thank you!</div>
+                <div className="order-wizzard__sub-title">Please sign in and your quote will be with you shortly</div>
+            </div>
+
+            <div className="order-wizzard__login">
+                <div className="order-wizzard__login-form">
+                    <div className="form-group">
+                        <input type="email" className="form-control" id="exampleInputEmail1" placeholder="Email"/>
+                    </div>
+                    <div className="form-group">
+                        <input type="password" className="form-control" id="exampleInputPassword1"
+                               placeholder="Password"/>
+                    </div>
+                    <div className="form-group">
+                        <a href="#">Forgot password?</a>
+                    </div>
+
+                    <button type="submit"
+                            className="btn btn-primary btn-block"
+                            onClick={this.login}> Log in
+                    </button>
                 </div>
             </div>
-        )
+        </div>
+    }
+
+    renderCreditCardPage() {
+        const clientToken = this.braintreeToken();
+        return <div className="order-wizzard">
+            <div className="order-wizzard__header">
+                <div className="order-wizzard__sub-title">
+                    Add your credit card details so we are ready to go if you approve the quote.
+                </div>
+            </div>
+            <form>
+                <BraintreeDropIn braintree={braintree}
+                                 clientToken={clientToken}/>
+            </form>
+            <button type="submit"
+                    className="btn btn-primary btn-block"
+                    onClick={this.submitCreditCard}> Submit
+            </button>
+        </div>
     }
 
     renderSummaryPage() {
         return (
-            // <div className="order-wizzard">
-            //     <div className="order-wizzard__step-title">Summary of your task!</div>
-            //
-            //     <div className="order-wizzard__step-survey">
-            //         <div className="order-wizzard__summary">
-            //             {this.renderSurveySummary()}
-            //         </div>
-            //     </div>
-            //
-            //     <div className="order-wizzard__cta text-center">
-            //         <a href="#" className="b-button b-button--blue"
-            //            onClick={() => this.startProject()}>Start project</a>
-            //     </div>
-            // </div>
-
-            <div className="order-wizzard order-wizzard--login">
-               <div className="order-wizzard__header">
-                   <div className="order-wizzard__title">Thanks!</div>
-                   <div className="order-wizzard__sub-title">Please log in and your quote will be with you shortly</div>
-               </div>
-
-               <div className="order-wizzard__login">
-                   <div className="order-wizzard__login-form">
-                       <div className="form-group">
-                           <input type="email" className="form-control" id="exampleInputEmail1" placeholder="Email" />
-                       </div>
-                       <div className="form-group">
-                           <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
-                       </div>
-                       <div className="form-group">
-                           <a href="#">Forgot password?</a>
-                       </div>
-
-                       <button type="submit" className="btn btn-primary btn-block">Log in</button>
-                   </div>
-               </div>
+            <div className="order-wizzard">
+                <div className="order-wizzard__step-title">Summary of your task!</div>
+                <div className="order-wizzard__step-survey">
+                    <div className="order-wizzard__summary">
+                        {this.renderSurveySummary()}
+                    </div>
+                </div>
+                {this.renderSummaryPageNextButton()}
             </div>
 
             // <div className="order-wizzard order-wizzard--login">
@@ -299,19 +413,30 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
             //             </div>
             //
             //             <div className="form-group">
-            //                 <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Company name" />
-            //             </div>
-            //             <div className="form-group">
-            //                 <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Set a password*" />
-            //             </div>
-            //
-            //             <button type="submit" className="btn btn-primary btn-block">Submit</button>
-            //             <p>*Required</p>
-            //         </div>
-            //     </div>
-            // </div>
+            //                 <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Company
+            // name" /> </div> <div className="form-group"> <input type="password" className="form-control"
+            // id="exampleInputPassword1" placeholder="Set a password*" /> </div>  <button type="submit" className="btn
+            // btn-primary btn-block">Submit</button> <p>*Required</p> </div> </div> </div>
 
         )
+    }
+
+    renderSummaryPageNextButton() {
+        const loggedIn = this.isLoggedIn();
+        const label = loggedIn ? "Submit" : "Next";
+        return <div className="order-wizzard__cta text-center">
+            <a href="#" className="b-button b-button--blue"
+               onClick={() => this.moveNext()}>{label}</a>
+        </div>
+    }
+
+    renderSuccessPage() {
+        return <div className="order-wizzard order-wizzard--login">
+            <div className="order-wizzard__header">
+                <div className="order-wizzard__title">SUCCESS!</div>
+                <div className="order-wizzard__sub-title">Your quote will be with you shortly</div>
+            </div>
+        </div>
     }
 }
 
@@ -332,6 +457,9 @@ export enum ProjectSurveyPageType {
     Survey,
         /** Summary page with results of survey and submission button. */
     Summary,
+    Login,
+    CreditCard,
+    Success,
 }
 
 
