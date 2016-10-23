@@ -1,12 +1,12 @@
 import * as React from "react";
 import {autobind} from "core-decorators";
-import {SurveyFlow} from "../core/survey-flow";
-import {Comment} from "../components/controls/Comment";
-import {RadioGroup} from "../components/controls/RadioGroup";
-import {SurveyPage} from "../components/views/SurveyPage";
-import {ProjectSurveyFlow} from "../components/views/ProjectSurveyFlow";
-import {DueDatePageView} from "./views/DueDatePageView";
-import Q from "../data/projects/data-entry-project";
+import {SurveyFlow} from "../../core/survey-flow";
+import {Comment} from "../../components/controls/Comment";
+import {RadioGroup} from "../../components/controls/RadioGroup";
+import {SurveyPage} from "../../components/views/SurveyPage";
+import {ProjectSurveyFlow} from "../base/ProjectSurveyFlow";
+import {DueDatePageView} from "../views/DueDatePageView";
+import Q from "../../data/projects/data-entry-project";
 
 export class DataEntryProject extends ProjectSurveyFlow<Survey.Forms.DataEntryProject> {
 

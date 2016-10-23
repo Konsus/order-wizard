@@ -1,7 +1,7 @@
 import * as React from "react";
-import {SurveyView, SurveyPageState} from "./SurveyView";
+import {SurveyView, SurveyPageState} from "../../components/views/SurveyView";
 import {SurveyFlow} from "../../core/survey-flow";
-import {SelectionControl} from "../controls/SelectionControl";
+import {SelectionControl} from "../../components/controls/SelectionControl";
 import {autobind} from "core-decorators";
 import "braintree-web";
 var braintree = require('braintree-web');
