@@ -7,11 +7,20 @@ import "braintree-web";
 var braintree = require('braintree-web');
 var BraintreeDropIn = require('braintree-react').DropIn;
 var testClientToken = require('braintree-react/example/dummy-client-token');
+const c: Survey.Project.API = null;
 
 /** Base type for project creation survey, provides intro page. */
 export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurveyState> extends SurveyView<P, S & SurveyPageState> implements React.ChildContextProvider<Survey.Context> {
 
+    public static contextTypes = {
+        [nameof(c.isLoggedIn)]: React.PropTypes.func.isRequired,
+        [nameof(c.isNewUser)]: React.PropTypes.func.isRequired,
+        [nameof(c.hasCreditCard)]: React.PropTypes.func.isRequired,
+    };
+
     public static childContextTypes = SelectionControl.contextTypes;
+
+    context: Survey.Project.API;
 
     constructor(...args) {
         super(...args);
@@ -24,11 +33,15 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     }
 
     isLoggedIn(): boolean {
-        return true;
+        return this.context.isLoggedIn();
     }
 
     isNewUser(): boolean {
-        return false;
+        return this.context.isNewUser();
+    }
+
+    hasCreditCard(): boolean {
+        return this.context.hasCreditCard();
     }
 
     braintreeToken(): string {
@@ -96,12 +109,15 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
             case ProjectSurveyPageType.CreditCard:
                 this.setState(state => {
                     state.pageType += 1;
+                    //noinspection FallThroughInSwitchStatementJS
                     switch (state.pageType) {
                         case ProjectSurveyPageType.Login:
                             // skip login page if user is logged in
-                            const isLoggedIn = this.isLoggedIn();
-                            if (isLoggedIn) state.pageType += 1;
-                            break;
+                            if (this.isLoggedIn()) state.pageType += 1;
+                        case ProjectSurveyPageType.CreditCard:
+                            // skip credit card page if user already left credit card
+                            if (this.hasCreditCard()) state.pageType += 1;
+                            break
                     }
                     return state;
                 });
