@@ -1,20 +1,34 @@
 import * as React from "react";
 import {ProjectSurvey} from "../surveys/base/ProjectSurvey";
+var ulrQuery = require('url-query');
 
 export class MockProjectAPI extends React.Component<any,any> implements React.ChildContextProvider<Survey.Project.API> {
 
     public static childContextTypes = ProjectSurvey.contextTypes;
 
-    public loggedIn: boolean;
-    public newUser: boolean;
-    public creditCard: boolean;
+    componentWillMount(): void {
+        this.setState(state => {
+            var query = ulrQuery();
+            state.loggedIn = Boolean(query['logged_in']);
+            state.newUser = Boolean(query['new_user']);
+            state.creditCard = Boolean(query['credit_card']);
+            return state;
+        })
+    }
 
     getChildContext(): Survey.Project.API {
         return {
-            isLoggedIn: () => this.loggedIn,
-            isNewUser: () => this.newUser,
-            hasCreditCard: () => this.creditCard,
+            isLoggedIn: () => this.state.loggedIn,
+            isNewUser: () => this.state.newUser,
+            hasCreditCard: () => this.state.creditCard,
         }
+    }
+
+    handleCheckBox(name: string, event: any) {
+        this.setState(state => {
+            state[name] = event.target.checked;
+            return state;
+        })
     }
 
     render(): JSX.Element|any {
@@ -22,17 +36,20 @@ export class MockProjectAPI extends React.Component<any,any> implements React.Ch
             <div style={{margin :2}}>
                 <div className="checkbox">
                     <label> <input type="checkbox"
-                                   onChange={e => {this.loggedIn = (e.target as any).checked}}/>
+                                   checked={this.state.loggedIn}
+                                   onChange={e => this.handleCheckBox("loggedIn", e)}/>
                         Logged In</label>
                 </div>
                 <div className="checkbox">
                     <label> <input type="checkbox"
-                                   onChange={e => {this.newUser = (e.target as any).checked}}/>
+                                   checked={this.state.newUser}
+                                   onChange={e => this.handleCheckBox("newUser", e)}/>
                         New User</label>
                 </div>
                 <div className="checkbox">
                     <label> <input type="checkbox"
-                                   onChange={e => {this.creditCard = (e.target as any).checked}}/>
+                                   checked={this.state.creditCard}
+                                   onChange={e => this.handleCheckBox("creditCard", e)}/>
                         Has Credit Card</label>
                 </div>
             </div>
