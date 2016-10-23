@@ -8,10 +8,16 @@ export class MockProjectAPI extends React.Component<any,any> implements React.Ch
 
     componentWillMount(): void {
         this.setState(state => {
-            var query = ulrQuery();
-            state.loggedIn = Boolean(query['logged_in']);
-            state.newUser = Boolean(query['new_user']);
-            state.creditCard = Boolean(query['credit_card']);
+
+            try {
+                var query = ulrQuery();
+                state.loggedIn = Boolean(query['logged_in']);
+                state.newUser = Boolean(query['new_user']);
+                state.creditCard = Boolean(query['credit_card']);
+            }
+            catch (e) {
+
+            }
             return state;
         })
     }
