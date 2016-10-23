@@ -49,14 +49,20 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     }
 
     @autobind
+    registerUser() {
+        this.moveNext();
+        console.error("#registerUser is not implemented yet!");
+    }
+
+    @autobind
     login() {
-        console.error("#login is not implemented yet!")
+        console.error("#login is not implemented yet!");
         this.moveNext();
     }
 
     @autobind
     submitCreditCard() {
-        console.error("#submitCreditCard is not implemented yet!")
+        console.error("#submitCreditCard is not implemented yet!");
         this.moveNext();
     }
 
@@ -306,7 +312,6 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     }
 
     renderNewUserPage() {
-
         return <div className="order-wizzard order-wizzard--login">
             <div className="order-wizzard__header">
                 <div className="order-wizzard__title">SUCCESS!</div>
@@ -338,7 +343,11 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
                         <input type="password" className="form-control" id="exampleInputPassword1"
                                placeholder="Set a password*"/>
                     </div>
-                    <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                    <button type="submit"
+                            className="btn btn-primary btn-block"
+                            onClick={this.registerUser}>
+                        Submit
+                    </button>
                     <p>*Required</p></div>
             </div>
         </div>
@@ -403,37 +412,6 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
                 </div>
                 {this.renderSummaryPageNextButton()}
             </div>
-
-            // <div className="order-wizzard order-wizzard--login">
-            //     <div className="order-wizzard__header">
-            //         <div className="order-wizzard__title">SUCCESS!</div>
-            //         <div className="order-wizzard__sub-title">Your quote will be with you shortly</div>
-            //     </div>
-            //
-            //     <div className="order-wizzard__login">
-            //         <header>
-            //             Meanwhile, can you please complete your profile so we are <br/>
-            //             ready to go if you approve the quote:
-            //         </header>
-            //
-            //         <div className="order-wizzard__login-form order-wizzard__login-form__next-step">
-            //             <div className="form-group">
-            //                 <div className="row">
-            //                     <div className="col-md-6 col-xs-6">
-            //                         <input type="text" className="form-control" placeholder="First name*" />
-            //                     </div>
-            //                     <div className="col-md-6 col-xs-6">
-            //                         <input type="text" className="form-control" placeholder="Last name*" />
-            //                     </div>
-            //                 </div>
-            //             </div>
-            //
-            //             <div className="form-group">
-            //                 <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Company
-            // name" /> </div> <div className="form-group"> <input type="password" className="form-control"
-            // id="exampleInputPassword1" placeholder="Set a password*" /> </div>  <button type="submit" className="btn
-            // btn-primary btn-block">Submit</button> <p>*Required</p> </div> </div> </div>
-
         )
     }
 
