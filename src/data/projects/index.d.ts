@@ -33,7 +33,7 @@ declare namespace Survey {
             files?: any[];
         }
 
-        export interface WebProject extends SurveyForm {
+        export interface WebProject extends Survey.SurveyForm {
             website?: string;
             website_link?: string;
             service?: string | any[];
