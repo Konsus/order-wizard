@@ -1,10 +1,16 @@
 import * as React from "react";
-import {ProjectSurvey} from "../surveys/base/ProjectSurvey";
+import {ProjectSurveyRoot} from "../surveys/base/ProjectSurveyRoot";
 var ulrQuery = require('url-query');
 
-export class MockProjectAPI extends React.Component<any,any> implements React.ChildContextProvider<Survey.Project.API> {
+export class MockProjectContext extends ProjectSurveyRoot<any, any> {
 
-    public static childContextTypes = ProjectSurvey.contextTypes;
+    constructor() {
+        super({
+            isLoggedIn: () => this.state.loggedIn,
+            isNewUser: () => this.state.newUser,
+            hasCreditCard: () => this.state.creditCard,
+        });
+    }
 
     componentWillMount(): void {
         this.setState(state => {
@@ -20,14 +26,6 @@ export class MockProjectAPI extends React.Component<any,any> implements React.Ch
             }
             return state;
         })
-    }
-
-    getChildContext(): Survey.Project.API {
-        return {
-            isLoggedIn: () => this.state.loggedIn,
-            isNewUser: () => this.state.newUser,
-            hasCreditCard: () => this.state.creditCard,
-        }
     }
 
     handleCheckBox(name: string, event: any) {
@@ -59,7 +57,7 @@ export class MockProjectAPI extends React.Component<any,any> implements React.Ch
                         Has Credit Card</label>
                 </div>
             </div>
-            {this.props.children}
+            {super.render()}
         </div>
     }
 }
