@@ -402,17 +402,24 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     }
 
     renderSummaryPage() {
-        return (
-            <div className="order-wizzard">
-                <div className="order-wizzard__step-title">Summary of your task!</div>
-                <div className="order-wizzard__step-survey">
-                    <div className="order-wizzard__summary">
-                        {this.renderSurveySummary()}
-                    </div>
+        return <div className="order-wizzard">
+            <div className="order-wizzard__step-title">Summary of your task!</div>
+            <div className="order-wizzard__step-survey">
+                <div className="order-wizzard__summary">
+                    {this.renderSurveySummary()}
                 </div>
-                {this.renderSummaryPageNextButton()}
             </div>
-        )
+            <div className="order-wizzard__controls clearfix">
+                <div className="order-wizzard__back pull-left">
+                    <a onClick={() => this.moveBack()} href="#" className="b-button b-button--transparent">
+                        <span className="b-button__icon-arrow"/> Back</a>
+                </div>
+
+                <div className="order-wizzard__next pull-right">
+                    {this.renderSummaryPageNextButton()}
+                </div>
+            </div>
+        </div>
     }
 
     renderSummaryPageNextButton() {
