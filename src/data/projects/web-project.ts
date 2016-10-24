@@ -15,6 +15,8 @@ export const WebSiteLinkQuestion: Survey.Question = {
     title: "Link to website",
     token: nameof((null as WebProject).website_link),
     active: (form: WebProject) => form.website == "existing",
+    resize: "none",
+    rows: 1,
 };
 
 export const WebSitePage: Survey.Page = {
