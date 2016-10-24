@@ -40,6 +40,8 @@ declare namespace Survey {
         required?: boolean;
         defaultValue?: any;
         placeholder?: any;
+        resize?: "none" | "horizontal" | "vertical" | "both";
+        rows?:number;
 
         /** List of predefined answer options. */
         options?: Option[];
