@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "```\r npm i\r npm start\r ```",
   "main": "lib",
-  "typings": "lib/index.d.ts",
+  "typings": "lib/lib.d.ts",
   "scripts": {
     "heroku-postbuild": "npm install && npm run build",
     "start": "node server",
     "build": "rimraf dist && cross-env NODE_ENV=production webpack --config ./webpack.production.config.js --progress --profile --colors",
-    "lib": "tsc && node node_modules/babel-cli/bin/babel.js lib -d lib",
+    "lib": "tsc && node node_modules/babel-cli/bin/babel.js lib -d lib && dts-bundle --configJson dts-bundle.json && sed -i -e 's/declare/export/g' lib/lib.d.ts",
     "prepublish": "npm run lib",
     "patch": "sh ./publish.sh",
     "version": "npm run lib && git add -A lib"

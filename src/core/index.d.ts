@@ -1,5 +1,4 @@
-declare module Survey {
-
+declare namespace Survey {
     export type Key = string | number;
     export type Function<T, R> = (question: Question) => R;
 
@@ -102,31 +101,32 @@ declare module Survey {
     export interface QuestionView {
         active?: Function<Page, boolean>;
     }
+
+    export namespace View {
+
+        export type Ref<T> = (instance: T) => any;
+
+        export interface Value<T> {
+            value?: T;
+        }
+
+        export interface Element<T> extends Value<T> {
+            id?: Key;
+            label?: string;
+        }
+
+        export interface CheckBox extends Element<any> {
+            group: Group;
+            defaultChecked?: boolean;
+        }
+
+        export interface Group {
+            checked(value: any): boolean;
+        }
+
+        export interface SelectionProps<T> extends Survey.Question, Element<T> {
+            valueRef?: Survey.Ref<T>;
+        }
+    }
 }
 
-declare module Survey.View {
-
-    export type Ref<T> = (instance: T) => any;
-
-    export interface Value<T> {
-        value?: T;
-    }
-
-    export interface Element<T> extends Value<T> {
-        id?: Key;
-        label?: string;
-    }
-
-    export interface CheckBox extends Element<any> {
-        group: Group;
-        defaultChecked?: boolean;
-    }
-
-    export interface Group {
-        checked(value: any): boolean;
-    }
-
-    export interface SelectionProps<T> extends Survey.Question, Element<T> {
-        valueRef?: Survey.Ref<T>;
-    }
-}

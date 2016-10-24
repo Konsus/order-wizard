@@ -7,7 +7,7 @@ import "braintree-web";
 var braintree = require('braintree-web');
 var BraintreeDropIn = require('braintree-react').DropIn;
 var testClientToken = require('braintree-react/example/dummy-client-token');
-const c: Survey.Project.API = null;
+const c: Survey.Project.Context = null;
 
 /** Base type for project creation survey, provides intro page. */
 export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurveyState> extends SurveyView<P, S & SurveyPageState> implements React.ChildContextProvider<Survey.Context> {
@@ -20,7 +20,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
 
     public static childContextTypes = SelectionControl.contextTypes;
 
-    context: Survey.Project.API;
+    context: Survey.Project.Context;
 
     constructor(...args) {
         super(...args);
