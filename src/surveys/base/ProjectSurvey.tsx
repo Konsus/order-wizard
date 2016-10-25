@@ -1,23 +1,23 @@
 import * as React from "react";
+import {autobind} from "core-decorators";
 import {SurveyView, SurveyPageState} from "../../components/views/SurveyView";
 import {SurveyFlow} from "../../core/survey-flow";
 import {SelectionControl} from "../../components/controls/SelectionControl";
-import {autobind} from "core-decorators";
-import "braintree-web";
-var braintree = require('braintree-web');
-var BraintreeDropIn = require('braintree-react').DropIn;
-var testClientToken = require('braintree-react/example/dummy-client-token');
-const c: Survey.Project.Context = null;
+import {LoginPage} from '../views/LoginPage';
+import {CreditCardPage} from '../views/CreditCardPage';
+const ctx: Survey.Project.Context = null;
 
 /** Base type for project creation survey, provides intro page. */
 export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurveyState> extends SurveyView<P, S & SurveyPageState> implements React.ChildContextProvider<Survey.Context> {
 
     public static contextTypes = {
-        [nameof(c.isLoggedIn)]: React.PropTypes.func.isRequired,
-        [nameof(c.isNewUser)]: React.PropTypes.func.isRequired,
-        [nameof(c.hasCreditCard)]: React.PropTypes.func.isRequired,
+        [nameof(ctx.isLoggedIn)]: React.PropTypes.func.isRequired,
+        [nameof(ctx.exists)]: React.PropTypes.func.isRequired,
+        [nameof(ctx.login)]: React.PropTypes.func.isRequired,
+        [nameof(ctx.register)]: React.PropTypes.func.isRequired,
+        [nameof(ctx.hasCreditCard)]: React.PropTypes.func.isRequired,
+        [nameof(ctx.paymentToken)]: React.PropTypes.func.isRequired,
     };
-
     public static childContextTypes = SelectionControl.contextTypes;
 
     context: Survey.Project.Context;
@@ -30,40 +30,6 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
 
     getChildContext(): Survey.Context {
         return this.props.flow.context;
-    }
-
-    isLoggedIn(): boolean {
-        return this.context.isLoggedIn();
-    }
-
-    isNewUser(): boolean {
-        return this.context.isNewUser();
-    }
-
-    hasCreditCard(): boolean {
-        return this.context.hasCreditCard();
-    }
-
-    braintreeToken(): string {
-        return testClientToken;
-    }
-
-    @autobind
-    registerUser() {
-        this.moveNext();
-        console.error("#registerUser is not implemented yet!");
-    }
-
-    @autobind
-    login() {
-        console.error("#login is not implemented yet!");
-        this.moveNext();
-    }
-
-    @autobind
-    submitCreditCard() {
-        console.error("#submitCreditCard is not implemented yet!");
-        this.moveNext();
     }
 
     /** Move from initial page to actual survey. */
@@ -115,16 +81,6 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
             case ProjectSurveyPageType.CreditCard:
                 this.setState(state => {
                     state.pageType += 1;
-                    //noinspection FallThroughInSwitchStatementJS
-                    switch (state.pageType) {
-                        case ProjectSurveyPageType.Login:
-                            // skip login page if user is logged in
-                            if (this.isLoggedIn()) state.pageType += 1;
-                        case ProjectSurveyPageType.CreditCard:
-                            // skip credit card page if user already left credit card
-                            if (this.hasCreditCard()) state.pageType += 1;
-                            break
-                    }
                     return state;
                 });
                 return true;
@@ -281,9 +237,9 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
             case ProjectSurveyPageType.Summary:
                 return this.renderSummaryPage();
             case ProjectSurveyPageType.Login:
-                return this.renderLoginPage();
+                return <LoginPage {...this.context} moveNext={() => this.moveNext()}/>;
             case ProjectSurveyPageType.CreditCard:
-                return this.renderCreditCardPage();
+                return <CreditCardPage {...this.context} moveNext={() => this.moveNext()}/>;
             case ProjectSurveyPageType.Success:
                 return this.renderSuccessPage();
         }
@@ -301,103 +257,6 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
             <div className="order-wizzard-cover__next">
                 <a href="#" className="b-button" onClick={() => this.startSurvey()}>Next</a>
             </div>
-        </div>
-    }
-
-    renderLoginPage() {
-        const isNewUser = this.isNewUser();
-        return isNewUser
-            ? this.renderNewUserPage()
-            : this.renderUserLoginPage();
-    }
-
-    renderNewUserPage() {
-        return <div className="order-wizzard order-wizzard--login">
-            <div className="order-wizzard__header">
-                <div className="order-wizzard__title">SUCCESS!</div>
-                <div className="order-wizzard__sub-title">Your quote will be with you shortly</div>
-            </div>
-
-            <div className="order-wizzard__login">
-                <header>
-                    Meanwhile, can you please complete your profile so we are <br/>
-                    ready to go if you approve the quote:
-                </header>
-
-                <div className="order-wizzard__login-form order-wizzard__login-form__next-step">
-                    <div className="form-group">
-                        <div className="row">
-                            <div className="col-md-6 col-xs-6">
-                                <input type="text" className="form-control" placeholder="First name*"/>
-                            </div>
-                            <div className="col-md-6 col-xs-6">
-                                <input type="text" className="form-control" placeholder="Last name*"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="form-group">
-                        <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Company name"/>
-                    </div>
-                    <div className="form-group">
-                        <input type="password" className="form-control" id="exampleInputPassword1"
-                               placeholder="Set a password*"/>
-                    </div>
-                    <button type="submit"
-                            className="btn btn-primary btn-block"
-                            onClick={this.registerUser}>
-                        Submit
-                    </button>
-                    <p>*Required</p></div>
-            </div>
-        </div>
-    }
-
-    renderUserLoginPage() {
-        return <div className="order-wizzard order-wizzard--login">
-            <div className="order-wizzard__header">
-                <div className="order-wizzard__title">Thank you!</div>
-                <div className="order-wizzard__sub-title">Please sign in and your quote will be with you shortly</div>
-            </div>
-
-            <div className="order-wizzard__login">
-                <div className="order-wizzard__login-form">
-                    <div className="form-group">
-                        <input type="email" className="form-control" id="exampleInputEmail1" placeholder="Email"/>
-                    </div>
-                    <div className="form-group">
-                        <input type="password" className="form-control" id="exampleInputPassword1"
-                               placeholder="Password"/>
-                    </div>
-                    <div className="form-group">
-                        <a href="#">Forgot password?</a>
-                    </div>
-
-                    <button type="submit"
-                            className="btn btn-primary btn-block"
-                            onClick={this.login}> Log in
-                    </button>
-                </div>
-            </div>
-        </div>
-    }
-
-    renderCreditCardPage() {
-        const clientToken = this.braintreeToken();
-        return <div className="order-wizzard">
-            <div className="order-wizzard__header">
-                <div className="order-wizzard__sub-title">
-                    Add your credit card details so we are ready to go if you approve the quote.
-                </div>
-            </div>
-            <form>
-                <BraintreeDropIn braintree={braintree}
-                                 clientToken={clientToken}/>
-            </form>
-            <button type="submit"
-                    className="btn btn-primary btn-block"
-                    onClick={this.submitCreditCard}> Submit
-            </button>
         </div>
     }
 
@@ -423,7 +282,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     }
 
     renderSummaryPageNextButton() {
-        const loggedIn = this.isLoggedIn();
+        const loggedIn = true;
         const label = loggedIn ? "Submit" : "Next";
         return <div className="order-wizzard__cta text-center">
             <a href="#" className="b-button b-button--blue"
