@@ -152,6 +152,32 @@
     bottom: 12px;
     left: 85px;
   }
+  &__summary-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    padding-left: 35px;
+    li {
+      font-size: 16px;
+      line-height: 16px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      color: #32373f;
+      padding-left: 40px;
+      position: relative;
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 13px;
+        height: 10px;
+        background: url('../img/check.png');
+        left: 0;
+        top: 50%;
+        margin-top: -5px;
+      }
+    }
+  }
   @media (max-width: 650px) {
     max-width: 627px;
     width: auto;

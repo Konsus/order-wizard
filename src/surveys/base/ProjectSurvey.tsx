@@ -266,6 +266,10 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
             <div className="order-wizzard__step-survey">
                 <div className="order-wizzard__summary">
                     {this.renderSurveySummary()}
+                    <ul className="order-wizzard__summary-list">
+                        <li>Some text here</li>
+                        <li>And here</li>
+                    </ul>
                 </div>
             </div>
             <div className="order-wizzard__controls clearfix">
