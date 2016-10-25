@@ -270,8 +270,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
             </div>
             <div className="order-wizzard__controls clearfix">
                 <div className="order-wizzard__back pull-left">
-                    <a onClick={() => this.moveBack()} href="#" className="b-button b-button--transparent">
-                        <span className="b-button__icon-arrow"/> Back</a>
+                    <a onClick={() => this.moveBack()} href="#" className="b-button b-button--transparent"><span className="b-button__icon-arrow"></span> Back</a>
                 </div>
 
                 <div className="order-wizzard__next pull-right">
