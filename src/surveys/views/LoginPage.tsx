@@ -3,6 +3,12 @@ import {autobind} from "core-decorators";
 
 export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
 
+    email: HTMLInputElement;
+    password: HTMLInputElement;
+    firstName: HTMLInputElement;
+    lastName: HTMLInputElement;
+    companyName: HTMLInputElement;
+
     constructor(...args) {
         super(...args);
         this.state = {userState: UserState.None};
@@ -11,13 +17,13 @@ export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
     @autobind
     register() {
         const form: Survey.NewUserForm = {
-            firstName: "aaa",
-            lastName: "bbb",
-            user: "aaa@aaa.com",
-            pass: "bbb",
+            username: this.props.email,
+            password: this.password.value,
+            firstName: this.firstName.value,
+            lastName: this.lastName.value,
         };
         this.props.register(form).then(()=> {
-            this.props.moveNext();
+            this.moveNext();
         }).catch(e => {
             console.error(e);
         });
@@ -26,15 +32,11 @@ export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
     @autobind
     login() {
         const form: Survey.AuthForm = {
-            user: "aaa@aaa.com",
-            pass: "bbb",
+            username: this.email.value,
+            password: this.password.value,
         };
         this.props.login(form).then(() => {
-            this.setState(state => {
-                state.userState = UserState.LoggedIn;
-                this.props.moveNext();
-                return state;
-            });
+            this.moveNext();
         }).catch(e => {
             console.error(e);
         });
@@ -46,28 +48,31 @@ export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
     }
 
     init(userState: UserState) {
+        // move next page if logged in
+        if (userState == UserState.LoggedIn) {
+            this.moveNext();
+            return;
+        }
+
         this.setState(state => {
             state.userState = userState;
             return state;
         })
     }
 
-    componentWillMount(): void {
+    componentDidMount(): void {
         // initialize state
         this.props.isLoggedIn().then(loggedIn => {
-            if (loggedIn)
-                return this.init(UserState.LoggedIn);
-
-            // new user if username is empty
-            const username = this.props.username;
-            if (username == null || username == "")
-                return this.init(UserState.New);
-
+            // move next page if logged in
+            if (loggedIn) {
+                this.init(UserState.LoggedIn);
+                return;
+            }
             // check whether user is new
+            const username = this.props.email;
             return this.props.exists(username).then(exists => {
                 this.init(exists ? UserState.Existing : UserState.New);
             });
-
         }).catch(e => {
             console.error(e);
             this.init(UserState.Existing);
@@ -77,15 +82,18 @@ export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
     render(): JSX.Element|any {
         switch (this.state.userState) {
             case UserState.None:
-                return null; // TODO: show loading process
+                return this.renderLoadingPage();
             case UserState.New:
                 return this.renderSignUpPage();
             case UserState.Existing:
                 return this.renderLoginPage();
-            case UserState.LoggedIn:
-                this.moveNext();
-                return null;
         }
+    }
+
+    renderLoadingPage() {
+        // TODO: show loading process
+        return <div className="order-wizzard order-wizzard--login">
+        </div>
     }
 
     renderSignUpPage() {
@@ -105,19 +113,26 @@ export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
                     <div className="form-group">
                         <div className="row">
                             <div className="col-md-6 col-xs-6">
-                                <input type="text" className="form-control" placeholder="First name*"/>
+                                <input type="text" className="form-control"
+                                       ref={x => this.firstName = x}
+                                       placeholder="First name*"/>
                             </div>
                             <div className="col-md-6 col-xs-6">
-                                <input type="text" className="form-control" placeholder="Last name*"/>
+                                <input type="text" className="form-control"
+                                       ref={x => this.lastName = x}
+                                       placeholder="Last name*"/>
                             </div>
                         </div>
                     </div>
 
                     <div className="form-group">
-                        <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Company name"/>
+                        <input type="text" className="form-control"
+                               ref={x => this.companyName = x}
+                               placeholder="Company name"/>
                     </div>
                     <div className="form-group">
-                        <input type="password" className="form-control" id="exampleInputPassword1"
+                        <input type="password" className="form-control"
+                               ref={x => this.password = x}
                                placeholder="Set a password*"/>
                     </div>
                     <button type="submit"
@@ -139,21 +154,25 @@ export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
 
             <div className="order-wizzard__login">
                 <div className="order-wizzard__login-form">
-                    <div className="form-group">
-                        <input type="email" className="form-control" id="exampleInputEmail1" placeholder="Email"/>
-                    </div>
-                    <div className="form-group">
-                        <input type="password" className="form-control" id="exampleInputPassword1"
-                               placeholder="Password"/>
-                    </div>
-                    <div className="form-group">
-                        <a href="#">Forgot password?</a>
-                    </div>
-
-                    <button type="submit"
-                            className="btn btn-primary btn-block"
-                            onClick={this.login}> Log in
-                    </button>
+                    <form onSubmit={this.login}>
+                        <div className="form-group">
+                            <input type="email" className="form-control"
+                                   ref={x => this.email = x}
+                                   placeholder="Email"/>
+                        </div>
+                        <div className="form-group">
+                            <input type="password" className="form-control"
+                                   ref={x => this.password = x}
+                                   placeholder="Password"/>
+                        </div>
+                        <div className="form-group">
+                            <a href="#">Forgot password?</a>
+                        </div>
+                        <button type="submit"
+                                className="btn btn-primary btn-block"
+                                onClick={this.login}> Log in
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -161,7 +180,7 @@ export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
 }
 
 export interface LoginPageProps {
-    username?: string;
+    email?: string;
     isLoggedIn(): Promise<boolean>;
     exists(username: string): Promise<boolean>;
     login(form: Survey.AuthForm): Promise<void>;

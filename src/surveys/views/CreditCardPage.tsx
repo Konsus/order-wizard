@@ -22,18 +22,13 @@ export class CreditCardPage extends React.Component<CreditCardPageProps, CreditC
         this.moveNext();
     }
 
-    componentWillMount(): void {
-        this.props.hasCreditCard().then(hasCreditCard => {
-
-            // move next page
-            if (hasCreditCard) {
-                this.setState(state => {
-                    this.props.moveNext();
-                    return state;
-                });
+    componentDidMount(): void {
+        this.props.hasPaymentMethod().then(hasPaymentMethod => {
+            // move next page if already has payment method
+            if (hasPaymentMethod) {
+                this.moveNext();
                 return;
             }
-
             // require token to initialize braintree
             return this.props.paymentToken().then((token) => {
                 this.setState(state => {
@@ -47,12 +42,17 @@ export class CreditCardPage extends React.Component<CreditCardPageProps, CreditC
     }
 
     render(): JSX.Element|any {
-
         const token = this.state.token;
-        if (token == null || token == "")
-            return null; // TODO: show loading
-
+        const loading = token == null || token == "";
+        const view = loading ? this.renderLoading() : this.renderView();
         return <div className="order-wizzard">
+            {view}
+        </div>
+    }
+
+    renderView(): JSX.Element|any {
+        const token = this.state.token;
+        return <div>
             <div className="order-wizzard__header">
                 <div className="order-wizzard__sub-title">
                     Add your credit card details so we are ready to go if you approve the quote.
@@ -68,10 +68,15 @@ export class CreditCardPage extends React.Component<CreditCardPageProps, CreditC
             </button>
         </div>
     }
+
+    renderLoading(): JSX.Element|any {
+        // TODO: show loading
+        return null;
+    }
 }
 
 export interface CreditCardPageProps {
-    hasCreditCard(): Promise<boolean>;
+    hasPaymentMethod(): Promise<boolean>;
     paymentToken(): Promise<string>;
     moveNext();
 }
