@@ -11,8 +11,7 @@ export const ServiceQuestion: Survey.Question = {
         {value: "new-presentation", label: "New slide deck from scratch"},
         {value: "update-template", label: "Update Company Template"},
         {value: "new-template", label: "New Company Template"},
-    ],
-    other: {label: "Other"},
+    ]
 };
 
 export const ServicePage: Survey.Page = {
@@ -23,12 +22,12 @@ export const TemplateQuestion: Survey.Question = {
     token: nameof((null as PowerPointProject).template),
     title: "Do you have an existing template we should use?",
     options: [
-        {value: "yes", label: "Yes."}, {
-            value: "no",
-            label: "No, but please include that as part of delivery.",
-            active: (form: PowerPointProject) => form.service != "new-presentation",
-        },
-        {value: "embedded", label: "Use the template the presentation is currently in."}
+        {value: "yes", label: "Yes."},
+        {value: "no", label: "No, but please include that as part of delivery."},
+        {
+            value: "embedded", label: "Use the template the presentation is currently in.",
+            active: (form: PowerPointProject) => form.service != "new-presentation"
+        }
     ]
 };
 

@@ -4,6 +4,15 @@ import {SelectionControl} from "./SelectionControl";
 
 export class Comment extends SelectionControl<CommentProps, Survey.View.Value<string>> {
 
+    private readonly style;
+
+    constructor(...args) {
+        super(...args);
+        this.style = {};
+        if (this.props.resize != null)
+            this.style.resize = this.props.resize;
+    }
+
     @autobind
     onChange(event: React.FormEvent<React.HTMLProps<HTMLTextAreaElement>>) {
         event.persist();
@@ -22,15 +31,17 @@ export class Comment extends SelectionControl<CommentProps, Survey.View.Value<st
         return <div className="order-wizzard__text-comment"
                     key={this.props.id || token}>
             <label>{label}</label>
-            <textarea className="form-control"
+            <textarea className="form-control" style={this.style}
                       name={token}
                       value={value}
                       placeholder={this.props.placeholder}
+                      rows={this.props.rows}
                       onChange={this.onChange}/>
         </div>
     }
 }
 
 export interface CommentProps extends Survey.View.SelectionProps<string> {
-
+    rows?: number;
+    resize?: "none" | "horizontal" | "vertical" | "both";
 }

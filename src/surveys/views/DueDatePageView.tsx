@@ -1,3 +1,6 @@
+import "react-date-picker/index.css";
+import "react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css";
+
 import * as React from "react";
 import {autobind} from "core-decorators";
 import {SelectionControl} from "../../components/controls/SelectionControl";
@@ -6,16 +9,14 @@ import {SurveyPage} from "../../components/views/SurveyPage";
 import {DueDateQuestion} from "../../data/common";
 import * as moment from "moment-timezone";
 import {Moment} from "moment-timezone";
-import "react-date-picker/index.css";
-import "moment-timezone/data/packed/latest.json";
-import "react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css";
 
 const ReactDatePicker = require("react-date-picker");
 const Calendar = ReactDatePicker.Calendar;
 const DateField = ReactDatePicker.DateField;
 const DateFormatSpinnerInput = ReactDatePicker.DateFormatSpinnerInput;
 const TimezonePicker = require("react-bootstrap-timezone-picker").default;
-const momentTz = moment.tz as any;
+const momentTz = (moment as any).tz as any;
+momentTz.load(require("moment-timezone/data/packed/latest.json"));
 
 export class DueDatePageView extends SelectionControl<DueDateProps, DueDateState> {
 

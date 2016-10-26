@@ -14,7 +14,7 @@ module.exports = {
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.json']
     },
     output: {
-        path: path.join(__dirname, '/dist/'),
+        path: path.join(__dirname, 'dist'),
         filename: '[name]-[hash].min.js',
         publicPath: '/'
     },
@@ -43,8 +43,8 @@ module.exports = {
                 'presets': ['react', 'es2015', 'stage-0']
             }
         }, {
-            test: /\.json?$/,
-            loader: 'json'
+            test: /\.json$/,
+            loader: 'json-loader'
         }, {
             test: /\.css$/,
             loader: 'style-loader!css-loader'
@@ -59,7 +59,7 @@ module.exports = {
             loader: require.resolve('url-loader') + '?limit=100000'
         }],
         preLoaders: [{
-            test: /\.jsx$/,
+            test: /\.jsx?$/,
             loader: "source-map-loader"
         }]
     }

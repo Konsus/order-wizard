@@ -1,8 +1,8 @@
 import * as React from "react";
 import {SurveyFlow} from "../../core/survey-flow";
 import {SurveyForm} from "../../core/survey-form";
-import {ProjectSurvey} from "./ProjectSurvey";
 import {SurveyContext} from "../../core/survey-context";
+import {ProjectSurvey} from "./ProjectSurvey";
 
 /** Basic template for quick setup of project survey. */
 export abstract class ProjectSurveyFlow<F extends Survey.SurveyForm> extends React.Component<any, any> {

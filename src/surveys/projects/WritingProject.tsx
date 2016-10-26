@@ -1,30 +1,29 @@
 import * as React from "react";
 import {autobind} from "core-decorators";
-import {SurveyFlow} from "../core/survey-flow";
-import {File} from "../components/controls/File";
-import {Comment} from "../components/controls/Comment";
-import {RadioGroup} from "../components/controls/RadioGroup";
-import {CheckGroup} from "../components/controls/CheckGroup";
-import {SurveyPage} from "../components/views/SurveyPage";
-import {ProjectSurveyFlow} from "../components/views/ProjectSurveyFlow";
-import {DueDatePageView} from "./views/DueDatePageView";
-import Q from "../data/projects/design-project";
+import {SurveyFlow} from "../../core/survey-flow";
+import {File} from "../../components/controls/File";
+import {Comment} from "../../components/controls/Comment";
+import {RadioGroup} from "../../components/controls/RadioGroup";
+import {SurveyPage} from "../../components/views/SurveyPage";
+import {ProjectSurveyFlow} from "../base/ProjectSurveyFlow";
+import {DueDatePageView} from "../views/DueDatePageView";
+import Q from "../../data/projects/writing-project";
 
-export class DesignProject extends ProjectSurveyFlow<Survey.Forms.DesignProject> {
+export class WritingProject extends ProjectSurveyFlow<Survey.Forms.WritingProject> {
 
     constructor() { super(Q.survey) }
 
     protected initFlow(flow: SurveyFlow) {
-        flow.setPageView(Q.service, {render: this.renderServicePage});
-        flow.setPageView(Q.design, {render: this.renderDesignPage});
-        flow.setPageView(Q.style, {render: this.renderStylePage});
+        flow.setPageView(Q.service, {render: this.renderServiceTypePage});
+        flow.setPageView(Q.topic, {render: this.renderTopicPage});
+        flow.setPageView(Q.content, {render: this.renderContentPage});
         flow.setPageView(Q.files, {render: this.renderFilesPage});
         flow.setPageView(Q.deadline, {render: this.renderDeadlinePage});
         flow.setPageView(Q.comments, {render: this.renderCommentsPage});
     }
 
     @autobind
-    renderServicePage(page: Survey.Page) {
+    renderServiceTypePage(page: Survey.Page) {
         return (
             <SurveyPage {...page} >
                 <RadioGroup {...page.questions[0]} />
@@ -33,19 +32,20 @@ export class DesignProject extends ProjectSurveyFlow<Survey.Forms.DesignProject>
     }
 
     @autobind
-    renderDesignPage(page: Survey.Page) {
+    renderTopicPage(page: Survey.Page) {
         return (
             <SurveyPage {...page} >
-                <RadioGroup {...page.questions[0]}/>
+                <Comment {...page.questions[0]}/>
             </SurveyPage>
         )
     }
 
     @autobind
-    renderStylePage(page: Survey.Page) {
+    renderContentPage(page: Survey.Page) {
         return (
             <SurveyPage {...page} >
-                <CheckGroup {...page.questions[0]} />
+                {/*<File {...page.questions[0]} />*/}
+                <Comment {...page.questions[1]} />
             </SurveyPage>
         )
     }

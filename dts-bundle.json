@@ -1,0 +1,9 @@
+{
+  "name": "order-wizard",
+  "baseDir": "lib",
+  "main": "lib.d.ts",
+  "out": "lib.d.ts",
+  "referenceExternals": false,
+  "outputAsModuleFolder": true,
+  "removeSource": false
+}

@@ -132,9 +132,9 @@ export class SurveyFlow {
             if (!question.active(this.form))
                 return true;
 
-        // check if answer is not null
+        // check if answer is not null or empty
         const answer = this.context.form.getValue(question.token);
-        if (answer != null) return true;
+        if (answer != null && answer != "") return true;
 
         // required question can't have null value
         if (this.isRequiredQuestion(question))

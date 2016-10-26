@@ -2,6 +2,10 @@ import * as React from "react";
 import {autobind} from "core-decorators";
 import {SelectionControl} from "./SelectionControl";
 
+function empty(value: string): boolean {
+    return value == null || value == "";
+}
+
 export class RadioBox extends React.Component<RadioBoxProps, void> {
     private radio: HTMLInputElement;
 
@@ -46,8 +50,11 @@ export class RadioBoxOther extends React.Component<RadioBoxProps, RadioBoxOtherS
     }
 
     checked(): boolean {
-        if (this.text && this.text.value != "")
-            return this.props.checked(this.text.value);
+        if (this.text) {
+            let value = this.text.value;
+            if (empty(value)) value = "other";
+            return this.props.checked(value);
+        }
 
         if (this.props.value != null)
             return this.props.checked(this.props.value);
@@ -72,8 +79,8 @@ export class RadioBoxOther extends React.Component<RadioBoxProps, RadioBoxOtherS
     onChange() {
         let value;
         if (this.text) value = this.text.value;
-        if (value == null) value = this.props.value;
-        if (value == null) value = "other";
+        if (empty(value)) value = this.props.value;
+        if (empty(value)) value = "other";
         this.props.valueRef(value);
     }
 

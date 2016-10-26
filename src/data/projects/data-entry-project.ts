@@ -11,8 +11,8 @@ export const ServiceTypeQuestion: Survey.Question = {
         {value: "from-web", label: "Website to Excel, Word or similar"},
         {value: "linked-in", label: "Gathering contact information from LinkedIn"},
         {value: "cleaning", label: "Data Cleaning"},
-        {value: "other", label: "Other"},
     ],
+    other: {label: "Other"}
 };
 
 export const ServiceTypePage: Survey.Page = {

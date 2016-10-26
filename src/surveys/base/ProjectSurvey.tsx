@@ -1,12 +1,26 @@
 import * as React from "react";
-import {SurveyView, SurveyPageState} from "./SurveyView";
+import {autobind} from "core-decorators";
+import {SurveyView, SurveyPageState} from "../../components/views/SurveyView";
 import {SurveyFlow} from "../../core/survey-flow";
-import {SelectionControl} from "../controls/SelectionControl";
+import {SelectionControl} from "../../components/controls/SelectionControl";
+import {LoginPage} from '../views/LoginPage';
+import {CreditCardPage} from '../views/CreditCardPage';
+const ctx: Survey.Project.Context = null;
 
 /** Base type for project creation survey, provides intro page. */
 export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurveyState> extends SurveyView<P, S & SurveyPageState> implements React.ChildContextProvider<Survey.Context> {
 
+    public static contextTypes = {
+        [nameof(ctx.isLoggedIn)]: React.PropTypes.func.isRequired,
+        [nameof(ctx.exists)]: React.PropTypes.func.isRequired,
+        [nameof(ctx.login)]: React.PropTypes.func.isRequired,
+        [nameof(ctx.register)]: React.PropTypes.func.isRequired,
+        [nameof(ctx.hasPaymentMethod)]: React.PropTypes.func.isRequired,
+        [nameof(ctx.paymentToken)]: React.PropTypes.func.isRequired,
+    };
     public static childContextTypes = SelectionControl.contextTypes;
+
+    context: Survey.Project.Context;
 
     constructor(...args) {
         super(...args);
@@ -27,11 +41,10 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         if (super.canMoveNext())
             return true;
 
-        return this.state.pageType < ProjectSurveyPageType.Summary;
+        return this.state.pageType < ProjectSurveyPageType.Success;
     }
 
     moveNext(): boolean {
-
         if (!this.state.isPageDone)
             return false;
 
@@ -64,7 +77,13 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
                 return true;
 
             case ProjectSurveyPageType.Summary:
-                return false;
+            case ProjectSurveyPageType.Login:
+            case ProjectSurveyPageType.CreditCard:
+                this.setState(state => {
+                    state.pageType += 1;
+                    return state;
+                });
+                return true;
 
             default:
                 return false;
@@ -95,6 +114,8 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
                 return true;
 
             case ProjectSurveyPageType.Summary:
+            case ProjectSurveyPageType.Login:
+            case ProjectSurveyPageType.CreditCard:
                 this.setState(state => {
                     state.pageType -= 1;
                     return state;
@@ -112,6 +133,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         state.pageType = ProjectSurveyPageType.Intro;
     }
 
+    @autobind
     startProject() {
         console.log("START PROJECT: ", JSON.stringify(this.props.flow.form));
     }
@@ -214,104 +236,70 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
                 return super.render();
             case ProjectSurveyPageType.Summary:
                 return this.renderSummaryPage();
+            case ProjectSurveyPageType.Login:
+                return <LoginPage {...this.context} moveNext={() => this.moveNext()}/>;
+            case ProjectSurveyPageType.CreditCard:
+                return <CreditCardPage {...this.context} moveNext={() => this.moveNext()}/>;
+            case ProjectSurveyPageType.Success:
+                return this.renderSuccessPage();
         }
     }
 
     renderIntroPage() {
-        return (
-            <div className="order-wizzard-cover">
-                <div className="order-wizzard-cover__logo"></div>
+        return <div className="order-wizzard-cover">
+            <div className="order-wizzard-cover__logo"></div>
 
-                <div className="order-wizzard-cover__info">
-                    <p>We’re asking you a few questions to understand what we can do for you.</p>
-                    <p>We will then come back to you with a quote – and you decide whether we should get started!</p>
-                </div>
-
-                <div className="order-wizzard-cover__next">
-                    <a href="#" className="b-button" onClick={() => this.startSurvey()}>Next</a>
-                </div>
+            <div className="order-wizzard-cover__info">
+                <p>We’re asking you a few questions to understand what we can do for you.</p>
+                <p>We will then come back to you with a quote – and you decide whether we should get started!</p>
             </div>
-        )
+
+            <div className="order-wizzard-cover__next">
+                <a href="#" className="b-button" onClick={() => this.startSurvey()}>Next</a>
+            </div>
+        </div>
     }
 
     renderSummaryPage() {
-        return (
-            // <div className="order-wizzard">
-            //     <div className="order-wizzard__step-title">Summary of your task!</div>
-            //
-            //     <div className="order-wizzard__step-survey">
-            //         <div className="order-wizzard__summary">
-            //             {this.renderSurveySummary()}
-            //         </div>
-            //     </div>
-            //
-            //     <div className="order-wizzard__cta text-center">
-            //         <a href="#" className="b-button b-button--blue"
-            //            onClick={() => this.startProject()}>Start project</a>
-            //     </div>
-            // </div>
-
-            <div className="order-wizzard order-wizzard--login">
-               <div className="order-wizzard__header">
-                   <div className="order-wizzard__title">Thanks!</div>
-                   <div className="order-wizzard__sub-title">Please log in and your quote will be with you shortly</div>
-               </div>
-
-               <div className="order-wizzard__login">
-                   <div className="order-wizzard__login-form">
-                       <div className="form-group">
-                           <input type="email" className="form-control" id="exampleInputEmail1" placeholder="Email" />
-                       </div>
-                       <div className="form-group">
-                           <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
-                       </div>
-                       <div className="form-group">
-                           <a href="#">Forgot password?</a>
-                       </div>
-
-                       <button type="submit" className="btn btn-primary btn-block">Log in</button>
-                   </div>
-               </div>
+        return <div className="order-wizzard">
+            <div className="order-wizzard__step-title">Summary of your task!</div>
+            <div className="order-wizzard__step-survey">
+                <div className="order-wizzard__summary">
+                    {this.renderSurveySummary()}
+                    <ul className="order-wizzard__summary-list">
+                        <li>Some text here</li>
+                        <li>And here</li>
+                    </ul>
+                </div>
             </div>
+            <div className="order-wizzard__controls clearfix">
+                <div className="order-wizzard__back pull-left">
+                    <a onClick={() => this.moveBack()} href="#" className="b-button b-button--transparent"><span className="b-button__icon-arrow"></span> Back</a>
+                </div>
 
-            // <div className="order-wizzard order-wizzard--login">
-            //     <div className="order-wizzard__header">
-            //         <div className="order-wizzard__title">SUCCESS!</div>
-            //         <div className="order-wizzard__sub-title">Your quote will be with you shortly</div>
-            //     </div>
-            //
-            //     <div className="order-wizzard__login">
-            //         <header>
-            //             Meanwhile, can you please complete your profile so we are <br/>
-            //             ready to go if you approve the quote:
-            //         </header>
-            //
-            //         <div className="order-wizzard__login-form order-wizzard__login-form__next-step">
-            //             <div className="form-group">
-            //                 <div className="row">
-            //                     <div className="col-md-6 col-xs-6">
-            //                         <input type="text" className="form-control" placeholder="First name*" />
-            //                     </div>
-            //                     <div className="col-md-6 col-xs-6">
-            //                         <input type="text" className="form-control" placeholder="Last name*" />
-            //                     </div>
-            //                 </div>
-            //             </div>
-            //
-            //             <div className="form-group">
-            //                 <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Company name" />
-            //             </div>
-            //             <div className="form-group">
-            //                 <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Set a password*" />
-            //             </div>
-            //
-            //             <button type="submit" className="btn btn-primary btn-block">Submit</button>
-            //             <p>*Required</p>
-            //         </div>
-            //     </div>
-            // </div>
+                <div className="order-wizzard__next pull-right">
+                    {this.renderSummaryPageNextButton()}
+                </div>
+            </div>
+        </div>
+    }
 
-        )
+    renderSummaryPageNextButton() {
+        const loggedIn = true;
+        const label = loggedIn ? "Submit" : "Next";
+        return <div className="order-wizzard__cta text-center">
+            <a href="#" className="b-button b-button--blue"
+               onClick={() => this.moveNext()}>{label}</a>
+        </div>
+    }
+
+    renderSuccessPage() {
+        return <div className="order-wizzard order-wizzard--login">
+            <div className="order-wizzard__header">
+                <div className="order-wizzard__title">SUCCESS!</div>
+                <div className="order-wizzard__sub-title">Your quote will be with you shortly</div>
+            </div>
+        </div>
     }
 }
 
@@ -332,6 +320,9 @@ export enum ProjectSurveyPageType {
     Survey,
         /** Summary page with results of survey and submission button. */
     Summary,
+    Login,
+    CreditCard,
+    Success,
 }
 
 

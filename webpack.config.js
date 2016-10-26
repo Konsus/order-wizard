@@ -14,7 +14,7 @@ module.exports = {
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.json']
     },
     output: {
-        path: path.join(__dirname, '/dist/'),
+        path: path.join(__dirname, 'dist'),
         filename: '[name].js',
         publicPath: '/'
     },
@@ -41,7 +41,7 @@ module.exports = {
             }
         }, {
             test: /\.json?$/,
-            loader: 'json'
+            loader: 'json-loader'
         }, {
             test: /\.css$/,
             loader: 'style-loader!css-loader'
@@ -54,6 +54,10 @@ module.exports = {
         }, {
             test: /\.(png|woff|woff2|eot|ttf|svg)$/,
             loader: require.resolve('url-loader') + '?limit=100000'
+        }],
+        preLoaders: [{
+            test: /\.jsx?$/,
+            loader: "source-map-loader"
         }]
     }
 };

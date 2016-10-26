@@ -45,7 +45,10 @@ export abstract class SurveyWindow extends React.Component<SurveyWindowProps, Su
     }
 
     renderDebug(): JSX.Element | null {
-        return <button onClick={this.open}>
+        return <button type="button"
+                       className="btn btn-primary btn-block btn-lg"
+                       style={{margin:2}}
+                       onClick={this.open}>
             {this.props.name || "Open Window"}
         </button>
     }
