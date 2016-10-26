@@ -1,9 +1,8 @@
 /// <reference types="react" />
+import "react-date-picker/index.css";
+import "react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css";
 import { SelectionControl } from "../../components/controls/SelectionControl";
 import { Moment } from "moment-timezone";
-import "react-date-picker/index.css";
-import "moment-timezone/data/packed/latest.json";
-import "react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css";
 export declare class DueDatePageView extends SelectionControl<DueDateProps, DueDateState> {
     constructor(...args: any[]);
     readonly token: string | any;
