@@ -3,13 +3,13 @@ declare namespace Survey {
     export interface NewUserForm {
         firstName: string,
         lastName: string,
-        user: string;
-        pass: string;
+        username: string;
+        password: string;
     }
 
     export interface AuthForm {
-        user: string;
-        pass: string;
+        username: string;
+        password: string;
     }
 
     export namespace Project {
@@ -18,7 +18,7 @@ declare namespace Survey {
             exists(username: string): Promise<boolean>;
             login(form: Survey.AuthForm): Promise<void>;
             register(form: Survey.NewUserForm): Promise<void>;
-            hasCreditCard(): Promise<boolean>;
+            hasPaymentMethod(): Promise<boolean>;
             paymentToken(): Promise<string>;
         }
     }

@@ -40,7 +40,7 @@ export class MockProjectRoot extends ProjectSurveyRoot<any, any> implements Surv
     }
 
     @autobind
-    hasCreditCard(): Promise<boolean> {
+    hasPaymentMethod(): Promise<boolean> {
         return Promise.resolve(this.state.creditCard);
     }
 
@@ -56,7 +56,7 @@ export class MockProjectRoot extends ProjectSurveyRoot<any, any> implements Surv
                 exists: this.exists,
                 login: this.login,
                 register: this.register,
-                hasCreditCard: this.hasCreditCard,
+                hasPaymentMethod: this.hasPaymentMethod,
                 paymentToken: this.paymentToken,
             };
         return this.childContext;
