@@ -21,6 +21,7 @@ export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
             password: this.password.value,
             firstName: this.firstName.value,
             lastName: this.lastName.value,
+            company: this.companyName.value,
         };
         this.props.register(form).then(()=> {
             this.moveNext();
@@ -158,6 +159,7 @@ export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
                         <div className="form-group">
                             <input type="email" className="form-control"
                                    ref={x => this.email = x}
+                                   value={this.props.email}
                                    placeholder="Email"/>
                         </div>
                         <div className="form-group">

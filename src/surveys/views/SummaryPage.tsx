@@ -3,13 +3,18 @@ import {autobind} from "core-decorators";
 import {SurveyFlow} from "../../core/survey-flow";
 export class SummaryPage extends React.Component<SummaryPageProps, SummaryPageState> {
 
+    email: HTMLInputElement;
+
     constructor(...args) {
         super(...args);
         this.state = {};
     }
 
     @autobind
-    moveNext() { this.props.moveNext(); }
+    moveNext() {
+        const email = this.state.loggedIn ? null : this.email.value;
+        this.props.moveNext(email);
+    }
 
     @autobind
     moveBack() { return this.props.moveBack(); }
@@ -35,7 +40,7 @@ export class SummaryPage extends React.Component<SummaryPageProps, SummaryPageSt
                     <a onClick={this.moveBack} href="#" className="b-button b-button--transparent">
                         <span className="b-button__icon-arrow"/> Back</a>
                 </div>
-                <div className="order-wizzard__next pull-right">
+                <div className="order-wizzard__next">
                     {this.renderNextButton()}
                 </div>
             </div>
@@ -46,8 +51,13 @@ export class SummaryPage extends React.Component<SummaryPageProps, SummaryPageSt
         const loggedIn = this.state.loggedIn;
         const label = loggedIn ? "Submit" : "Next";
         return <div className="order-wizzard__cta text-center">
-            <a href="#" className="b-button b-button--blue"
-               onClick={this.moveNext}>{label}</a>
+            <div className="row">
+                {loggedIn ? null : <input type="text" className="form-control"
+                                          ref={x => this.email = x}
+                                          placeholder="Enter your email"/>}
+                <a href="#" className="b-button b-button--blue"
+                   onClick={this.moveNext}>{label}</a>
+            </div>
         </div>
     }
 
@@ -66,7 +76,7 @@ export interface SummaryPageProps {
     flow: SurveyFlow;
     isLoggedIn(): Promise<boolean>;
     moveBack(): void;
-    moveNext(): void;
+    moveNext(email: string): void;
 }
 
 export interface SummaryPageState {

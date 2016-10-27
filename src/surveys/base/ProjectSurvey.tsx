@@ -129,6 +129,15 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         return false;
     }
 
+    @autobind
+    summaryMoveNext(email: string) {
+        this.setState(state => {
+            state.email = email;
+            this.moveNext();
+            return state;
+        })
+    }
+
     resetSurvey(state: S): void {
         super.resetSurvey(state);
         state.pageID = -1;
@@ -234,13 +243,15 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
                 return super.render();
             case ProjectSurveyPageType.Summary:
                 return <SummaryPage {...this.props} {...this.context}
-                    moveNext={this.moveNext}
-                    moveBack={this.moveBack}
-                />;
+                    moveNext={this.summaryMoveNext}
+                    moveBack={this.moveBack}/>;
             case ProjectSurveyPageType.Login:
-                return <LoginPage {...this.context} moveNext={this.moveNext}/>;
+                return <LoginPage {...this.context}
+                    email={this.state.email}
+                    moveNext={this.moveNext}/>;
             case ProjectSurveyPageType.CreditCard:
-                return <CreditCardPage {...this.context} moveNext={this.moveNext}/>;
+                return <CreditCardPage {...this.context}
+                    moveNext={this.moveNext}/>;
             case ProjectSurveyPageType.Success:
                 return this.renderSuccessPage();
         }
@@ -279,6 +290,7 @@ export interface ProjectSurveyState extends SurveyPageState {
     pageType: ProjectSurveyPageType;
     /** Zero-based index of questionnaire page.*/
     pageID: number;
+    email?: string;
 }
 
 export enum ProjectSurveyPageType {
