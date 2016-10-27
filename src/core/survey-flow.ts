@@ -184,26 +184,7 @@ export class SurveyFlow {
                 if (value == null || value == "") continue;
 
                 // choose label to display in summary view
-                let label;
-                if (question.summary != null) {
-                    label = question.summary(value);
-                } else {
-                    const option = this.selectOptionByValue(question, value);
-                    if (option != null) {
-                        label = option.label;
-                        if (label == null) label = value;
-                    }
-
-                    // maybe other?
-                    const other = question.other;
-                    if (other != null) {
-                        if (value == "other" || value == other.value)
-                            label = other.label;
-                        else if (other.label != null)
-                            label = `${other.label}: ${value}`;
-                    }
-                }
-
+                const label = this.selectAnswerLabel(question, value);
                 const answer: Survey.Answer = {
                     token: token,
                     value: value,
@@ -215,8 +196,7 @@ export class SurveyFlow {
         return retVal;
     }
 
-    private
-    selectOptionByValue(question: Survey.Question, value: any): Survey.Option {
+    private selectOptionByValue(question: Survey.Question, value: any): Survey.Option {
         const options = question.options;
         if (options == null) return null;
 
@@ -232,6 +212,32 @@ export class SurveyFlow {
                 return option;
         }
 
+        return null;
+    }
+
+    private selectAnswerLabel(question: Survey.Question, value: any): string {
+        // choose label to display in summary view
+        if (question.summary != null)
+            return question.summary(value);
+
+        // select option by concrete value match
+        const option = this.selectOptionByValue(question, value);
+        if (option != null) {
+            if (option.label != null)
+                return option.label;
+            return option.value;
+        }
+
+        // maybe other?
+        const other = question.other;
+        if (other != null) {
+            if (value == "other" || value == other.value)
+                return other.label;
+            if (other.label != null)
+                return `${other.label}: ${value}`;
+        }
+
+        // unable to select any
         return null;
     }
 }
