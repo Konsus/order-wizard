@@ -178,6 +178,24 @@
       }
     }
   }
+  &__email-sender {
+    clear: both;
+    padding-top: 20px;
+    @media (min-width: 768px) {
+      input[type="text"] {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right: none;
+        width: 230px;
+      }
+      .btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        padding-left: 50px;
+        padding-right: 50px;
+      }
+    }
+  }
   @media (max-width: 650px) {
     max-width: 627px;
     width: auto;

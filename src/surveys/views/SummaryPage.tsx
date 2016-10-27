@@ -52,11 +52,20 @@ export class SummaryPage extends React.Component<SummaryPageProps, SummaryPageSt
         const label = loggedIn ? "Submit" : "Next";
         return <div className="order-wizzard__cta text-center">
             <div className="row">
-                {loggedIn ? null : <input type="text" className="form-control"
-                                          ref={x => this.email = x}
-                                          placeholder="Enter your email"/>}
-                <a href="#" className="b-button b-button--blue"
-                   onClick={this.moveNext}>{label}</a>
+                {loggedIn ? <a href="#" className="b-button b-button--blue" onClick={this.moveNext}>{label}</a> :
+                    <div>
+                        <div className="form-inline order-wizzard__email-sender">
+                            <div className="form-group">
+                                <input type="text" className="form-control" ref={x => this.email = x} placeholder="Enter your email"/>
+                            </div>
+                            <div className="form-group">
+                                <a href="#" className="btn btn-primary" onClick={this.moveNext}>{label}</a>
+                            </div>
+                        </div>
+                        <br/>
+                        <p className="text-primary text-center">Strictly confidential, no commitments</p>
+                    </div>
+                }
             </div>
         </div>
     }
