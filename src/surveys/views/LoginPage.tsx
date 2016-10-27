@@ -165,9 +165,9 @@ export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
                                    ref={x => this.password = x}
                                    placeholder="Password"/>
                         </div>
-                        <div className="form-group">
-                            <a href="#">Forgot password?</a>
-                        </div>
+                        {/*<div className="form-group">*/}
+                            {/*<a href="#">Forgot password?</a>*/}
+                        {/*</div>*/}
                         <button type="submit"
                                 className="btn btn-primary btn-block"
                                 onClick={this.login}> Log in
