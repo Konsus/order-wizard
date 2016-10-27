@@ -17,9 +17,13 @@ export declare class SurveyFlow {
     getPageView(page: Survey.Question): Survey.PageView;
     isPageActive(page: Survey.Page): boolean;
     isRequiredQuestion(question: Survey.Question): boolean;
+    isQuestionActive(question: Survey.Question): boolean;
     /**
      * Whether question is answered or not required.
      * @param question
      */
     isQuestionDone(question: Survey.Question): boolean;
+    joinQA(): Survey.QA[];
+    private selectOptionByValue(question, value);
+    private selectAnswerLabel(question, value);
 }

@@ -5,7 +5,8 @@ export * from './index'
 
 export namespace Survey {
         export type Key = string | number;
-        export type Function<T, R> = (question: Question) => R;
+        export type Func<T, R> = (x: T) => R;
+        export type SummaryViewFn = (value: any) => string;
 
         export interface IEvent<T> {
                 /**
@@ -36,7 +37,7 @@ export namespace Survey {
         export interface Page {
                 title?: string;
                 questions: Question[];
-                active?: Function<SurveyForm, boolean>;
+                active?: Func<SurveyForm, boolean>;
         }
 
         export interface Question {
@@ -46,7 +47,7 @@ export namespace Survey {
                 defaultValue?: any;
                 placeholder?: any;
                 resize?: "none" | "horizontal" | "vertical" | "both";
-                rows?:number;
+                rows?: number;
 
                 /** List of predefined answer options. */
                 options?: Option[];
@@ -55,14 +56,28 @@ export namespace Survey {
                 other?: Option;
 
                 /** Whether to show question or not (show by default). */
-                active?: Function<SurveyForm, boolean>;
+                active?: Func<SurveyForm, boolean>;
+
+                /** Function that override default answer view in summary. */
+                summary?: SummaryViewFn;
         }
 
         export interface Option {
                 value?: any;
                 label?: string;
                 /** Whether to show option or not (show by default). */
-                active?: Function<SurveyForm, boolean>;
+                active?: Func<SurveyForm, boolean>;
+        }
+
+        export interface Answer {
+                token: string;
+                value: any;
+                label?: string;
+        }
+
+        export interface QA {
+                question: Question;
+                answer: Answer;
         }
 
         export type Ref<T> = (instance: T) => any;
@@ -101,12 +116,12 @@ export namespace Survey {
         }
 
         export interface PageView {
-                active?: Function<Page, boolean>;
-                render: Function<Question, JSX.Element>;
+                active?: Func<Page, boolean>;
+                render: Func<Question, JSX.Element>;
         }
 
         export interface QuestionView {
-                active?: Function<Page, boolean>;
+                active?: Func<Page, boolean>;
         }
 
         export namespace View {
@@ -206,6 +221,7 @@ export namespace Survey {
         lastName: string,
         username: string;
         password: string;
+        company: string;
     }
 
     export interface AuthForm {

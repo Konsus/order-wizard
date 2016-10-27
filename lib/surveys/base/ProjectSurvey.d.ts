@@ -18,6 +18,7 @@ export declare class ProjectSurvey<P extends ProjectSurveyProps, S extends Proje
     canMoveNext(): boolean;
     moveNext(): boolean;
     moveBack(): boolean;
+    summaryMoveNext(email: string): void;
     resetSurvey(state: S): void;
     startProject(): void;
     isPageDone(pageID: number): boolean;
@@ -26,13 +27,9 @@ export declare class ProjectSurvey<P extends ProjectSurveyProps, S extends Proje
     protected selectNextPageID(pageID: number): number;
     protected selectPrevPageID(pageID: number): number;
     protected renderQuestionPage(): JSX.Element | any;
-    /** Render summary of the survey answers. */
-    renderSurveySummary(): JSX.Element | any;
     componentWillUpdate(nextProps: P, nextState: S & SurveyPageState, nextContext: any): void;
     render(): JSX.Element | any;
     renderIntroPage(): JSX.Element;
-    renderSummaryPage(): JSX.Element;
-    renderSummaryPageNextButton(): JSX.Element;
     renderSuccessPage(): JSX.Element;
 }
 export interface ProjectSurveyProps {
@@ -42,6 +39,7 @@ export interface ProjectSurveyState extends SurveyPageState {
     pageType: ProjectSurveyPageType;
     /** Zero-based index of questionnaire page.*/
     pageID: number;
+    email?: string;
 }
 export declare enum ProjectSurveyPageType {
     /** Intro page with start survey button. */
