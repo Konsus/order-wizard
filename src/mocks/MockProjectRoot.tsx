@@ -15,16 +15,19 @@ export class MockProjectRoot extends ProjectSurveyRoot<any, any> implements Surv
 
     @autobind
     isLoggedIn(): Promise<boolean> {
+        console.log("isLoggedIn", this.state.loggedIn);
         return Promise.resolve(this.state.loggedIn);
     }
 
     @autobind
     exists(username: string): Promise<boolean> {
+        console.log("exists", username, !this.state.newUser);
         return Promise.resolve(!this.state.newUser);
     }
 
     @autobind
     login(form: Survey.AuthForm): Promise<void> {
+        console.log("login", form);
         return new Promise<void>(resolve => {
             this.setState(state => {
                 state.loggedIn = true;
@@ -36,16 +39,19 @@ export class MockProjectRoot extends ProjectSurveyRoot<any, any> implements Surv
 
     @autobind
     register(form: Survey.NewUserForm): Promise<void> {
+        console.log("register", form);
         return Promise.resolve();
     }
 
     @autobind
     hasPaymentMethod(): Promise<boolean> {
+        console.log("hasPaymentMethod", this.state.creditCard);
         return Promise.resolve(this.state.creditCard);
     }
 
     @autobind
     paymentToken(): Promise<string> {
+        console.log("paymentToken", dummyToken);
         return Promise.resolve(dummyToken);
     }
 

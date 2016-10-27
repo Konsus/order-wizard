@@ -5,6 +5,7 @@ declare namespace Survey {
         lastName: string,
         username: string;
         password: string;
+        company: string;
     }
 
     export interface AuthForm {

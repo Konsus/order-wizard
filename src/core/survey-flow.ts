@@ -116,6 +116,19 @@ export class SurveyFlow {
         return false
     }
 
+    public isQuestionActive(question: Survey.Question): boolean {
+        // null question are not active
+        if (!question) return true;
+        // questions without token can't be used
+        if (!question.token) return true;
+        // check if question is active
+        if (question.active != null) {
+            if (!question.active(this.form))
+                return true;
+        }
+        return true;
+    }
+
     /**
      * Whether question is answered or not required.
      * @param question
@@ -141,6 +154,91 @@ export class SurveyFlow {
             return false;
 
         return true;
+    }
+
+    public joinQA(): Survey.QA[] {
+
+        const retVal = [] as Survey.QA[];
+        const form = this.form;
+        const questionnaire = this.context.questionnaire;
+        const pages = questionnaire.pages;
+        for (let p = 0, pmax = pages.length; p < pmax; p++) {
+
+            // do not include answers of disabled pages
+            const page = pages[p];
+            if (!this.isPageActive(page))
+                continue;
+
+            const questions = page.questions;
+            for (let q = 0, qmax = questions.length; q < qmax; q++) {
+
+                const question = questions[q];
+                if (!question) continue;
+
+                // check question has token
+                const token = question.token;
+                if (!token) continue;
+
+                // skip empty answers
+                const value = form.getValue(token);
+                if (value == null || value == "") continue;
+
+                // choose label to display in summary view
+                const label = this.selectAnswerLabel(question, value);
+                const answer: Survey.Answer = {
+                    token: token,
+                    value: value,
+                    label: label,
+                };
+                retVal.push({question: question, answer: answer});
+            }
+        }
+        return retVal;
+    }
+
+    private selectOptionByValue(question: Survey.Question, value: any): Survey.Option {
+        const options = question.options;
+        if (options == null) return null;
+
+        // null or empty value can't have option
+        if (value == null || value == "")
+            return null;
+
+        // check options with exact value
+        for (let i = 0, imax = options.length; i < imax; i++) {
+            const option = options[i];
+            if (option == null) continue;
+            if (option.value == value)
+                return option;
+        }
+
+        return null;
+    }
+
+    private selectAnswerLabel(question: Survey.Question, value: any): string {
+        // choose label to display in summary view
+        if (question.summary != null)
+            return question.summary(value);
+
+        // select option by concrete value match
+        const option = this.selectOptionByValue(question, value);
+        if (option != null) {
+            if (option.label != null)
+                return option.label;
+            return option.value;
+        }
+
+        // maybe other?
+        const other = question.other;
+        if (other != null) {
+            if (value == "other" || value == other.value)
+                return other.label;
+            if (other.label != null)
+                return `${other.label}: ${value}`;
+        }
+
+        // unable to select any
+        return null;
     }
 }
 
