@@ -5,6 +5,7 @@ import {SurveyFlow} from "../../core/survey-flow";
 import {SelectionControl} from "../../components/controls/SelectionControl";
 import {LoginPage} from '../views/LoginPage';
 import {CreditCardPage} from '../views/CreditCardPage';
+import {SummaryPage} from '../views/SummaryPage';
 const ctx: Survey.Project.Context = null;
 
 /** Base type for project creation survey, provides intro page. */
@@ -44,6 +45,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         return this.state.pageType < ProjectSurveyPageType.Success;
     }
 
+    @autobind
     moveNext(): boolean {
         if (!this.state.isPageDone)
             return false;
@@ -90,6 +92,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         }
     }
 
+    @autobind
     moveBack(): boolean {
 
         switch (this.state.pageType) {
@@ -219,11 +222,6 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         return null;
     }
 
-    /** Render summary of the survey answers. */
-    renderSurveySummary(): JSX.Element|any {
-        return null;
-    }
-
     componentWillUpdate(nextProps: P, nextState: S & SurveyPageState, nextContext: any): void {
         nextState.isPageDone = this.isPageDone(nextState.pageID);
     }
@@ -235,11 +233,14 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
             case ProjectSurveyPageType.Survey:
                 return super.render();
             case ProjectSurveyPageType.Summary:
-                return this.renderSummaryPage();
+                return <SummaryPage {...this.props} {...this.context}
+                    moveNext={this.moveNext}
+                    moveBack={this.moveBack}
+                />;
             case ProjectSurveyPageType.Login:
-                return <LoginPage {...this.context} moveNext={() => this.moveNext()}/>;
+                return <LoginPage {...this.context} moveNext={this.moveNext}/>;
             case ProjectSurveyPageType.CreditCard:
-                return <CreditCardPage {...this.context} moveNext={() => this.moveNext()}/>;
+                return <CreditCardPage {...this.context} moveNext={this.moveNext}/>;
             case ProjectSurveyPageType.Success:
                 return this.renderSuccessPage();
         }
@@ -257,39 +258,6 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
             <div className="order-wizzard-cover__next">
                 <a href="#" className="b-button" onClick={() => this.startSurvey()}>Next</a>
             </div>
-        </div>
-    }
-
-    renderSummaryPage() {
-        return <div className="order-wizzard">
-            <div className="order-wizzard__step-title">Summary of your task!</div>
-            <div className="order-wizzard__step-survey">
-                <div className="order-wizzard__summary">
-                    {this.renderSurveySummary()}
-                    <ul className="order-wizzard__summary-list">
-                        <li>Some text here</li>
-                        <li>And here</li>
-                    </ul>
-                </div>
-            </div>
-            <div className="order-wizzard__controls clearfix">
-                <div className="order-wizzard__back pull-left">
-                    <a onClick={() => this.moveBack()} href="#" className="b-button b-button--transparent"><span className="b-button__icon-arrow"></span> Back</a>
-                </div>
-
-                <div className="order-wizzard__next pull-right">
-                    {this.renderSummaryPageNextButton()}
-                </div>
-            </div>
-        </div>
-    }
-
-    renderSummaryPageNextButton() {
-        const loggedIn = true;
-        const label = loggedIn ? "Submit" : "Next";
-        return <div className="order-wizzard__cta text-center">
-            <a href="#" className="b-button b-button--blue"
-               onClick={() => this.moveNext()}>{label}</a>
         </div>
     }
 
