@@ -98,19 +98,19 @@ export class MockProjectRoot extends ProjectSurveyRoot<any, any> implements Surv
             <div style={{margin :2}}>
                 <div className="checkbox">
                     <label> <input type="checkbox"
-                                   checked={this.state.loggedIn}
+                                   defaultChecked={this.state.loggedIn}
                                    onChange={e => this.handleCheckBox("loggedIn", e)}/>
                         Logged In</label>
                 </div>
                 <div className="checkbox">
                     <label> <input type="checkbox"
-                                   checked={this.state.newUser}
+                                   defaultChecked={this.state.newUser}
                                    onChange={e => this.handleCheckBox("newUser", e)}/>
                         New User</label>
                 </div>
                 <div className="checkbox">
                     <label> <input type="checkbox"
-                                   checked={this.state.creditCard}
+                                   defaultChecked={this.state.creditCard}
                                    onChange={e => this.handleCheckBox("creditCard", e)}/>
                         Has Credit Card</label>
                 </div>
