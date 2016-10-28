@@ -103,7 +103,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
                 const prevPageID = this.selectPrevPageID(this.state.pageID);
                 if (prevPageID >= 0) {
                     this.setState(state => {
-                        state.step--;
+                        state.step -= 1;
                         state.pageID = prevPageID;
                         return state;
                     });
@@ -133,7 +133,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
     summaryMoveNext(email: string) {
         this.setState(state => {
             state.email = email;
-            this.moveNext();
+            state.pageType += 1;
             return state;
         })
     }

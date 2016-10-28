@@ -155,26 +155,24 @@ export class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
 
             <div className="order-wizzard__login">
                 <div className="order-wizzard__login-form">
-                    <form onSubmit={this.login}>
-                        <div className="form-group">
-                            <input type="email" className="form-control"
-                                   ref={x => this.email = x}
-                                   value={this.props.email}
-                                   placeholder="Email"/>
-                        </div>
-                        <div className="form-group">
-                            <input type="password" className="form-control"
-                                   ref={x => this.password = x}
-                                   placeholder="Password"/>
-                        </div>
-                        {/*<div className="form-group">*/}
-                            {/*<a href="#">Forgot password?</a>*/}
-                        {/*</div>*/}
-                        <button type="submit"
-                                className="btn btn-primary btn-block"
-                                onClick={this.login}> Log in
-                        </button>
-                    </form>
+                    <div className="form-group">
+                        <input type="email" className="form-control"
+                               ref={x => this.email = x}
+                               defaultValue={this.props.email}
+                               placeholder="Email"/>
+                    </div>
+                    <div className="form-group">
+                        <input type="password" className="form-control"
+                               ref={x => this.password = x}
+                               placeholder="Password"/>
+                    </div>
+                    {/*<div className="form-group">*/}
+                    {/*<a href="#">Forgot password?</a>*/}
+                    {/*</div>*/}
+                    <button type="submit"
+                            className="btn btn-primary btn-block"
+                            onClick={this.login}> Log in
+                    </button>
                 </div>
             </div>
         </div>
