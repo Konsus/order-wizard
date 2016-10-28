@@ -71,7 +71,7 @@ export class CreditCardPage extends React.Component<CreditCardPageProps, CreditC
 
     renderLoading(): JSX.Element|any {
         // TODO: show loading
-        return null;
+        return <div>loading...</div>;
     }
 }
 
