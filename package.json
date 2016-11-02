@@ -1,6 +1,6 @@
 {
   "name": "order-wizard",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "```\r npm i\r npm start\r ```",
   "main": "lib",
   "typings": "lib/lib.d.ts",
