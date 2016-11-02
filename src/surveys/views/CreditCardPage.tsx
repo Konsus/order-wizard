@@ -17,9 +17,11 @@ export class CreditCardPage extends React.Component<CreditCardPageProps, CreditC
     }
 
     @autobind
-    submitCreditCard() {
-        console.error("#submitCreditCard is not implemented yet!");
-        this.moveNext();
+    submitCreditCard(opt) {
+        this.props.addPaymentMethod(opt.nounce).then(()=>{
+            this.moveNext();
+        })
+        .catch(err=>alert(err.response.body.message));
     }
 
     componentDidMount(): void {
@@ -53,6 +55,7 @@ export class CreditCardPage extends React.Component<CreditCardPageProps, CreditC
     renderView(): JSX.Element|any {
         const token = this.state.token;
         return <div>
+            <form>
             <div className="order-wizzard__header">
                 <div className="order-wizzard__sub-title">
                     Add your credit card details so we are ready to go if you approve the quote.
@@ -60,13 +63,21 @@ export class CreditCardPage extends React.Component<CreditCardPageProps, CreditC
             </div>
             <form style={{margin: '20px'}}>
                 <DropIn braintree={braintree}
-                        clientToken={token}/>
+                        clientToken={token}
+                        onPaymentMethodReceived={this.submitCreditCard}
+                />
             </form>
             <button type="submit"
                     style={{width: '80%', margin: 'auto'}}
                     className="btn btn-primary btn-block"
-                    onClick={this.submitCreditCard}> Submit
+                    > Submit
             </button>
+                <button type="submit"
+                        style={{width: '80%', margin: 'auto'}}
+                        className="btn btn-default btn-block"
+                        onClick={this.moveNext}> Later
+                </button>
+            </form>
         </div>
     }
 
@@ -78,6 +89,7 @@ export class CreditCardPage extends React.Component<CreditCardPageProps, CreditC
 
 export interface CreditCardPageProps {
     hasPaymentMethod(): Promise<boolean>;
+    addPaymentMethod(nounce): Promise<void>;
     paymentToken(): Promise<string>;
     moveNext();
 }

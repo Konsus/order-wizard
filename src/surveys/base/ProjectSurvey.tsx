@@ -17,6 +17,7 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         [nameof(ctx.login)]: React.PropTypes.func.isRequired,
         [nameof(ctx.register)]: React.PropTypes.func.isRequired,
         [nameof(ctx.hasPaymentMethod)]: React.PropTypes.func.isRequired,
+        [nameof(ctx.addPaymentMethod)]: React.PropTypes.func.isRequired,
         [nameof(ctx.paymentToken)]: React.PropTypes.func.isRequired,
     };
     public static childContextTypes = SelectionControl.contextTypes;
