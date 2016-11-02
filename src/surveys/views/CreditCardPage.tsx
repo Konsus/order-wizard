@@ -18,7 +18,7 @@ export class CreditCardPage extends React.Component<CreditCardPageProps, CreditC
 
     @autobind
     submitCreditCard(opt) {
-        this.props.addPaymentMethod(opt.nounce).then(()=>{
+        this.props.addPaymentMethod(opt.nonce).then(()=>{
             this.moveNext();
         })
         .catch(err=>alert(err.response.body.message));
@@ -55,7 +55,6 @@ export class CreditCardPage extends React.Component<CreditCardPageProps, CreditC
     renderView(): JSX.Element|any {
         const token = this.state.token;
         return <div>
-            <form>
             <div className="order-wizzard__header">
                 <div className="order-wizzard__sub-title">
                     Add your credit card details so we are ready to go if you approve the quote.
@@ -66,12 +65,13 @@ export class CreditCardPage extends React.Component<CreditCardPageProps, CreditC
                         clientToken={token}
                         onPaymentMethodReceived={this.submitCreditCard}
                 />
-            </form>
+                <br/>
             <button type="submit"
                     style={{width: '80%', margin: 'auto'}}
                     className="btn btn-primary btn-block"
                     > Submit
             </button>
+                <br/>
                 <button type="submit"
                         style={{width: '80%', margin: 'auto'}}
                         className="btn btn-default btn-block"
