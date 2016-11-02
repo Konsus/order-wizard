@@ -5,6 +5,7 @@ export declare class SummaryPage extends React.Component<SummaryPageProps, Summa
     email: HTMLInputElement;
     constructor(...args: any[]);
     moveNext(): void;
+    validEmail(): any;
     moveBack(): void;
     componentWillMount(): void;
     render(): JSX.Element | any;
@@ -18,5 +19,6 @@ export interface SummaryPageProps {
     moveNext(email: string): void;
 }
 export interface SummaryPageState {
+    validEmail?: boolean;
     loggedIn?: boolean;
 }

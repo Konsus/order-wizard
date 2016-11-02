@@ -58,11 +58,12 @@ export class CreditCardPage extends React.Component<CreditCardPageProps, CreditC
                     Add your credit card details so we are ready to go if you approve the quote.
                 </div>
             </div>
-            <form>
+            <form style={{margin: '20px'}}>
                 <DropIn braintree={braintree}
                         clientToken={token}/>
             </form>
             <button type="submit"
+                    style={{width: '80%', margin: 'auto'}}
                     className="btn btn-primary btn-block"
                     onClick={this.submitCreditCard}> Submit
             </button>

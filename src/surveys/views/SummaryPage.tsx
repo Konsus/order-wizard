@@ -1,19 +1,28 @@
 import * as React from "react";
 import {autobind} from "core-decorators";
 import {SurveyFlow} from "../../core/survey-flow";
+var validator = require("email-validator");
 export class SummaryPage extends React.Component<SummaryPageProps, SummaryPageState> {
 
     email: HTMLInputElement;
 
     constructor(...args) {
         super(...args);
-        this.state = {};
+        this.state = {validEmail: false};
     }
 
     @autobind
     moveNext() {
+        if(!this.validEmail()) return
         const email = this.state.loggedIn ? null : this.email.value;
         this.props.moveNext(email);
+    }
+
+    @autobind
+    validEmail(){
+        var validEmail = this.email && this.email.value && validator.validate(this.email.value);
+        this.setState({validEmail:  validEmail});
+        return validEmail;
     }
 
     @autobind
@@ -56,10 +65,10 @@ export class SummaryPage extends React.Component<SummaryPageProps, SummaryPageSt
                     <div>
                         <div className="form-inline order-wizzard__email-sender">
                             <div className="form-group">
-                                <input type="text" className="form-control" ref={x => this.email = x} placeholder="Enter your email"/>
+                                <input type="text" className="form-control" ref={x => this.email = x} onKeyDown={()=>{this.validEmail()}} placeholder="Enter your email"/>
                             </div>
                             <div className="form-group">
-                                <a href="#" className="btn btn-primary" onClick={this.moveNext}>{label}</a>
+                                <a href="#" className="btn btn-primary" style={(!this.state.validEmail?{opacity: 0.7}:{})} onClick={this.moveNext}>{label}</a>
                             </div>
                         </div>
                         <br/>
@@ -89,5 +98,6 @@ export interface SummaryPageProps {
 }
 
 export interface SummaryPageState {
+    validEmail?: boolean;
     loggedIn?: boolean;
 }
