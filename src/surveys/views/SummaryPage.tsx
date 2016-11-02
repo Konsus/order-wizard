@@ -12,8 +12,9 @@ export class SummaryPage extends React.Component<SummaryPageProps, SummaryPageSt
     }
 
     @autobind
-    moveNext() {
-        if(!this.validEmail()) return
+    moveNext(e) {
+        if(e) e.preventDefault();
+        if(!this.state.loggedIn && !this.validEmail()) return;
         const email = this.state.loggedIn ? null : this.email.value;
         this.props.moveNext(email);
     }

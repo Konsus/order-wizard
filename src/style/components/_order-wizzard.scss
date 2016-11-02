@@ -1,12 +1,11 @@
 .order-wizzard {
   width: 627px;
-  min-height: 618px;
+  min-height: 418px;
   border: none;
   background: white;
   padding: 35px 20px 30px 20px;
   position: relative;
   &--login {
-    min-height: auto;
   }
   &__progress {
     padding-top: 10px;

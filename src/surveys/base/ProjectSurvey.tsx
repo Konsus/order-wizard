@@ -277,6 +277,10 @@ export class ProjectSurvey<P extends ProjectSurveyProps, S extends ProjectSurvey
         return <div className="order-wizzard order-wizzard--login">
             <div className="order-wizzard__header">
                 <div className="order-wizzard__title">SUCCESS!</div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
                 <div className="order-wizzard__sub-title">Your quote will be with you shortly</div>
             </div>
         </div>
