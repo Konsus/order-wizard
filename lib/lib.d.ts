@@ -236,6 +236,7 @@ export namespace Survey {
             login(form: Survey.AuthForm): Promise<void>;
             register(form: Survey.NewUserForm): Promise<void>;
             hasPaymentMethod(): Promise<boolean>;
+            addPaymentMethod(nonce: string): Promise<void>;
             paymentToken(): Promise<string>;
         }
     }

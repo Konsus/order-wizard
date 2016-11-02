@@ -7,8 +7,8 @@ export declare class MockProjectRoot extends ProjectSurveyRoot<any, any> impleme
     exists(username: string): Promise<boolean>;
     login(form: Survey.AuthForm): Promise<void>;
     register(form: Survey.NewUserForm): Promise<void>;
-    hasPaymentMethod(nonce: any): Promise<boolean>;
-    addPaymentMethod(): Promise<>;
+    hasPaymentMethod(): Promise<boolean>;
+    addPaymentMethod(nonce: string): Promise<void>;
     paymentToken(): Promise<string>;
     getChildContext(): Survey.Project.Context;
     componentWillMount(): void;
