@@ -4,7 +4,7 @@ import * as React from "react";
 export declare class CreditCardPage extends React.Component<CreditCardPageProps, CreditCardPageState> {
     constructor(...args: any[]);
     moveNext(): void;
-    submitCreditCard(): void;
+    submitCreditCard(opt: any): void;
     componentDidMount(): void;
     render(): JSX.Element | any;
     renderView(): JSX.Element | any;
@@ -12,6 +12,7 @@ export declare class CreditCardPage extends React.Component<CreditCardPageProps,
 }
 export interface CreditCardPageProps {
     hasPaymentMethod(): Promise<boolean>;
+    addPaymentMethod(nounce: any): Promise<void>;
     paymentToken(): Promise<string>;
     moveNext(): any;
 }
